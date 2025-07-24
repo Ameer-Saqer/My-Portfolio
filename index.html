@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/all.min.css" />
+    <link rel="stylesheet" href="css/port.css" />
+    <link rel="icon" href="image/user (1).png" />
+    <!-- remix icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.css"
+    />
+    <!-- swiper slider css -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.css"
+    />
+    <title>Portfolio</title>
+  </head>
+  <body>
+    <!-- Header Hero -->
+    <header id="home">
+      <nav>
+        <div class="logo">
+          <a class="text-decoration-none" href="#">PORTFOLIO</a>
+        </div>
+        <ul class="menu">
+          <li><a class="text-decoration-none" href="#home">Home</a></li>
+          <li><a class="text-decoration-none" href="#about">About</a></li>
+          <li>
+            <a class="text-decoration-none" href="#portfolio">Project</a>
+          </li>
+          <li><a class="text-decoration-none" href="#contact">Contact</a></li>
+        </ul>
+        <div class="social_icon">
+          <a href="https://www.facebook.com/ameer.saqer.16/" target="_blank"
+            ><i class="ri-facebook-fill"></i
+          ></a>
+          <a href="https://wa.me/972592161058" target="_blank"
+            ><i class="ri-whatsapp-fill"></i
+          ></a>
+          <a href="www.linkedin.com/in/ameer-saqer-59243b264" target="_blank"
+            ><i class="ri-linkedin-fill"></i
+          ></a>
+          <a href="https://github.com/Ameer-Saqer" target="_blank"
+            ><i class="ri-github-fill" target="_blank"></i
+          ></a>
+        </div>
+        <div class="bars">
+          <i class="ri-menu-2-line"></i>
+        </div>
+      </nav>
+      <div class="hero_content">
+        <h2>Web Developer</h2>
+        <h1>
+          Hello My Name Is <br />
+          Ameer Saqer <br />Im <span id="text"></span>
+        </h1>
+      </div>
+    </header>
+
+    <!-- About -->
+    <section class="about" id="about">
+      <div class="about_top">
+        <div class="about_image">
+          <img src="image/Ameer 3.jpeg" alt="" />
+        </div>
+        <div class="about_content">
+          <h1>About Me</h1>
+          <p>
+            Hi, I'm Ameer Saqer, a passionate Front-End Developer with over two
+            years of experience building responsive, user-focused web
+            applications. I specialize in technologies like HTML, CSS,
+            JavaScript, Bootstrap, and I work extensively with React to create
+            modern, performant UIs. I'm constantly improving my skills, with a
+            current focus on performance optimization and front-end
+            architecture. I enjoy transforming ideas into clean, interactive,
+            and scalable digital products — and I'm always open to learning and
+            collaborating on exciting new projects.
+          </p>
+          <button class="skill_btn">Show My Skills</button>
+        </div>
+      </div>
+
+      <div class="about_bottom">
+        <div class="skill_box">
+          <h2>HTML</h2>
+          <div class="percent"></div>
+        </div>
+
+        <div class="skill_box">
+          <h2>CSS</h2>
+          <div class="percent"></div>
+        </div>
+
+        <div class="skill_box">
+          <h2>JAVASCRIPT</h2>
+          <div class="percent"></div>
+        </div>
+
+        <div class="skill_box">
+          <h2>BOOTSTRAP</h2>
+          <div class="percent"></div>
+        </div>
+
+        <div class="skill_box">
+          <h2>REACT</h2>
+          <div class="percent"></div>
+        </div>
+
+        <div class="skill_box">
+          <h2>Tailwind</h2>
+          <div class="percent"></div>
+        </div>
+
+        <div class="skill_box">
+          <h2>GITHUB</h2>
+          <div class="percent"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services -->
+    <!-- <section class="services" id="services">
+      <div class="heading">
+        <h1 class="mb-5">Our Services</h1>
+        <p class="mb-5">
+          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Beatae
+          necessitatibus voluptatum tempore tenetur veniam nihil, dicta
+          blanditiis
+        </p>
+      </div>
+      <div class="services_card">
+        card 1
+        <div class="service_card">
+          <i class="ri-macbook-line"></i>
+          <div class="service_card_det">
+            <h2>WebSite Design</h2>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+          </div>
+        </div>
+
+        card 2
+        <div class="service_card">
+          <i class="ri-send-plane-line"></i>
+          <div class="service_card_det">
+            <h2>Email Marketing</h2>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+          </div>
+        </div>
+
+        card 3
+        <div class="service_card">
+          <i class="ri-line-chart-line"></i>
+          <div class="service_card_det">
+            <h2>Digital Analytics</h2>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+          </div>
+        </div>
+
+        card 4
+        <div class="service_card">
+          <i class="ri-shape-line"></i>
+          <div class="service_card_det">
+            <h2>Visual Editor</h2>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+          </div>
+        </div>
+
+        card 5
+        <div class="service_card">
+          <i class="ri-hard-drive-3-line"></i>
+          <div class="service_card_det">
+            <h2>BackUp & Security</h2>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+          </div>
+        </div>
+
+        card 6
+        <div class="service_card">
+          <i class="ri-chat-3-line"></i>
+          <div class="service_card_det">
+            <h2>IT Consultancy</h2>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+          </div>
+        </div>
+      </div>
+    </section> -->
+
+    <!-- here my section -->
+    <section class="hereMe">
+      <h1>I Am Available For Freelancer</h1>
+      <button>
+        <a
+          href="https://wa.me/972592161058"
+          target="_blank"
+          style="color: aliceblue"
+          >Hire Me</a
+        >
+      </button>
+    </section>
+
+    <!-- TESTIMONTIOL -->
+    <!-- <section class="testimontiol">
+      <div class="heading">
+        <h1>Testimontiols</h1>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus
+          obcaecati temporibus nam ipsam eveniet quis! Animi unde cum quos
+          atque.
+        </p>
+      </div>
+      <div class="swiper testSwiper">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide">
+            slide-1
+            <div class="test_slide">
+              <img src="image/quote.png" alt="" class="quote_img" />
+              <div class="client_img">
+                <img src="image/Ameer 4.JPG" alt="" />
+              </div>
+              <p>
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                Provident iure ea eligendi blanditiis quibusdam error, in facere
+                quisquam possimus. Sed dolore fugiat nulla perferendis
+                exercitationem tempore quaerat velit facere modi.
+              </p>
+              <h2>Customer</h2>
+            </div>
+          </div>
+
+          <div class="swiper-slide">
+            slide-2
+            <div class="test_slide">
+              <img src="image/quote.png" alt="" class="quote_img" />
+              <div class="client_img">
+                <img src="image/Ameer 4.JPG" alt="" />
+              </div>
+              <p>
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                Provident iure ea eligendi blanditiis quibusdam error, in facere
+                quisquam possimus. Sed dolore fugiat nulla perferendis
+                exercitationem tempore quaerat velit facere modi.
+              </p>
+              <h2>Customer</h2>
+            </div>
+          </div>
+
+          <div class="swiper-slide">
+            slide-3
+            <div class="test_slide">
+              <img src="image/quote.png" alt="" class="quote_img" />
+              <div class="client_img">
+                <img src="image/Ameer 4.JPG" alt="" />
+              </div>
+              <p>
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                Provident iure ea eligendi blanditiis quibusdam error, in facere
+                quisquam possimus. Sed dolore fugiat nulla perferendis
+                exercitationem tempore quaerat velit facere modi.
+              </p>
+              <h2>Customer</h2>
+            </div>
+          </div>
+
+          <div class="swiper-slide">
+            slide-4
+            <div class="test_slide">
+              <img src="image/quote.png" alt="" class="quote_img" />
+              <div class="client_img">
+                <img src="image/Ameer 4.JPG" alt="" />
+              </div>
+              <p>
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                Provident iure ea eligendi blanditiis quibusdam error, in facere
+                quisquam possimus. Sed dolore fugiat nulla perferendis
+                exercitationem tempore quaerat velit facere modi.
+              </p>
+              <h2>Customer</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section> -->
+
+    <!-- Portfolio -->
+    <section class="portfolios" id="portfolio">
+      <div class="heading">
+        <h2>My Projects</h2>
+        <h1>I Love What I Do</h1>
+      </div>
+      <div class="category">
+        <button data-filter="all" class="text-decoration-none">
+          all projects
+        </button>
+        <button data-filter=".category-a" class="text-decoration-none">
+          Web Design
+        </button>
+      </div>
+
+      <div class="portfolio_image">
+        <div class="portfolio_img portfolio1 mix category-a category-b">
+          <img src="image/portfolio/1.png" alt="" />
+        </div>
+
+        <div class="portfolio_img portfolio2 mix category-a category-d">
+          <img src="image/portfolio/2.png" alt="" />
+        </div>
+
+        <div class="portfolio_img portfolio3 mix category-a">
+          <img src="image/260shots_so.png" alt="" />
+        </div>
+
+        <div
+          class="portfolio_img portfolio4 mix category-b category-c category-d"
+        >
+          <img src="image/portfolio/4.png" alt="" />
+        </div>
+
+        <div
+          class="portfolio_img portfolio5 mix category-d category-c category-b"
+        >
+          <img src="image/portfolio/5.png" alt="" />
+        </div>
+
+        <div
+          class="portfolio_img portfolio6 mix category-a category-b category-c"
+        >
+          <img src="image/portfolio/6.png" alt="" />
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Us -->
+    <section class="contact" id="contact">
+      <div class="heading">
+        <h1>Contact Me</h1>
+      </div>
+      <div class="contact_input">
+        <div class="inputs">
+          <input type="text" placeholder="Your Name" />
+          <input type="email" placeholder="Your Email" />
+          <input type="number" placeholder="Your Phone" />
+        </div>
+        <textarea name="" id="" placeholder="Type Your Message"></textarea>
+      </div>
+      <div class="contact_btn">
+        <button>Submit Form</button>
+      </div>
+      <div class="address_det">
+        <div class="address_box">
+          <i class="ri-smartphone-line"></i>
+          <h2>Call Me</h2>
+          <p>+972 59 216 1058</p>
+        </div>
+
+        <div class="address_box">
+          <i class="ri-mail-line"></i>
+          <h2>My Email</h2>
+          <p>ameer0599333607@gmail.com</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <section class="footer">
+      <div class="footer_social">
+        <a href="https://wa.me/972592161058" target="_blank"
+          ><i class="ri-whatsapp-fill"></i
+        ></a>
+        <a href="www.linkedin.com/in/ameer-saqer-59243b264" target="_blank"
+          ><i class="ri-linkedin-fill"></i
+        ></a>
+        <a href="https://github.com/Ameer-Saqer" target="_blank"
+          ><i class="ri-github-fill"></i
+        ></a>
+        <a href="https://www.facebook.com/ameer.saqer.16/" target="_blank"
+          ><i class="ri-facebook-fill"></i
+        ></a>
+      </div>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mixitup/3.3.1/mixitup.min.js"></script>
+    <!-- typed js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.10/typed.js"></script>
+    <!-- swiper slider js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.js"></script>
+    <script src="port.js"></script>
+  </body>
+</html>
