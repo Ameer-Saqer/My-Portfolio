@@ -58,5 +58,24 @@ let bar = document.querySelector('.bars');
 let menu = document.querySelector('.menu');
 
 bar.addEventListener ('click', () => {
-    menu.classList.toggle('.show_nav');
+    menu.classList.toggle('show_nav');
 });
+function revealElements() {
+  const reveals = document.querySelectorAll('.reveal');
+  reveals.forEach((el, index) => {
+    const windowHeight = window.innerHeight;
+    const elementTop = el.getBoundingClientRect().top;
+    const revealPoint = 100;
+
+    if (elementTop < windowHeight - revealPoint) {
+      setTimeout(() => {
+        el.classList.add('active');
+      }, index * 10);
+    } else {
+      el.classList.remove('active');
+    }
+  });
+}
+
+window.addEventListener('scroll', revealElements);
+window.addEventListener('load', revealElements);

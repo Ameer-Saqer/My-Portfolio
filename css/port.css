@@ -778,3 +778,17 @@ textarea:focus {
     text-align: center;
   }
 }
+
+.reveal {
+  opacity: 0;
+  transform: translateY(50px) scale(0.95);
+  filter: blur(8px);
+  transition: all 1s ease;
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0);
+}
+
