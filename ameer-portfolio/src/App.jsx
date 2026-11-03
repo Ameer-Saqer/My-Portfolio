@@ -1,0 +1,98 @@
+import React, { useState, useEffect } from 'react';
+import { useLenis } from './hooks/useLenis';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Loader from './components/Loader';
+import CustomCursor from './components/CustomCursor';
+import CursorSpotlight from './components/CursorSpotlight';
+import ScrollProgress from './components/ScrollProgress';
+import Grain from './components/Grain';
+import BigMarquee from './components/BigMarquee';
+import SectionDivider from './components/SectionDivider';
+import Navbar from './components/Navbar';
+import Hero from './sections/Hero';
+import Work from './sections/Work';
+import TechStrip from './sections/TechStrip';
+import Achievements from './sections/Achievements';
+import FromRawToReal from './sections/FromRawToReal';
+import About from './sections/About';
+import Journey from './sections/Journey';
+import Contact from './sections/Contact';
+import Footer from './sections/Footer';
+
+gsap.registerPlugin(ScrollTrigger);
+
+export default function App() {
+  const [loaderComplete, setLoaderComplete] = useState(false);
+
+  // Initialize Lenis smooth scroll bridge
+  useLenis();
+
+  // Refresh ScrollTrigger after web fonts have fully loaded
+  useEffect(() => {
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(() => {
+        ScrollTrigger.refresh();
+      });
+    }
+  }, []);
+
+  // Refresh ScrollTrigger after the initial intro loader finishes and restores scroll
+  useEffect(() => {
+    if (loaderComplete) {
+      ScrollTrigger.refresh();
+      const timer = setTimeout(() => {
+        ScrollTrigger.refresh();
+      }, 250);
+      return () => clearTimeout(timer);
+    }
+  }, [loaderComplete]);
+
+  return (
+    <div className="relative min-h-screen bg-bg text-white font-sans overflow-x-hidden selection:bg-accent selection:text-[#0F1B2E]">
+      {/* 1. Cinematic Film Grain Overlay */}
+      <Grain />
+
+      {/* 2. Soft Gold Cursor Spotlight Glow (desktop only) */}
+      <CursorSpotlight />
+
+      {/* 3. Interactive Custom Cursor (Desktop only) */}
+      <CustomCursor />
+
+      {/* 4. Initial Assemble Loader (plays once) */}
+      <Loader onComplete={() => setLoaderComplete(true)} />
+
+      {/* 5. Left Edge Vertical Scroll Progress Indicator */}
+      <ScrollProgress />
+
+      {/* 6. Fixed Navigation Header */}
+      <Navbar />
+
+      {/* 7. Main Portfolio Flow */}
+      <main className="relative z-10 w-full overflow-hidden">
+        <Hero readyToAnimate={loaderComplete} />
+        <SectionDivider />
+        <Work />
+        <SectionDivider />
+        {/* Single Big Marquee Strip: Between Work and Achievements */}
+        <BigMarquee />
+        <SectionDivider />
+        <TechStrip />
+        <SectionDivider />
+        <Achievements />
+        <SectionDivider />
+        <FromRawToReal />
+        <SectionDivider />
+        <About />
+        <SectionDivider />
+        <Journey />
+        <SectionDivider />
+        <Contact />
+      </main>
+
+      {/* 8. Footer */}
+      <SectionDivider />
+      <Footer />
+    </div>
+  );
+}
