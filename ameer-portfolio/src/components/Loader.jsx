@@ -1,51 +1,73 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Loader({ onComplete }) {
   const [percent, setPercent] = useState(0);
   const [isFinished, setIsFinished] = useState(false);
+  const onCompleteRef = useRef(onComplete);
+
+  useEffect(() => {
+    onCompleteRef.current = onComplete;
+  }, [onComplete]);
 
   useEffect(() => {
     // Respect reduced motion
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion) {
-      onComplete?.();
+      onCompleteRef.current?.();
       return;
     }
 
-    // Lock scroll
+    // Lock scroll while loader is active
     document.body.style.overflow = 'hidden';
 
-    const duration = 2100; // ms
-    const startTime = performance.now();
+    const duration = 1800; // ms
+    let startTime = null;
+    let frameId;
+    let completed = false;
+
+    const finishLoader = () => {
+      if (completed) return;
+      completed = true;
+      setPercent(100);
+      setTimeout(() => {
+        setIsFinished(true);
+        document.body.style.overflow = '';
+        setTimeout(() => {
+          onCompleteRef.current?.();
+        }, 850); // Wait for split curtain exit animation
+      }, 150);
+    };
 
     const updateLoader = (now) => {
+      if (!startTime) startTime = now;
       const elapsed = now - startTime;
       const progress = Math.min(elapsed / duration, 1);
-      // Easing progress
-      const easedProgress = Math.min(1, Math.floor(progress * 100));
-      setPercent(easedProgress);
+
+      // Smooth progress calculation (0 to 100)
+      const currentPercent = Math.min(100, Math.floor(progress * 100));
+      setPercent(currentPercent);
 
       if (progress < 1) {
-        requestAnimationFrame(updateLoader);
+        frameId = requestAnimationFrame(updateLoader);
       } else {
-        setTimeout(() => {
-          setIsFinished(true);
-          document.body.style.overflow = '';
-          setTimeout(() => {
-            onComplete?.();
-          }, 900); // Wait for split curtain exit
-        }, 150);
+        finishLoader();
       }
     };
 
-    const frameId = requestAnimationFrame(updateLoader);
+    frameId = requestAnimationFrame(updateLoader);
+
+    // Guaranteed fallback so loader never hangs under any browser throttle condition
+    const safetyTimer = setTimeout(() => {
+      finishLoader();
+    }, duration + 600);
 
     return () => {
-      cancelAnimationFrame(frameId);
+      if (frameId) cancelAnimationFrame(frameId);
+      clearTimeout(safetyTimer);
       document.body.style.overflow = '';
     };
-  }, [onComplete]);
+  }, []);
 
   return (
     <AnimatePresence>
@@ -100,10 +122,9 @@ export default function Loader({ onComplete }) {
 
             {/* Thin progress line container */}
             <div className="w-48 sm:w-64 h-[2px] bg-white/10 relative overflow-hidden mb-3">
-              <motion.div
-                className="absolute top-0 left-0 h-full bg-accent"
+              <div
+                className="absolute top-0 left-0 h-full bg-accent will-change-[width]"
                 style={{ width: `${percent}%` }}
-                transition={{ ease: 'linear' }}
               />
             </div>
 
@@ -133,4 +154,3 @@ export default function Loader({ onComplete }) {
     </AnimatePresence>
   );
 }
-

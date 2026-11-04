@@ -1,9 +1,8 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { useInView } from 'framer-motion';
 
 export default function CompareSlider({
-  rawImage = '/compare/raw.webp',
-  finalImage = '/compare/final.webp',
+  image = '/compare/final.webp',
   className = '',
 }) {
   const containerRef = useRef(null);
@@ -12,7 +11,7 @@ export default function CompareSlider({
   const [isInteracting, setIsInteracting] = useState(false);
   const hasAutoSwept = useRef(false);
 
-  // Auto-sweep interaction to teach user on first view
+  // Auto-sweep interaction on first view (20% -> 70% -> 50%)
   useEffect(() => {
     if (!isInView || hasAutoSwept.current) return;
     hasAutoSwept.current = true;
@@ -21,32 +20,39 @@ export default function CompareSlider({
     if (isReduced) return;
 
     let start = null;
-    const duration = 1600; // ms
+    const duration = 1800; // ms
 
-    // 20% -> 70% -> 50%
     const sweep = (timestamp) => {
       if (!start) start = timestamp;
-      const progress = (timestamp - start) / duration;
+      const progress = Math.min((timestamp - start) / duration, 1);
 
-      if (progress < 0.45) {
-        // 50 -> 20 -> 70
-        const p = progress / 0.45;
-        setSliderPos(50 + (25 - 50) * Math.sin(p * Math.PI));
-      } else if (progress < 1) {
-        const p = (progress - 0.45) / 0.55;
-        // Ease into 50
-        setSliderPos(70 + (50 - 70) * (0.5 - 0.5 * Math.cos(p * Math.PI)));
+      if (progress < 0.3) {
+        // 50% -> 20%
+        const p = progress / 0.3;
+        const ease = 0.5 - 0.5 * Math.cos(p * Math.PI);
+        setSliderPos(50 - 30 * ease);
+      } else if (progress < 0.7) {
+        // 20% -> 70%
+        const p = (progress - 0.3) / 0.4;
+        const ease = 0.5 - 0.5 * Math.cos(p * Math.PI);
+        setSliderPos(20 + 50 * ease);
       } else {
-        setSliderPos(50);
-        return;
+        // 70% -> 50%
+        const p = (progress - 0.7) / 0.3;
+        const ease = 0.5 - 0.5 * Math.cos(p * Math.PI);
+        setSliderPos(70 - 20 * ease);
       }
 
-      requestAnimationFrame(sweep);
+      if (progress < 1) {
+        requestAnimationFrame(sweep);
+      } else {
+        setSliderPos(50);
+      }
     };
 
     const timer = setTimeout(() => {
       requestAnimationFrame(sweep);
-    }, 400);
+    }, 450);
 
     return () => clearTimeout(timer);
   }, [isInView]);
@@ -108,62 +114,64 @@ export default function CompareSlider({
       onKeyDown={handleKeyDown}
       onPointerDown={handlePointerDown}
       data-cursor="drag"
-      className={`relative w-full h-[320px] sm:h-[420px] lg:h-[480px] rounded-2xl overflow-hidden select-none cursor-ew-resize border border-line bg-surface focus:outline-none focus:ring-2 focus:ring-white ${className}`}
+      className={`relative w-full h-[340px] sm:h-[450px] lg:h-[520px] rounded-2xl overflow-hidden select-none cursor-ew-resize border border-[rgba(212,175,55,0.35)] shadow-[0_0_40px_rgba(212,175,55,0.08)] bg-surface focus:outline-none focus:ring-1 focus:ring-accent touch-pan-y ${className}`}
     >
-      {/* Background Image: Final Real Version */}
-      <img
-        src={finalImage}
-        alt="Final Rendered Interface"
-        className="absolute inset-0 w-full h-full object-cover object-top pointer-events-none filter grayscale contrast-[1.05]"
-        loading="lazy"
-      />
-
-      {/* Foreground Image: Raw Wireframe / Skeleton Version (Clipped) */}
-      <div
-        className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden"
-        style={{
-          clipPath: `inset(0 ${100 - sliderPos}% 0 0)`,
-        }}
-      >
+      {/* 1. Base Layer: RAW / SKELETON (grayscale(1) brightness(0.8) contrast(1.05) + dotted grid) */}
+      <div className="absolute inset-0 w-full h-full pointer-events-none">
         <img
-          src={rawImage}
-          alt="Raw Wireframe Interface"
-          className="absolute inset-0 w-full h-full object-cover object-top pointer-events-none filter grayscale contrast-[0.9] brightness-[0.7]"
+          src={image}
+          alt="Raw Wireframe Skeleton"
+          className="w-full h-full object-cover object-top filter grayscale brightness-[0.8] contrast-[1.05]"
           loading="lazy"
         />
-        {/* Subtle grid pattern over raw wireframe */}
+        {/* Subtle dotted-grid overlay: 1px dots, 24px spacing, 8% opacity */}
         <div
           aria-hidden="true"
-          className="absolute inset-0 opacity-20 pointer-events-none"
+          className="absolute inset-0 pointer-events-none opacity-[0.08]"
           style={{
-            backgroundImage: `radial-gradient(circle, #ffffff 1px, transparent 1px)`,
-            backgroundSize: '16px 16px',
+            backgroundImage: 'radial-gradient(circle, #ffffff 1px, transparent 1px)',
+            backgroundSize: '24px 24px',
           }}
         />
       </div>
 
-      {/* Vertical Divider Line with Center Drag Handle (Gold) */}
+      {/* 2. Top Layer: REAL / PRODUCTION in FULL ORIGINAL COLORS (Revealed by clip-path) */}
       <div
-        className="absolute top-0 bottom-0 w-[2px] bg-accent pointer-events-none z-20"
+        className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden"
+        style={{
+          clipPath: `inset(0 0 0 ${sliderPos}%)`,
+          WebkitClipPath: `inset(0 0 0 ${sliderPos}%)`,
+        }}
+      >
+        <img
+          src={image}
+          alt="Real Production Interface"
+          className="w-full h-full object-cover object-top"
+          loading="lazy"
+        />
+      </div>
+
+      {/* 3. Vertical Divider Line with Center Drag Handle (Gold, min 44px) */}
+      <div
+        className="absolute top-0 bottom-0 w-[2px] bg-accent pointer-events-none z-20 shadow-[0_0_10px_rgba(212,175,55,0.7)]"
         style={{ left: `${sliderPos}%` }}
       >
-        {/* Center Round Handle with ‹ › arrows in Gold with Navy arrows */}
-        <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-accent text-[#0F1B2E] shadow-[0_0_20px_rgba(212,175,55,0.7)] border border-[#0F1B2E]/20 flex items-center justify-center font-mono text-xs font-bold tracking-tighter select-none">
+        {/* Center Round Handle with ‹ › arrows in Gold with Navy text (at least 44px) */}
+        <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-11 h-11 min-w-[44px] min-h-[44px] rounded-full bg-accent text-[#0F1B2E] shadow-[0_0_20px_rgba(212,175,55,0.7)] border border-[#0F1B2E]/20 flex items-center justify-center font-mono text-xs font-bold tracking-tighter select-none">
           <span>‹</span>
           <span className="w-1.5 h-1.5 rounded-full bg-[#0F1B2E] mx-0.5" />
           <span>›</span>
         </div>
       </div>
 
-      {/* Pinned Bottom Corner Badges */}
-      <div className="absolute bottom-4 left-4 z-20 px-3 py-1 rounded bg-bg/85 backdrop-blur-sm border border-line font-mono text-[10px] tracking-widest text-white uppercase pointer-events-none">
+      {/* 4. Pinned Bottom Corner Badges */}
+      <div className="absolute bottom-4 left-4 z-20 px-3 py-1 rounded bg-[#0F1B2E]/90 backdrop-blur-sm border border-[rgba(212,175,55,0.25)] font-mono text-xs tracking-widest text-muted uppercase pointer-events-none select-none">
         RAW / SKELETON
       </div>
 
-      <div className="absolute bottom-4 right-4 z-20 px-3 py-1 rounded bg-bg/85 backdrop-blur-sm border border-line font-mono text-[10px] tracking-widest text-white uppercase pointer-events-none">
+      <div className="absolute bottom-4 right-4 z-20 px-3 py-1 rounded bg-[#0F1B2E]/90 backdrop-blur-sm border border-[rgba(212,175,55,0.25)] font-mono text-xs tracking-widest text-accent uppercase pointer-events-none select-none">
         REAL / PRODUCTION
       </div>
     </div>
   );
 }
-

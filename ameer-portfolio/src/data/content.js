@@ -23,6 +23,14 @@ export const profile = {
   cv: "/Ameer-Saqer-CV.pdf",
 };
 
+export const contactActionCard = {
+  titleLine1: "BUILD IT.",
+  titleLine2: "SHIP IT.",
+  status: "AVAILABLE FOR FREELANCE",
+  replyTime: "Usually replies within 24 hours",
+  cta: "CHAT ON WHATSAPP",
+};
+
 export const stats = [
   { value: 2, suffix: "+", label: "Years of experience" },
   { value: 8, suffix: "+", label: "Projects shipped" },
@@ -46,6 +54,7 @@ export const projects = [
     tag: "WEB APPS / 2026",
     description: "Arabic RTL platform for managing sponsorships in one system — marketing site built with React.",
     image: "/projects/kafeeli-orgs.webp",
+    techStack: ["React", "Tailwind CSS", "JavaScript"],
     gallery: [
       "/projects/kafeeli-orgs.webp",
       "/projects/kafeeli-how.webp",
@@ -67,6 +76,7 @@ export const projects = [
     tag: "WEB APPS / 2026",
     description: "Responsive RTL dashboard: sponsor profile, account settings, side navigation.",
     image: "/projects/kafeeli-dashboard.webp",
+    techStack: ["React", "Tailwind CSS", "JavaScript"],
     live: "https://kafeeli-frontend.vercel.app",
     repo: "https://github.com/Ameer-Saqer",
     isTall: false,
@@ -80,6 +90,7 @@ export const projects = [
     tag: "LANDING PAGES / 2026",
     description: "Warm, appetising bakery site with menu, gallery and visit section.",
     image: "/projects/bakery.webp",
+    techStack: ["HTML5", "CSS3", "Bootstrap", "JavaScript"],
     // TODO: Add live URL
     live: "#",
     repo: "https://github.com/Ameer-Saqer",
@@ -94,6 +105,7 @@ export const projects = [
     tag: "WEB DESIGN / 2025",
     description: "Dark landing page for a digital-art studio with a services grid.",
     image: "/projects/ocean.webp",
+    techStack: ["HTML5", "CSS3", "JavaScript"],
     // TODO: Add live URL
     live: "#",
     repo: "https://github.com/Ameer-Saqer",
@@ -109,6 +121,7 @@ export const projects = [
     tag: "LANDING PAGES / 2025",
     description: "\"Get your dream car at a reasonable price\" rental website with fleet gallery.",
     image: "/projects/auto.webp",
+    techStack: ["HTML5", "CSS3", "Bootstrap", "JavaScript"],
     // TODO: Add live URL
     live: "#",
     repo: "https://github.com/Ameer-Saqer",
@@ -124,6 +137,7 @@ export const projects = [
     tag: "WEB DESIGN / 2025",
     description: "Light, colourful agency site with a portfolio grid and team section.",
     image: "/projects/brand.webp",
+    techStack: ["HTML5", "CSS3", "JavaScript"],
     // TODO: Add live URL
     live: "#",
     repo: "https://github.com/Ameer-Saqer",
@@ -139,6 +153,7 @@ export const projects = [
     tag: "LANDING PAGES / 2025",
     description: "Minimal hero landing with a three-feature section over a mountain photo.",
     image: "/projects/hello-there.webp",
+    techStack: ["HTML5", "CSS3", "JavaScript"],
     // TODO: Add live URL
     live: "#",
     repo: "https://github.com/Ameer-Saqer",
@@ -154,6 +169,7 @@ export const projects = [
     tag: "UI CONCEPTS / 2025",
     description: "Playful, branded 404 error page with cinematic layout.",
     image: "/projects/ocean-404.webp",
+    techStack: ["HTML5", "CSS3", "JavaScript"],
     // TODO: Add live URL
     live: "#",
     repo: "https://github.com/Ameer-Saqer",
@@ -164,19 +180,26 @@ export const projects = [
 ];
 
 // Honest stack based on user skills
+export const toolsList = [
+  "HTML5",
+  "CSS3",
+  "JavaScript",
+  "React",
+  "Tailwind CSS",
+  "Bootstrap",
+  "Git",
+  "GitHub",
+];
+
 export const techStack = [
   "HTML5",
   "CSS3",
   "JavaScript",
-  "Bootstrap",
   "React",
   "Tailwind CSS",
-  "Git & GitHub",
-  "Vite",
-  "Responsive Design",
-  "Framer Motion",
-  "UI Engineering",
-  "Performance Tuning",
+  "Bootstrap",
+  "Git",
+  "GitHub",
 ];
 
 // 6 software tiles for About column

@@ -2,6 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { profile } from '../data/content';
+import LogoMark from '../components/LogoMark';
 import {
   FiGithub,
   FiLinkedin,
@@ -61,18 +62,23 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row items-center justify-between gap-8 pb-16">
           {/* Left: Brand, Tagline & Copyright */}
           <div className="flex flex-col items-center md:items-start gap-2">
-            <div className="flex items-center gap-1">
-              <span className="font-display text-2xl tracking-tight text-white uppercase">
-                {profile.brand}
-              </span>
-              <span className="w-2 h-2 rounded-full bg-accent" />
-            </div>
+            <a
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                scrollToTop();
+              }}
+              className="flex items-center group focus-ring rounded-lg mb-1"
+              aria-label="Ameer Saqer"
+            >
+              <LogoMark size={36} className="w-9 h-9" />
+            </a>
             {/* Tagline */}
-            <div className="flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-widest text-muted">
+            <div className="flex items-center gap-1.5 font-mono text-xs uppercase tracking-widest text-muted">
               <span>Crafting Digital</span>
               <span className="text-accent font-semibold">Experiences</span>
             </div>
-            <p className="font-mono text-[11px] text-muted tracking-wider">
+            <p className="font-mono text-xs text-muted tracking-wider">
               © 2026 {profile.name} — All rights reserved.
             </p>
           </div>
@@ -88,7 +94,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={s.name}
-                  className="w-10 h-10 rounded-full border border-line flex items-center justify-center text-white/80 hover:text-[#0F1B2E] hover:bg-accent hover:border-accent transition-all duration-300 focus-ring shadow-sm"
+                  className="w-11 h-11 min-h-[44px] min-w-[44px] rounded-full border border-line flex items-center justify-center text-white/80 hover:text-[#0F1B2E] hover:bg-accent hover:border-accent transition-all duration-300 focus-ring shadow-sm"
                 >
                   <Icon className="text-base" />
                 </a>
@@ -99,7 +105,7 @@ export default function Footer() {
           {/* Right: Back to top */}
           <button
             onClick={scrollToTop}
-            className="flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-muted hover:text-accent transition-colors group focus-ring p-2"
+            className="min-h-[44px] flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-muted hover:text-accent transition-colors group focus-ring px-3 py-2"
           >
             <span>BACK TO TOP</span>
             <div className="w-7 h-7 rounded-full border border-line group-hover:border-accent group-hover:bg-accent-soft flex items-center justify-center transition-colors">

@@ -119,7 +119,7 @@ export default function Journey() {
               <span className="text-accent ml-1">.</span>
             </h3>
 
-            <span className="font-mono text-[10px] tracking-[0.25em] text-accent uppercase mb-4 block">
+            <span className="font-mono text-xs tracking-[0.25em] text-accent uppercase mb-4 block">
               KEY MILESTONES
             </span>
 

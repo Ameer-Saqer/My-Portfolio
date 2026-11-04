@@ -10,28 +10,26 @@ import {
   BootstrapIcon,
   GitIcon,
   GithubIcon,
-  ViteIcon,
-  FramerIcon,
-  FigmaIcon,
-  NpmIcon,
 } from '../components/TechIcons';
+import { toolsList } from '../data/content';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const TECH_ITEMS = [
-  { name: 'HTML5', icon: Html5Icon },
-  { name: 'CSS3', icon: Css3Icon },
-  { name: 'JavaScript', icon: JsIcon },
-  { name: 'React', icon: ReactIcon },
-  { name: 'Tailwind CSS', icon: TailwindIcon },
-  { name: 'Bootstrap', icon: BootstrapIcon },
-  { name: 'Git', icon: GitIcon },
-  { name: 'GitHub', icon: GithubIcon },
-  { name: 'Vite', icon: ViteIcon },
-  { name: 'Framer Motion', icon: FramerIcon },
-  { name: 'Figma', icon: FigmaIcon },
-  { name: 'npm', icon: NpmIcon },
-];
+const ICON_MAP = {
+  HTML5: Html5Icon,
+  CSS3: Css3Icon,
+  JavaScript: JsIcon,
+  React: ReactIcon,
+  'Tailwind CSS': TailwindIcon,
+  Bootstrap: BootstrapIcon,
+  Git: GitIcon,
+  GitHub: GithubIcon,
+};
+
+const TECH_ITEMS = toolsList.map((name) => ({
+  name,
+  icon: ICON_MAP[name] || ReactIcon,
+}));
 
 export default function TechStrip() {
   const containerRef = useRef(null);
@@ -60,8 +58,12 @@ export default function TechStrip() {
     let animationFrameId;
     let isPaused = false;
 
-    const onMouseEnter = () => { isPaused = true; };
-    const onMouseLeave = () => { isPaused = false; };
+    const onMouseEnter = () => {
+      isPaused = true;
+    };
+    const onMouseLeave = () => {
+      isPaused = false;
+    };
 
     const el = containerRef.current;
     if (el) {
@@ -103,16 +105,26 @@ export default function TechStrip() {
     <section
       id="stack"
       ref={containerRef}
-      className="relative w-full py-8 bg-surface-2 border-y border-line overflow-hidden select-none"
+      className="relative w-full py-5 sm:py-6 bg-bg overflow-hidden select-none"
     >
-      {/* Left/right edge fade masks */}
-      <div className="pointer-events-none absolute top-0 bottom-0 left-0 w-24 sm:w-40 z-10 bg-gradient-to-r from-surface-2 to-transparent" />
-      <div className="pointer-events-none absolute top-0 bottom-0 right-0 w-24 sm:w-40 z-10 bg-gradient-to-l from-surface-2 to-transparent" />
+      {/* Top 1px gold line at 18% opacity with centered brighter gold segment */}
+      <div
+        aria-hidden="true"
+        className="absolute top-0 left-0 right-0 w-full flex items-center justify-center pointer-events-none"
+      >
+        <div className="w-full h-[1px] bg-[rgba(212,175,55,0.18)]" />
+        <div className="absolute w-24 sm:w-36 h-[1.5px] bg-[#D4AF37] shadow-[0_0_10px_rgba(212,175,55,0.65)]" />
+        <div className="absolute w-2 h-2 rotate-45 bg-[#D4AF37] shadow-[0_0_8px_rgba(212,175,55,0.8)]" />
+      </div>
+
+      {/* Left/right edge fade masks (navy background gradient) */}
+      <div className="pointer-events-none absolute top-0 bottom-0 left-0 w-20 sm:w-36 z-10 bg-gradient-to-r from-bg to-transparent" />
+      <div className="pointer-events-none absolute top-0 bottom-0 right-0 w-20 sm:w-36 z-10 bg-gradient-to-l from-bg to-transparent" />
 
       <div className="flex items-center">
-        {/* Left tiny label */}
-        <div className="hidden lg:flex items-center gap-3 px-8 border-r border-line flex-shrink-0 z-20 bg-surface-2">
-          <span className="font-mono text-[10px] font-bold tracking-[0.25em] text-white uppercase whitespace-nowrap">
+        {/* Left editorial label */}
+        <div className="hidden lg:flex items-center gap-3 px-8 border-r border-[rgba(212,175,55,0.18)] flex-shrink-0 z-20 bg-bg">
+          <span className="font-mono text-xs font-bold tracking-[0.25em] text-white uppercase whitespace-nowrap">
             THE TOOLS BEHIND THE WORK.
           </span>
         </div>
@@ -123,7 +135,7 @@ export default function TechStrip() {
             ref={marqueeRef}
             className="flex items-center gap-12 whitespace-nowrap will-change-transform"
           >
-            {[...TECH_ITEMS, ...TECH_ITEMS].map((item, idx) => {
+            {[...TECH_ITEMS, ...TECH_ITEMS, ...TECH_ITEMS].map((item, idx) => {
               const Icon = item.icon;
               return (
                 <div
@@ -139,6 +151,16 @@ export default function TechStrip() {
             })}
           </div>
         </div>
+      </div>
+
+      {/* Bottom 1px gold line at 18% opacity with centered brighter gold segment */}
+      <div
+        aria-hidden="true"
+        className="absolute bottom-0 left-0 right-0 w-full flex items-center justify-center pointer-events-none"
+      >
+        <div className="w-full h-[1px] bg-[rgba(212,175,55,0.18)]" />
+        <div className="absolute w-24 sm:w-36 h-[1.5px] bg-[#D4AF37] shadow-[0_0_10px_rgba(212,175,55,0.65)]" />
+        <div className="absolute w-2 h-2 rotate-45 bg-[#D4AF37] shadow-[0_0_8px_rgba(212,175,55,0.8)]" />
       </div>
     </section>
   );

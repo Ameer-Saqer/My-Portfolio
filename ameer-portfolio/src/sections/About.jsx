@@ -150,7 +150,7 @@ export default function About() {
           <div className="lg:col-span-4 flex flex-col gap-10">
             {/* Education Sub-section */}
             <div>
-              <span className="font-mono text-[10px] tracking-[0.25em] text-accent uppercase mb-4 block">
+              <span className="font-mono text-xs tracking-[0.25em] text-accent uppercase mb-4 block">
                 EDUCATION
               </span>
               <div className="flex flex-col divide-y divide-line">
@@ -160,11 +160,11 @@ export default function About() {
                       <h4 className="font-sans text-sm font-semibold text-white">
                         {item.title}
                       </h4>
-                      <p className="font-mono text-[11px] text-muted mt-0.5">
+                      <p className="font-mono text-xs text-muted mt-0.5">
                         {item.sub}
                       </p>
                     </div>
-                    <span className="font-mono text-[10px] text-accent font-semibold whitespace-nowrap pt-1">
+                    <span className="font-mono text-xs text-accent font-semibold whitespace-nowrap pt-1">
                       {item.year}
                     </span>
                   </div>
@@ -174,7 +174,7 @@ export default function About() {
 
             {/* Creative Toolkit Pills */}
             <div>
-              <span className="font-mono text-[10px] tracking-[0.25em] text-accent uppercase mb-4 block">
+              <span className="font-mono text-xs tracking-[0.25em] text-accent uppercase mb-4 block">
                 CREATIVE TOOLKIT
               </span>
               <div className="flex flex-wrap gap-2">
@@ -184,7 +184,7 @@ export default function About() {
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={isInView ? { opacity: 1, scale: 1 } : {}}
                     transition={{ delay: 0.1 + idx * 0.04, duration: 0.4 }}
-                    className="px-3.5 py-1.5 rounded-full border border-line bg-surface/50 font-mono text-[11px] tracking-wider text-white uppercase transition-colors duration-200 hover:bg-accent hover:text-[#0F1B2E] hover:border-accent cursor-default select-none"
+                    className="px-3.5 py-1.5 rounded-full border border-line bg-surface/50 font-mono text-xs tracking-wider text-white uppercase transition-colors duration-200 hover:bg-accent hover:text-[#0F1B2E] hover:border-accent cursor-default select-none"
                   >
                     {pill}
                   </motion.span>
@@ -194,7 +194,7 @@ export default function About() {
 
             {/* Software Tiles (6 items) */}
             <div>
-              <span className="font-mono text-[10px] tracking-[0.25em] text-accent uppercase mb-4 block">
+              <span className="font-mono text-xs tracking-[0.25em] text-accent uppercase mb-4 block">
                 CORE TECH TILES
               </span>
               <div className="grid grid-cols-6 gap-3">
@@ -216,7 +216,7 @@ export default function About() {
 
           {/* Column 2: Process Timeline (lg:col-span-4) */}
           <div ref={timelineRef} className="lg:col-span-4 flex flex-col relative px-2 sm:px-4">
-            <span className="font-mono text-[10px] tracking-[0.25em] text-accent uppercase mb-6 block">
+            <span className="font-mono text-xs tracking-[0.25em] text-accent uppercase mb-6 block">
               FROM IDEA TO FINAL PIXEL
             </span>
 
@@ -285,7 +285,7 @@ export default function About() {
                 <span className="font-script text-4xl sm:text-5xl text-[#0F1B2E] -rotate-3 select-none mb-2">
                   Ameer
                 </span>
-                <span className="font-mono text-[10px] tracking-[0.25em] text-[#0F1B2E]/85 uppercase font-semibold">
+                <span className="font-mono text-xs tracking-[0.25em] text-[#0F1B2E]/85 uppercase font-semibold">
                   UI/UX · FRONT-END · REACT
                 </span>
               </div>

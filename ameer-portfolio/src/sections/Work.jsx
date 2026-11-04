@@ -8,10 +8,13 @@ import { FiArrowUpRight, FiGithub, FiExternalLink, FiX, FiChevronLeft, FiChevron
 // Project Card component with tall screenshot auto-scroll, 3D tilt and hover interactions
 function ProjectCard({ project, onOpenLightbox, isHoveredSibling, onHoverStart, onHoverEnd }) {
   const [isHovered, setIsHovered] = useState(false);
+  const [isTapped, setIsTapped] = useState(false);
   const cardRef = useRef(null);
   const imgRef = useRef(null);
   const [scrollDistance, setScrollDistance] = useState(0);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
+
+  const isScrolling = (isHovered || isTapped) && project.isTall;
 
   // Calculate vertical travel for tall screenshots
   useEffect(() => {
@@ -37,7 +40,7 @@ function ProjectCard({ project, onOpenLightbox, isHoveredSibling, onHoverStart, 
   };
 
   const handleMouseMove = (e) => {
-    if (!cardRef.current || window.matchMedia('(pointer: coarse)').matches) return;
+    if (!cardRef.current || window.innerWidth < 1024 || window.matchMedia('(pointer: coarse)').matches) return;
     const rect = cardRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
@@ -52,6 +55,7 @@ function ProjectCard({ project, onOpenLightbox, isHoveredSibling, onHoverStart, 
 
   const handleMouseLeave = () => {
     setIsHovered(false);
+    setIsTapped(false);
     setTilt({ x: 0, y: 0 });
     onHoverEnd?.();
   };
@@ -75,7 +79,7 @@ function ProjectCard({ project, onOpenLightbox, isHoveredSibling, onHoverStart, 
         transform: `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
         transition: isHovered ? 'transform 0.15s ease-out' : 'transform 0.5s ease-out',
       }}
-      className="group relative flex-shrink-0 w-[300px] sm:w-[360px] lg:w-[410px] rounded-2xl bg-surface border border-line p-4 transition-all duration-500 hover:border-accent hover:shadow-[0_0_25px_rgba(212,175,55,0.12)] select-none cursor-pointer flex flex-col justify-between overflow-hidden"
+      className="group relative flex-shrink-0 w-[86vw] sm:w-[360px] lg:w-[410px] rounded-2xl bg-surface border border-line p-4 transition-all duration-500 hover:border-accent hover:shadow-[0_0_25px_rgba(212,175,55,0.12)] select-none cursor-pointer flex flex-col justify-between overflow-hidden"
       data-cursor="view"
       onClick={() => {
         if (project.hasLightbox) {
@@ -90,34 +94,44 @@ function ProjectCard({ project, onOpenLightbox, isHoveredSibling, onHoverStart, 
       {/* 4:3 Image Container with clipping */}
       <div className="relative w-full h-[230px] sm:h-[260px] rounded-xl overflow-hidden bg-navy-deep/70 mb-4">
         {/* Chip top-left */}
-        <div className="absolute top-3 left-3 z-10 px-2.5 py-1 rounded-md bg-bg/85 backdrop-blur-md border border-line text-[9px] font-mono tracking-widest text-white uppercase">
+        <div className="absolute top-3 left-3 z-10 px-2.5 py-1 rounded-md bg-bg/85 backdrop-blur-md border border-line text-xs font-mono tracking-widest text-white uppercase">
           {project.category}
         </div>
 
         {/* Gallery indicator chip top-right if lightbox exists (Gold with Navy text) */}
         {project.galleryCount && (
-          <div className="absolute top-3 right-3 z-10 px-2 py-0.5 rounded-full bg-accent text-[#0F1B2E] text-[10px] font-mono font-bold tracking-wider shadow-sm">
+          <div className="absolute top-3 right-3 z-10 px-2.5 py-1 rounded-full bg-accent text-[#0F1B2E] text-xs font-mono font-bold tracking-wider shadow-sm">
             +{project.galleryCount - 1} PAGES
           </div>
         )}
 
-        {/* Project Image (grayscale by default, color on hover) */}
-        <div className="w-full h-full overflow-hidden relative">
+        {/* Project Image (auto-scroll on hover or tap for tall screenshots) */}
+        <div
+          className="w-full h-full overflow-hidden relative cursor-pointer"
+          onClick={(e) => {
+            if (project.isTall && (window.innerWidth < 1024 || window.matchMedia('(pointer: coarse)').matches)) {
+              e.stopPropagation();
+              setIsTapped((prev) => !prev);
+            }
+          }}
+        >
           <img
             ref={imgRef}
             src={project.image}
             alt={project.title}
             loading="lazy"
             className={`w-full block transition-all duration-700 ease-out filter grayscale contrast-[1.05] group-hover:grayscale-0 ${
+              isTapped ? 'grayscale-0' : ''
+            } ${
               project.isMockup ? 'scale-[1.18] object-cover object-center' : 'object-cover object-top'
             } ${!project.isTall ? 'h-full group-hover:scale-105' : ''}`}
             style={{
               transform:
-                project.isTall && isHovered && scrollDistance > 0
+                project.isTall && isScrolling && scrollDistance > 0
                   ? `translateY(-${Math.min(scrollDistance, 750)}px)`
                   : 'translateY(0px)',
-              transitionDuration: isHovered && project.isTall ? '8s' : '0.8s',
-              transitionTimingFunction: isHovered ? 'linear' : 'ease-out',
+              transitionDuration: isScrolling && project.isTall ? '8s' : '0.8s',
+              transitionTimingFunction: isScrolling ? 'linear' : 'ease-out',
             }}
           />
         </div>
@@ -137,14 +151,14 @@ function ProjectCard({ project, onOpenLightbox, isHoveredSibling, onHoverStart, 
               <h3 className="font-sans font-bold text-sm sm:text-base text-white uppercase tracking-tight group-hover:text-white leading-tight">
                 {project.title}
               </h3>
-              <span className="font-mono text-[10px] tracking-wider text-accent/80 mt-1">
+              <span className="font-mono text-xs tracking-wider text-accent/80 mt-1">
                 {project.tag}
               </span>
             </div>
           </div>
 
           {/* Arrow top-right that rotates and fills accent on hover */}
-          <div className="w-8 h-8 rounded-full border border-line group-hover:border-accent group-hover:bg-accent flex items-center justify-center transition-all duration-300 flex-shrink-0">
+          <div className="w-9 h-9 rounded-full border border-line group-hover:border-accent group-hover:bg-accent flex items-center justify-center transition-all duration-300 flex-shrink-0">
             <FiArrowUpRight className="text-white group-hover:text-white transition-all duration-300 transform group-hover:rotate-45" />
           </div>
         </div>
@@ -156,7 +170,7 @@ function ProjectCard({ project, onOpenLightbox, isHoveredSibling, onHoverStart, 
 
         {/* Footer Row: Live link & GitHub link */}
         <div className="flex items-center justify-between pt-3 mt-2 border-t border-line/50">
-          <span className="font-mono text-[9px] uppercase tracking-widest text-dim group-hover:text-muted transition-colors">
+          <span className="font-mono text-xs uppercase tracking-widest text-dim group-hover:text-muted transition-colors">
             {project.hasLightbox ? 'CLICK TO EXPLORE' : project.live !== '#' ? 'LIVE PREVIEW' : 'SOURCE CODE'}
           </span>
 
@@ -166,10 +180,10 @@ function ProjectCard({ project, onOpenLightbox, isHoveredSibling, onHoverStart, 
                 href={project.live}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-muted hover:text-accent p-1 transition-colors"
+                className="text-muted hover:text-accent p-2 min-h-[44px] min-w-[44px] flex items-center justify-center transition-colors"
                 title="Live Demo"
               >
-                <FiExternalLink className="text-sm" />
+                <FiExternalLink className="text-base" />
               </a>
             )}
             {project.repo && (
@@ -177,10 +191,10 @@ function ProjectCard({ project, onOpenLightbox, isHoveredSibling, onHoverStart, 
                 href={project.repo}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-muted hover:text-accent p-1 transition-colors"
-                title="GitHub Repo"
+                className="text-muted hover:text-accent p-2 min-h-[44px] min-w-[44px] flex items-center justify-center transition-colors"
+                title="Source Code"
               >
-                <FiGithub className="text-sm" />
+                <FiGithub className="text-base" />
               </a>
             )}
           </div>
@@ -279,7 +293,7 @@ function ProjectLightbox({ project, onClose }) {
       </div>
 
       {/* Lightbox Footer hint */}
-      <div className="flex items-center justify-between pt-2 border-t border-line text-dim font-mono text-[10px] tracking-wider uppercase">
+      <div className="flex items-center justify-between pt-2 border-t border-line text-dim font-mono text-xs tracking-wider uppercase">
         <span>USE ARROW KEYS OR BUTTONS TO NAVIGATE · SCROLL VERTICALLY INSIDE PAGE</span>
         <span>PRESS ESC TO CLOSE</span>
       </div>
@@ -351,15 +365,15 @@ export default function Work() {
           </a>
         </div>
 
-        {/* Filter Tabs */}
-        <div className="flex items-center gap-2 sm:gap-6 pt-8 overflow-x-auto no-scrollbar">
+        {/* Filter Tabs (min 44px touch height) */}
+        <div className="flex items-center gap-2 sm:gap-6 pt-6 overflow-x-auto no-scrollbar">
           {projectCategories.map((category) => {
             const isActive = activeCategory === category;
             return (
               <button
                 key={category}
                 onClick={() => setActiveCategory(category)}
-                className={`relative pb-3 font-mono text-xs sm:text-sm uppercase tracking-wider transition-colors whitespace-nowrap focus-ring ${
+                className={`relative min-h-[44px] px-3 py-2.5 font-mono text-xs sm:text-sm uppercase tracking-wider transition-colors whitespace-nowrap focus-ring flex items-center ${
                   isActive ? 'text-accent font-bold' : 'text-muted hover:text-white'
                 }`}
               >
@@ -377,7 +391,7 @@ export default function Work() {
         </div>
       </div>
 
-      {/* Horizontal Drag Slider */}
+      {/* Horizontal Drag & Touch Slider */}
       <div className="w-full relative">
         <div
           ref={sliderRef}
@@ -386,7 +400,7 @@ export default function Work() {
           onMouseUp={handleMouseUp}
           onMouseMove={handleMouseMove}
           data-cursor="drag"
-          className="flex gap-6 overflow-x-auto no-scrollbar px-5 sm:px-8 lg:px-14 cursor-grab active:cursor-grabbing pb-8 pt-2"
+          className="flex gap-4 sm:gap-6 overflow-x-auto no-scrollbar px-5 sm:px-8 lg:px-14 cursor-grab active:cursor-grabbing pb-8 pt-2 touch-pan-x overscroll-x-contain scroll-smooth"
           style={{ scrollBehavior: isDragging ? 'auto' : 'smooth' }}
         >
           <AnimatePresence mode="popLayout">
@@ -404,7 +418,7 @@ export default function Work() {
         </div>
 
         {/* Drag Hint indicator on right edge */}
-        <div className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 hidden lg:flex items-center gap-2 font-mono text-[10px] tracking-widest text-dim uppercase bg-surface/90 px-3 py-1.5 rounded-full border border-line">
+        <div className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 hidden lg:flex items-center gap-2 font-mono text-xs tracking-widest text-dim uppercase bg-surface/90 px-3 py-1.5 rounded-full border border-line">
           <span>DRAG TO SCROLL</span>
           <span className="text-accent">→</span>
         </div>

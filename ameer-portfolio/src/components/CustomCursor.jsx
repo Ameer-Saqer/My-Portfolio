@@ -11,19 +11,34 @@ export default function CustomCursor() {
   const cursorY = useSpring(-100, springConfig);
 
   useEffect(() => {
-    // Disable on touch devices or reduced motion
-    if (window.matchMedia('(pointer: coarse)').matches || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    // Disable on touch devices, mobile screens, or reduced motion
+    const isTouch = window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 1024;
+    if (isTouch || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       return;
     }
+
+    let idleTimer = null;
 
     const moveCursor = (e) => {
       cursorX.set(e.clientX);
       cursorY.set(e.clientY);
-      if (!isVisible) setIsVisible(true);
+      setIsVisible(true);
+
+      if (idleTimer) clearTimeout(idleTimer);
+      idleTimer = setTimeout(() => {
+        setIsVisible(false);
+      }, 3000);
     };
 
-    const handleMouseLeave = () => setIsVisible(false);
+    const handleMouseLeave = () => {
+      if (idleTimer) clearTimeout(idleTimer);
+      setIsVisible(false);
+    };
     const handleMouseEnter = () => setIsVisible(true);
+    const handleTouchStart = () => {
+      if (idleTimer) clearTimeout(idleTimer);
+      setIsVisible(false);
+    };
 
     const handleMouseOver = (e) => {
       const target = e.target.closest('[data-cursor]');
@@ -49,17 +64,29 @@ export default function CustomCursor() {
     };
 
     window.addEventListener('mousemove', moveCursor);
+    window.addEventListener('mouseleave', handleMouseLeave);
     document.addEventListener('mouseleave', handleMouseLeave);
-    document.addEventListener('mouseenter', handleMouseEnter);
-    document.addEventListener('mouseover', handleMouseOver);
+    window.addEventListener('blur', handleMouseLeave);
+    window.addEventListener('mouseenter', handleMouseEnter);
+    window.addEventListener('mouseover', handleMouseOver);
+    window.addEventListener('touchstart', handleTouchStart, { passive: true });
 
     return () => {
+      if (idleTimer) clearTimeout(idleTimer);
       window.removeEventListener('mousemove', moveCursor);
+      window.removeEventListener('mouseleave', handleMouseLeave);
       document.removeEventListener('mouseleave', handleMouseLeave);
-      document.removeEventListener('mouseenter', handleMouseEnter);
-      document.removeEventListener('mouseover', handleMouseOver);
+      window.removeEventListener('blur', handleMouseLeave);
+      window.removeEventListener('mouseenter', handleMouseEnter);
+      window.removeEventListener('mouseover', handleMouseOver);
+      window.removeEventListener('touchstart', handleTouchStart);
     };
   }, [cursorX, cursorY, isVisible]);
+
+  // Completely disabled on mobile devices or when not visible
+  if (typeof window !== 'undefined' && (window.innerWidth < 1024 || window.matchMedia('(pointer: coarse)').matches)) {
+    return null;
+  }
 
   if (!isVisible) return null;
 
@@ -69,7 +96,7 @@ export default function CustomCursor() {
   return (
     <motion.div
       aria-hidden="true"
-      className="pointer-events-none fixed top-0 left-0 z-50 flex items-center justify-center rounded-full bg-white text-black font-mono font-bold tracking-widest text-[9px] uppercase select-none mix-blend-difference"
+      className="pointer-events-none fixed top-0 left-0 z-50 flex items-center justify-center rounded-full bg-accent text-[#0F1B2E] font-mono font-bold tracking-widest text-xs uppercase select-none shadow-[0_0_12px_rgba(212,175,55,0.65)]"
       style={{
         x: cursorX,
         y: cursorY,
@@ -88,7 +115,7 @@ export default function CustomCursor() {
           initial={{ opacity: 0, scale: 0.7 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.7 }}
-          className="text-black leading-none"
+          className="text-[#0F1B2E] font-extrabold leading-none text-xs"
         >
           {cursorText}
         </motion.span>
@@ -96,4 +123,3 @@ export default function CustomCursor() {
     </motion.div>
   );
 }
-

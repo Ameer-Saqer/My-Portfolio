@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { profile } from '../data/content';
 import { FiMenu, FiX } from 'react-icons/fi';
+import LogoMark from './LogoMark';
 
 const NAV_LINKS = [
   { name: 'Work', href: '#work' },
@@ -80,16 +81,17 @@ export default function Navbar() {
         }`}
       >
         <div className="max-w-7xl mx-auto px-5 sm:px-8 flex items-center justify-between">
-          {/* Left: Logo */}
+          {/* Left: Logo Mark */}
           <a
             href="#"
-            className="flex items-center gap-1 group focus-ring rounded"
-            aria-label="Ameer Saqer Home"
+            onClick={(e) => {
+              e.preventDefault();
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            className="flex items-center group focus-ring rounded-lg min-h-[44px] min-w-[44px]"
+            aria-label="Ameer Saqer"
           >
-            <span className="font-display text-2xl sm:text-3xl tracking-tight text-white uppercase">
-              {profile.brand}
-            </span>
-            <span className="w-2 h-2 rounded-full bg-accent" />
+            <LogoMark size={36} className="w-9 h-9" />
           </a>
 
           {/* Center: Desktop Navigation Links (Clean, calm) */}
@@ -100,12 +102,12 @@ export default function Navbar() {
                 <a
                   key={link.name}
                   href={link.href}
-                  className={`relative font-mono text-[11px] uppercase tracking-[0.2em] transition-colors py-1 focus-ring ${
+                  className={`relative font-mono text-xs uppercase tracking-[0.2em] transition-colors py-1 focus-ring ${
                     isActive ? 'text-accent font-bold' : 'text-muted hover:text-white'
                   }`}
                 >
                   <span>{link.name}</span>
-                  {/* Underline in Accent Red */}
+                  {/* Underline in Accent Gold */}
                   <span
                     className={`absolute bottom-0 left-0 h-[2px] bg-accent transition-all duration-300 ease-out origin-left ${
                       isActive ? 'w-full' : 'w-0 hover:w-full'
@@ -118,7 +120,7 @@ export default function Navbar() {
 
           {/* Right: Available status + Let's Talk Secondary Button */}
           <div className="hidden lg:flex items-center gap-6">
-            <div className="flex items-center gap-2 font-mono text-[10px] text-muted tracking-wider uppercase">
+            <div className="flex items-center gap-2 font-mono text-xs text-muted tracking-wider uppercase">
               <span className="w-1.5 h-1.5 rounded-full bg-accent" />
               <span>{profile.status}</span>
             </div>
@@ -127,16 +129,16 @@ export default function Navbar() {
               href={profile.whatsapp}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-4 py-2 rounded-full border border-accent text-xs font-mono uppercase tracking-widest text-white hover:bg-accent-soft transition-all duration-200 focus-ring"
+              className="px-4 py-2.5 min-h-[44px] inline-flex items-center rounded-full border border-accent text-xs font-mono uppercase tracking-widest text-white hover:bg-accent-soft transition-all duration-200 focus-ring"
             >
               Let's Talk ↗
             </a>
           </div>
 
-          {/* Mobile Hamburger Button */}
+          {/* Mobile Hamburger Button (at least 44x44px touch target) */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden text-white p-2 focus-ring text-2xl"
+            className="md:hidden text-white w-11 h-11 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-lg focus-ring text-2xl"
             aria-label="Toggle Navigation Menu"
           >
             {mobileMenuOpen ? <FiX /> : <FiMenu />}
@@ -152,9 +154,34 @@ export default function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-30 bg-bg flex flex-col justify-between px-8 py-24 md:hidden"
+            className="fixed inset-0 z-50 bg-[#0F1B2E] flex flex-col justify-between px-7 py-8 md:hidden overflow-y-auto"
           >
-            <div className="flex flex-col gap-6">
+            {/* Top Bar inside Overlay: Logo & Close */}
+            <div className="flex items-center justify-between pb-6 border-b border-line">
+              <a
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setMobileMenuOpen(false);
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                className="flex items-center min-h-[44px] min-w-[44px]"
+                aria-label="Ameer Saqer"
+              >
+                <LogoMark size={36} className="w-9 h-9" />
+              </a>
+
+              <button
+                onClick={() => setMobileMenuOpen(false)}
+                className="w-11 h-11 min-w-[44px] min-h-[44px] flex items-center justify-center text-white text-2xl rounded-lg focus-ring"
+                aria-label="Close Menu"
+              >
+                <FiX />
+              </button>
+            </div>
+
+            {/* Staggered Anton Navigation Links */}
+            <div className="flex flex-col gap-4 my-auto py-6">
               {NAV_LINKS.map((link, idx) => (
                 <motion.a
                   key={link.name}
@@ -162,8 +189,8 @@ export default function Navbar() {
                   onClick={() => setMobileMenuOpen(false)}
                   initial={{ opacity: 0, x: -30 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.1 + idx * 0.08, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                  className="font-display text-5xl uppercase tracking-tight text-white hover:text-accent transition-colors"
+                  transition={{ delay: 0.08 + idx * 0.06, duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+                  className="font-display text-4xl sm:text-5xl uppercase tracking-tight text-white hover:text-accent transition-colors min-h-[44px] flex items-center"
                 >
                   {link.name}
                 </motion.a>
@@ -173,23 +200,23 @@ export default function Navbar() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5, duration: 0.5 }}
-              className="flex flex-col gap-4 border-t border-line pt-6"
+              transition={{ delay: 0.45, duration: 0.45 }}
+              className="flex flex-col gap-4 border-t border-line pt-6 mt-auto"
             >
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2 font-mono text-xs text-muted">
-                  <span className="w-2 h-2 rounded-full bg-accent" />
+                  <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
                   <span>{profile.status}</span>
                 </div>
               </div>
 
-              {/* Primary Mobile CTA: Gold background with Navy text */}
+              {/* Primary Mobile CTA: Gold background with Navy text (>= 44px) */}
               <a
                 href={profile.whatsapp}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => setMobileMenuOpen(false)}
-                className="w-full text-center py-3 bg-accent text-[#0F1B2E] font-mono text-xs font-bold uppercase tracking-widest rounded-full hover:bg-white transition-colors shadow-lg shadow-accent/20"
+                className="w-full text-center py-3.5 min-h-[44px] flex items-center justify-center bg-accent text-[#0F1B2E] font-mono text-xs font-bold uppercase tracking-widest rounded-full hover:bg-white transition-colors shadow-lg shadow-accent/20"
               >
                 Let's Talk ↗
               </a>

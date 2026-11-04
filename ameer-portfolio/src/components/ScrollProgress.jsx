@@ -36,8 +36,8 @@ export default function ScrollProgress() {
       aria-hidden="true"
       className="hidden md:block fixed left-0 top-0 bottom-0 w-[2px] z-30 pointer-events-none"
     >
-      {/* Background track */}
-      <div className="absolute inset-0 bg-white/5" />
+      {/* Background track (subtle gold line) */}
+      <div className="absolute inset-0 bg-[rgba(212,175,55,0.12)]" />
 
       {/* Progress fill line (Gold) */}
       <div

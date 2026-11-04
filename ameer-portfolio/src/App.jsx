@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useLenis } from './hooks/useLenis';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -7,7 +7,6 @@ import CustomCursor from './components/CustomCursor';
 import CursorSpotlight from './components/CursorSpotlight';
 import ScrollProgress from './components/ScrollProgress';
 import Grain from './components/Grain';
-import BigMarquee from './components/BigMarquee';
 import SectionDivider from './components/SectionDivider';
 import Navbar from './components/Navbar';
 import Hero from './sections/Hero';
@@ -24,6 +23,10 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function App() {
   const [loaderComplete, setLoaderComplete] = useState(false);
+
+  const handleLoaderComplete = useCallback(() => {
+    setLoaderComplete(true);
+  }, []);
 
   // Initialize Lenis smooth scroll bridge
   useLenis();
@@ -60,7 +63,7 @@ export default function App() {
       <CustomCursor />
 
       {/* 4. Initial Assemble Loader (plays once) */}
-      <Loader onComplete={() => setLoaderComplete(true)} />
+      <Loader onComplete={handleLoaderComplete} />
 
       {/* 5. Left Edge Vertical Scroll Progress Indicator */}
       <ScrollProgress />
@@ -73,12 +76,8 @@ export default function App() {
         <Hero readyToAnimate={loaderComplete} />
         <SectionDivider />
         <Work />
-        <SectionDivider />
-        {/* Single Big Marquee Strip: Between Work and Achievements */}
-        <BigMarquee />
-        <SectionDivider />
+        {/* Tools Marquee Strip: Clean transition between Work and Achievements */}
         <TechStrip />
-        <SectionDivider />
         <Achievements />
         <SectionDivider />
         <FromRawToReal />

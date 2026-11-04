@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import SectionLabel from '../components/SectionLabel';
 import Reveal from '../components/Reveal';
-import { profile } from '../data/content';
+import { profile, contactActionCard } from '../data/content';
 import { useMagnetic } from '../hooks/useMagnetic';
 import { FiMail, FiPhone, FiGithub, FiLinkedin, FiInstagram, FiArrowUpRight, FiCheck } from 'react-icons/fi';
 
@@ -27,15 +27,15 @@ export default function Contact() {
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
-  // Poster card mouse tilt
+  // Action card mouse tilt (max 3deg)
   const handlePosterMouseMove = (e) => {
     if (!posterRef.current) return;
     const rect = posterRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left - rect.width / 2;
     const y = e.clientY - rect.top - rect.height / 2;
     setTilt({
-      x: (y / (rect.height / 2)) * -6,
-      y: (x / (rect.width / 2)) * 6,
+      x: (y / (rect.height / 2)) * -3,
+      y: (x / (rect.width / 2)) * 3,
     });
   };
 
@@ -91,7 +91,7 @@ export default function Contact() {
     {
       label: 'PHONE / WHATSAPP',
       val: profile.phone,
-      href: profile.whatsapp,
+      href: 'https://wa.me/972592161058',
       icon: FiPhone,
     },
     {
@@ -117,43 +117,44 @@ export default function Contact() {
   return (
     <section id="contact" ref={sectionRef} className="relative py-28 sm:py-36 bg-bg border-t border-line overflow-hidden">
       <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-14">
+        {/* ONE small label above the title */}
         <SectionLabel label="04 / YOUR NEXT PROJECT" />
 
-        {/* Tagline */}
-        <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.25em] text-muted mb-4">
-          <span>Crafting Digital</span>
-          <span className="text-accent font-bold">Experiences</span>
-        </div>
-
-        {/* Massive Title */}
+        {/* Massive Title with proper spacing between lines */}
         <div className="mb-8">
           <Reveal>
-            <h2 className="font-display text-[clamp(3.4rem,10.5vw,9.5rem)] leading-[0.88] uppercase text-white tracking-tight">
-              LET'S BUILD<br />
-              <span className="text-accent">TOGETHER</span>
-              <span className="text-accent ml-1">.</span>
+            <h2 className="font-display text-[clamp(3.4rem,10.5vw,9.5rem)] leading-[0.95] uppercase text-white tracking-tight">
+              <span>LET'S BUILD</span>
+              <span className="block text-accent mt-[0.05em]">
+                TOGETHER<span className="text-accent ml-1">.</span>
+              </span>
             </h2>
           </Reveal>
         </div>
 
-        {/* Subtitle & Direct Action */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 pb-12 mb-16 border-b border-line">
-          <p className="font-sans text-base sm:text-lg text-muted max-w-lg leading-relaxed">
+        {/* Subtitle & Primary Button on Left */}
+        <div className="flex flex-col items-start gap-5 pb-12 mb-16 border-b border-line max-w-xl">
+          <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.22em] text-muted">
+            <span>Crafting Digital</span>
+            <span className="text-accent font-bold">Experiences</span>
+          </div>
+
+          <p className="font-sans text-base sm:text-lg text-muted leading-relaxed">
             Got an idea you want to bring to life? Let's make something worth visiting.
           </p>
 
           <a
-            href={profile.whatsapp}
+            href="https://wa.me/972592161058"
             target="_blank"
             rel="noopener noreferrer"
-            className="group inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-accent hover:text-white py-2 border-b border-accent focus-ring whitespace-nowrap transition-colors"
+            className="group mt-2 inline-flex items-center gap-3 px-8 py-4 rounded-full bg-accent text-[#0F1B2E] font-mono text-xs uppercase tracking-widest font-bold hover:bg-white border border-accent hover:border-white transition-all duration-300 focus-ring shadow-lg shadow-accent/25 min-h-[44px]"
           >
             <span>START A CONVERSATION</span>
-            <FiArrowUpRight className="transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+            <FiArrowUpRight className="text-base text-[#0F1B2E] transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
           </a>
         </div>
 
-        {/* Top Split: Contact Info List on Left, 3D Poster Card on Right */}
+        {/* Top Split: Contact Info List on Left, 3D Action Card on Right */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start mb-20">
           {/* Left Column: Contact Rows */}
           <div className="lg:col-span-7 flex flex-col divide-y divide-line">
@@ -172,14 +173,14 @@ export default function Contact() {
                     delay: 0.2 + idx * 0.08,
                     ease: [0.16, 1, 0.3, 1],
                   }}
-                  className="py-5 flex items-center justify-between group cursor-pointer focus-ring rounded"
+                  className="py-5 flex items-center justify-between group cursor-pointer focus-ring rounded min-h-[44px]"
                 >
                   <div className="flex items-center gap-5">
                     <div className="w-12 h-12 rounded-xl border border-line flex items-center justify-center text-white group-hover:bg-accent group-hover:text-[#0F1B2E] group-hover:border-accent transition-all duration-300">
                       <Icon className="text-xl" />
                     </div>
                     <div className="flex flex-col">
-                      <span className="font-mono text-[10px] tracking-[0.22em] text-muted uppercase group-hover:text-accent transition-colors">
+                      <span className="font-mono text-xs tracking-[0.22em] text-muted uppercase group-hover:text-accent transition-colors">
                         {item.label}
                       </span>
                       <span className="font-sans text-sm sm:text-base font-semibold text-white group-hover:text-accent transition-colors">
@@ -194,7 +195,7 @@ export default function Contact() {
             })}
           </div>
 
-          {/* Right Column: 3D Tilting Poster Card */}
+          {/* Right Column: 3D Tilting Action Card */}
           <div className="lg:col-span-5 flex justify-center lg:justify-end">
             <div
               ref={posterRef}
@@ -202,34 +203,43 @@ export default function Contact() {
               onMouseLeave={handlePosterMouseLeave}
               style={{
                 transform: `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
-                transition: 'transform 0.15s ease-out',
+                transition: 'transform 0.18s ease-out',
               }}
-              className="w-full max-w-[340px] rounded-2xl bg-surface border border-line p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden select-none hover:border-accent/60 transition-colors"
+              className="w-full max-w-[360px] rounded-2xl bg-surface border border-[rgba(212,175,55,0.35)] p-7 sm:p-8 flex flex-col justify-between shadow-[0_0_40px_rgba(212,175,55,0.06)] relative overflow-hidden select-none hover:border-accent transition-colors"
             >
-              {/* Top Tag */}
-              <div className="flex items-center justify-between font-mono text-[10px] tracking-widest text-muted uppercase mb-8">
-                <span>PREVIEW</span>
-                <span className="w-1.5 h-1.5 rounded-full bg-accent" />
-              </div>
-
-              {/* Big Stacked Text */}
-              <div className="my-4">
-                <span className="font-display text-5xl uppercase tracking-tight text-white block leading-none">
-                  BUILD IT.
-                </span>
-                <span className="font-display text-5xl uppercase tracking-tight text-accent block leading-none mt-1">
-                  SHIP IT.
+              {/* Top: Pulsing Gold Dot with Status */}
+              <div className="flex items-center gap-2.5 mb-6">
+                <span className="w-2 h-2 rounded-full bg-accent animate-pulse shadow-[0_0_8px_rgba(212,175,55,0.85)]" />
+                <span className="font-mono text-xs tracking-[0.2em] text-accent uppercase font-bold">
+                  {contactActionCard.status}
                 </span>
               </div>
 
-              {/* Mini Looping Thumbnail */}
-              <div className="w-full h-36 rounded-xl overflow-hidden border border-line bg-navy-deep/60 mt-6 relative">
-                <img
-                  src="/projects/ocean.webp"
-                  alt="Mini project preview"
-                  className="w-full h-full object-cover filter grayscale contrast-125 hover:grayscale-0 transition-all duration-500"
-                />
+              {/* Title: BUILD IT. SHIP IT. */}
+              <div className="mb-4">
+                <span className="font-display text-4xl sm:text-5xl uppercase tracking-tight text-white block leading-[0.95]">
+                  {contactActionCard.titleLine1}
+                </span>
+                <span className="font-display text-4xl sm:text-5xl uppercase tracking-tight text-accent block leading-[0.95] mt-1">
+                  {contactActionCard.titleLine2}
+                </span>
               </div>
+
+              {/* Response Time */}
+              <p className="font-sans text-xs sm:text-sm text-muted leading-relaxed mb-8">
+                {contactActionCard.replyTime}
+              </p>
+
+              {/* Action Button: CHAT ON WHATSAPP */}
+              <a
+                href="https://wa.me/972592161058"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group w-full py-3.5 px-6 rounded-xl bg-accent text-[#0F1B2E] font-mono text-xs uppercase tracking-widest font-bold hover:bg-white transition-all duration-300 flex items-center justify-center gap-2 shadow-lg shadow-accent/20 focus-ring"
+              >
+                <span>{contactActionCard.cta}</span>
+                <FiArrowUpRight className="text-base text-[#0F1B2E] transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              </a>
             </div>
           </div>
         </div>
@@ -254,12 +264,12 @@ export default function Contact() {
               />
               <label
                 htmlFor="name"
-                className="absolute left-0 top-3 font-mono text-xs tracking-wider text-muted pointer-events-none transition-all duration-200 peer-focus:-top-4 peer-focus:text-[10px] peer-focus:text-accent peer-[:not(:placeholder-shown)]:-top-4 peer-[:not(:placeholder-shown)]:text-[10px] uppercase"
+                className="absolute left-0 top-3 font-mono text-xs tracking-wider text-muted pointer-events-none transition-all duration-200 peer-focus:-top-4 peer-focus:text-xs peer-focus:text-accent peer-[:not(:placeholder-shown)]:-top-4 peer-[:not(:placeholder-shown)]:text-xs uppercase"
               >
                 Your Name *
               </label>
               {errors.name && (
-                <span className="font-mono text-[10px] text-accent mt-1">{errors.name}</span>
+                <span className="font-mono text-xs text-accent mt-1">{errors.name}</span>
               )}
             </div>
 
@@ -276,12 +286,12 @@ export default function Contact() {
               />
               <label
                 htmlFor="email"
-                className="absolute left-0 top-3 font-mono text-xs tracking-wider text-muted pointer-events-none transition-all duration-200 peer-focus:-top-4 peer-focus:text-[10px] peer-focus:text-accent peer-[:not(:placeholder-shown)]:-top-4 peer-[:not(:placeholder-shown)]:text-[10px] uppercase"
+                className="absolute left-0 top-3 font-mono text-xs tracking-wider text-muted pointer-events-none transition-all duration-200 peer-focus:-top-4 peer-focus:text-xs peer-focus:text-accent peer-[:not(:placeholder-shown)]:-top-4 peer-[:not(:placeholder-shown)]:text-xs uppercase"
               >
                 Your Email *
               </label>
               {errors.email && (
-                <span className="font-mono text-[10px] text-accent mt-1">{errors.email}</span>
+                <span className="font-mono text-xs text-accent mt-1">{errors.email}</span>
               )}
             </div>
 
@@ -298,7 +308,7 @@ export default function Contact() {
               />
               <label
                 htmlFor="phone"
-                className="absolute left-0 top-3 font-mono text-xs tracking-wider text-muted pointer-events-none transition-all duration-200 peer-focus:-top-4 peer-focus:text-[10px] peer-focus:text-accent peer-[:not(:placeholder-shown)]:-top-4 peer-[:not(:placeholder-shown)]:text-[10px] uppercase"
+                className="absolute left-0 top-3 font-mono text-xs tracking-wider text-muted pointer-events-none transition-all duration-200 peer-focus:-top-4 peer-focus:text-xs peer-focus:text-accent peer-[:not(:placeholder-shown)]:-top-4 peer-[:not(:placeholder-shown)]:text-xs uppercase"
               >
                 Phone Number (optional)
               </label>
@@ -317,12 +327,12 @@ export default function Contact() {
               />
               <label
                 htmlFor="message"
-                className="absolute left-0 top-3 font-mono text-xs tracking-wider text-muted pointer-events-none transition-all duration-200 peer-focus:-top-4 peer-focus:text-[10px] peer-focus:text-accent peer-[:not(:placeholder-shown)]:-top-4 peer-[:not(:placeholder-shown)]:text-[10px] uppercase"
+                className="absolute left-0 top-3 font-mono text-xs tracking-wider text-muted pointer-events-none transition-all duration-200 peer-focus:-top-4 peer-focus:text-xs peer-focus:text-accent peer-[:not(:placeholder-shown)]:-top-4 peer-[:not(:placeholder-shown)]:text-xs uppercase"
               >
                 Project Details & Timeline *
               </label>
               {errors.message && (
-                <span className="font-mono text-[10px] text-accent mt-1">{errors.message}</span>
+                <span className="font-mono text-xs text-accent mt-1">{errors.message}</span>
               )}
             </div>
 
@@ -332,7 +342,7 @@ export default function Contact() {
                 <button
                   type="submit"
                   disabled={submitting || submitted}
-                  className="group px-8 py-4 rounded-full bg-accent text-[#0F1B2E] font-mono text-xs uppercase tracking-widest font-bold hover:bg-white border border-accent hover:border-white transition-all duration-300 focus-ring flex items-center gap-3 disabled:opacity-50 shadow-lg shadow-accent/25"
+                  className="group px-8 py-4 rounded-full bg-accent text-[#0F1B2E] font-mono text-xs uppercase tracking-widest font-bold hover:bg-white border border-accent hover:border-white transition-all duration-300 focus-ring flex items-center gap-3 disabled:opacity-50 shadow-lg shadow-accent/25 min-h-[44px]"
                 >
                   {submitted ? (
                     <>
@@ -350,7 +360,7 @@ export default function Contact() {
                 </button>
               </div>
 
-              <span className="font-mono text-[10px] tracking-wider text-dim">
+              <span className="font-mono text-xs tracking-wider text-dim">
                 SECURE & DIRECT TRANSMISSION
               </span>
             </div>

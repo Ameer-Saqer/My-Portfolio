@@ -30,7 +30,7 @@ export default function Achievements() {
         <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           {/* Left Column: Laurel wreath, big number & message */}
           <div className="lg:col-span-5 flex flex-col items-start">
-            <span className="font-mono text-[11px] tracking-[0.22em] text-accent uppercase mb-4">
+            <span className="font-mono text-xs tracking-[0.22em] text-accent uppercase mb-4">
               MILESTONES & CERTIFICATES
             </span>
 
@@ -57,16 +57,6 @@ export default function Achievements() {
                   animate={isInView ? { pathLength: 1 } : {}}
                   transition={{ duration: 1.5, ease: 'easeOut' }}
                 />
-                {/* Left Leaves */}
-                <motion.path
-                  d="M48,40 C35,45 35,60 48,55 M42,65 C28,70 30,85 45,78 M42,95 C30,105 35,118 50,110 M52,125 C42,138 52,148 68,138 M75,150 C68,162 82,168 95,158"
-                  stroke="currentColor"
-                  strokeWidth="1.8"
-                  strokeLinecap="round"
-                  initial={{ pathLength: 0 }}
-                  animate={isInView ? { pathLength: 1 } : {}}
-                  transition={{ duration: 1.8, delay: 0.3, ease: 'easeOut' }}
-                />
 
                 {/* Right Branch */}
                 <motion.path
@@ -78,16 +68,6 @@ export default function Achievements() {
                   animate={isInView ? { pathLength: 1 } : {}}
                   transition={{ duration: 1.5, ease: 'easeOut' }}
                 />
-                {/* Right Leaves */}
-                <motion.path
-                  d="M192,40 C205,45 205,60 192,55 M198,65 C212,70 210,85 195,78 M198,95 C210,105 205,118 190,110 M188,125 C198,138 188,148 172,138 M165,150 C172,162 158,168 145,158"
-                  stroke="currentColor"
-                  strokeWidth="1.8"
-                  strokeLinecap="round"
-                  initial={{ pathLength: 0 }}
-                  animate={isInView ? { pathLength: 1 } : {}}
-                  transition={{ duration: 1.8, delay: 0.3, ease: 'easeOut' }}
-                />
               </svg>
 
               {/* Center Counter (white number with red label) */}
@@ -95,7 +75,7 @@ export default function Achievements() {
                 <span className="font-display text-6xl sm:text-7xl text-white tracking-tight leading-none">
                   {shippedCount}+
                 </span>
-                <span className="font-mono text-[9px] tracking-[0.2em] text-accent font-semibold uppercase mt-1">
+                <span className="font-mono text-xs tracking-[0.2em] text-accent font-semibold uppercase mt-1">
                   PROJECTS SHIPPED
                 </span>
               </div>
@@ -118,7 +98,7 @@ export default function Achievements() {
 
           {/* Right Column: Numbered List */}
           <div className="lg:col-span-7 flex flex-col">
-            <span className="font-mono text-[11px] tracking-[0.22em] text-accent uppercase mb-6">
+            <span className="font-mono text-xs tracking-[0.22em] text-accent uppercase mb-6">
               SELECTED RECOGNITION
             </span>
 
@@ -150,7 +130,7 @@ export default function Achievements() {
                         <h4 className="font-sans text-sm sm:text-base font-semibold text-white/90 group-hover:text-white transition-colors">
                           {item.title}
                         </h4>
-                        <span className="font-mono text-[11px] text-muted tracking-wide">
+                        <span className="font-mono text-xs text-muted tracking-wide">
                           {item.sub}
                         </span>
                       </div>
