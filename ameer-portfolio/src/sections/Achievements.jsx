@@ -1,5 +1,6 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { achievements, stats } from '../data/content';
 import { useCountUp } from '../hooks/useCountUp';
 import { FiArrowUpRight } from 'react-icons/fi';
@@ -8,6 +9,10 @@ export default function Achievements() {
   const panelRef = useRef(null);
   const isInView = useInView(panelRef, { once: true, amount: 0.25 });
   const [hoveredRow, setHoveredRow] = useState(null);
+
+  useEffect(() => {
+    ScrollTrigger.refresh();
+  }, []);
 
   // Big number 8 count up
   const projectsTotal = stats.find((s) => /project/i.test(s.label))?.value ?? 10;

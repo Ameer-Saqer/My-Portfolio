@@ -1,5 +1,6 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import SectionLabel from '../components/SectionLabel';
 import Reveal from '../components/Reveal';
 import { profile, contactActionCard } from '../data/content';
@@ -9,6 +10,10 @@ import { FiMail, FiPhone, FiGithub, FiLinkedin, FiInstagram, FiArrowUpRight, FiC
 export default function Contact() {
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.15 });
+
+  useEffect(() => {
+    ScrollTrigger.refresh();
+  }, []);
 
   // 3D tilt poster card
   const posterRef = useRef(null);
