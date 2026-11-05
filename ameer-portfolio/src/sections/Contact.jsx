@@ -23,9 +23,11 @@ export default function Contact() {
     phone: '',
     message: '',
   });
+  const [botcheck, setBotcheck] = useState(false);
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   // Action card mouse tilt (max 3deg)
   const handlePosterMouseMove = (e) => {
@@ -57,28 +59,52 @@ export default function Contact() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrorMessage('');
+
+    // Spam protection: if honeypot is checked, silently show success without sending
+    if (botcheck) {
+      setSubmitted(true);
+      setFormData({ name: '', email: '', phone: '', message: '' });
+      return;
+    }
+
     if (!validate()) return;
 
     setSubmitting(true);
 
-    // TODO: Wire your EmailJS or Formspree service here:
-    // e.g., emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', e.target, 'YOUR_PUBLIC_KEY')
-    setTimeout(() => {
-      // Fallback: opens mail client with prefilled fields
-      const mailtoUrl = `mailto:${profile.email}?subject=Project inquiry from ${encodeURIComponent(
-        formData.name
-      )}&body=${encodeURIComponent(
-        `Name: ${formData.name}\nPhone: ${formData.phone}\nEmail: ${formData.email}\n\n${formData.message}`
-      )}`;
-      window.location.href = mailtoUrl;
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          access_key: profile.web3formsKey,
+          subject: `New portfolio message from ${formData.name}`,
+          from_name: 'Ameer Saqer Portfolio',
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          message: formData.message,
+          botcheck: false,
+        }),
+      });
 
+      const data = await res.json();
+
+      if (data && data.success === true) {
+        setSubmitted(true);
+        setFormData({ name: '', email: '', phone: '', message: '' });
+        setErrors({});
+      } else {
+        setErrorMessage("Couldn't send your message. Please try again or message me on WhatsApp.");
+      }
+    } catch (err) {
+      console.error('Submission error:', err);
+      setErrorMessage("Couldn't send your message. Please try again or message me on WhatsApp.");
+    } finally {
       setSubmitting(false);
-      setSubmitted(true);
-      setFormData({ name: '', email: '', phone: '', message: '' });
-      setTimeout(() => setSubmitted(false), 5000);
-    }, 600);
+    }
   };
 
   const contactLinks = [
@@ -251,6 +277,17 @@ export default function Contact() {
           </span>
 
           <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-8">
+            {/* Honeypot spam protection (hidden from humans, trips bots) */}
+            <input
+              type="checkbox"
+              name="botcheck"
+              className="hidden"
+              tabIndex={-1}
+              autoComplete="off"
+              checked={botcheck}
+              onChange={(e) => setBotcheck(e.target.checked)}
+            />
+
             {/* Name */}
             <div className="relative flex flex-col">
               <input
@@ -258,7 +295,11 @@ export default function Contact() {
                 id="name"
                 name="name"
                 value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                onChange={(e) => {
+                  setFormData({ ...formData, name: e.target.value });
+                  if (errorMessage) setErrorMessage('');
+                  if (errors.name) setErrors((prev) => ({ ...prev, name: '' }));
+                }}
                 placeholder=" "
                 className="peer w-full bg-transparent border-b border-line focus:border-accent py-3 font-sans text-sm sm:text-base text-white placeholder-transparent focus:outline-none transition-colors"
               />
@@ -280,7 +321,11 @@ export default function Contact() {
                 id="email"
                 name="email"
                 value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                onChange={(e) => {
+                  setFormData({ ...formData, email: e.target.value });
+                  if (errorMessage) setErrorMessage('');
+                  if (errors.email) setErrors((prev) => ({ ...prev, email: '' }));
+                }}
                 placeholder=" "
                 className="peer w-full bg-transparent border-b border-line focus:border-accent py-3 font-sans text-sm sm:text-base text-white placeholder-transparent focus:outline-none transition-colors"
               />
@@ -302,7 +347,10 @@ export default function Contact() {
                 id="phone"
                 name="phone"
                 value={formData.phone}
-                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                onChange={(e) => {
+                  setFormData({ ...formData, phone: e.target.value });
+                  if (errorMessage) setErrorMessage('');
+                }}
                 placeholder=" "
                 className="peer w-full bg-transparent border-b border-line focus:border-accent py-3 font-sans text-sm sm:text-base text-white placeholder-transparent focus:outline-none transition-colors"
               />
@@ -321,7 +369,11 @@ export default function Contact() {
                 name="message"
                 rows="3"
                 value={formData.message}
-                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                onChange={(e) => {
+                  setFormData({ ...formData, message: e.target.value });
+                  if (errorMessage) setErrorMessage('');
+                  if (errors.message) setErrors((prev) => ({ ...prev, message: '' }));
+                }}
                 placeholder=" "
                 className="peer w-full bg-transparent border-b border-line focus:border-accent py-3 font-sans text-sm sm:text-base text-white placeholder-transparent focus:outline-none transition-colors resize-none"
               />
@@ -335,6 +387,39 @@ export default function Contact() {
                 <span className="font-mono text-xs text-accent mt-1">{errors.message}</span>
               )}
             </div>
+
+            {/* Inline Status Announcement (Success / Error) */}
+            {errorMessage && (
+              <div
+                role="status"
+                aria-live="polite"
+                className="md:col-span-2 p-4 rounded-xl border border-accent/40 bg-accent-soft/20 text-white font-sans text-sm flex items-center gap-2"
+              >
+                <span>
+                  Couldn't send your message. Please try again or message me on{' '}
+                  <a
+                    href={profile.whatsapp}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-accent underline font-semibold hover:text-white transition-colors"
+                  >
+                    WhatsApp
+                  </a>
+                  .
+                </span>
+              </div>
+            )}
+
+            {submitted && (
+              <div
+                role="status"
+                aria-live="polite"
+                className="md:col-span-2 p-4 rounded-xl border border-accent/40 bg-accent-soft/20 text-white font-sans text-sm flex items-center gap-2"
+              >
+                <FiCheck className="text-accent text-base flex-shrink-0" />
+                <span>Thank you! Your message has been sent successfully.</span>
+              </div>
+            )}
 
             {/* Submit Button: Gold background with NAVY text, hover = white background navy text */}
             <div className="md:col-span-2 pt-4 flex items-center justify-between">
