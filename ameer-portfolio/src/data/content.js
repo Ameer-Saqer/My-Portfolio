@@ -8,6 +8,7 @@ export const profile = {
   email: "ameer.saqer05@gmail.com",
   phone: "+972 59 216 1058",
   whatsapp: "https://wa.me/972592161058",
+  web3formsKey: "0887af14-27e1-4eae-a12a-00ceaba9c584",
   status: "Available for freelance",
   bio: "I design interfaces in Figma and build them myself in React and Tailwind, so what gets approved is what ships. Arabic and RTL interfaces are my default, not an afterthought.",
   about: "I'm Ameer Saqer, a UI/UX designer and front-end developer from Gaza and a final-year Software Development student at the Islamic University of Gaza. I work on both sides of the gap between the Figma file and the browser: I design the interface, then build it in React and Tailwind. I founded Kafeeli, a sponsorship platform for orphans, and I co-mentor 40 trainees in TAQAT's CodeMap front-end program.",
