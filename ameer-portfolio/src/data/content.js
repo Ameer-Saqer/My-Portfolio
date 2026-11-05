@@ -279,10 +279,12 @@ export const journeyItems = [
   },
 ];
 
-// Milestones right column
-export const milestones = [
-  { title: "First company website shipped (Ocean)", year: "2024" },
-  { title: "Founded Kafeeli", year: "2026" },
-  { title: "Presented at CodeMap Innovation Hackathon", year: "2026" },
-  { title: "4 Anthropic AI certifications", year: "2026" },
+// Journey stats (2x2 grid)
+export const journeyStats = [
+  { value: 40, suffix: "", label: "Trainees mentored" },
+  { value: 80, suffix: "", label: "Figma screens designed (Kafeeli)" },
+  { value: 10, suffix: "+", label: "Projects built" },
+  { value: 4, suffix: "", label: "Anthropic AI certifications" },
 ];
+
+export const milestones = journeyStats;
