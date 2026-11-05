@@ -52,7 +52,7 @@ export default function App() {
   }, [loaderComplete]);
 
   return (
-    <div className="relative min-h-screen bg-bg text-white font-sans overflow-x-hidden selection:bg-accent selection:text-[#0F1B2E]">
+    <div className="relative min-h-screen bg-bg text-white font-sans overflow-x-clip selection:bg-accent selection:text-[#0F1B2E]">
       {/* 1. Cinematic Film Grain Overlay */}
       <Grain />
 
@@ -69,7 +69,7 @@ export default function App() {
       <Navbar />
 
       {/* 7. Main Portfolio Flow */}
-      <main className="relative z-10 w-full overflow-hidden">
+      <main className="relative z-10 w-full overflow-x-clip">
         <Hero readyToAnimate={loaderComplete} />
         <SectionDivider />
         <Work />

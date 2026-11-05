@@ -279,12 +279,9 @@ export const journeyItems = [
   },
 ];
 
-// Journey stats (2x2 grid)
-export const journeyStats = [
-  { value: 40, suffix: "", label: "Trainees mentored" },
-  { value: 80, suffix: "", label: "Figma screens designed (Kafeeli)" },
-  { value: 10, suffix: "+", label: "Projects built" },
-  { value: 4, suffix: "", label: "Anthropic AI certifications" },
+// Current focus (Right Now)
+export const currentFocus = [
+  { label: "CURRENTLY LEARNING", value: "TypeScript & Next.js" },
+  { label: "OPEN TO", value: "Remote roles & freelance projects" },
+  { label: "BASED IN", value: "Gaza, Palestine · GMT+2" },
 ];
-
-export const milestones = journeyStats;

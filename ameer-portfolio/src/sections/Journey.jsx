@@ -4,36 +4,17 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import SectionLabel from '../components/SectionLabel';
 import Reveal from '../components/Reveal';
-import { journeyItems, journeyStats } from '../data/content';
-import { useCountUp } from '../hooks/useCountUp';
+import { journeyItems, currentFocus } from '../data/content';
 
 gsap.registerPlugin(ScrollTrigger);
-
-function JourneyStatTile({ value, suffix, label, startCount }) {
-  const count = useCountUp(value, 1.4, startCount);
-
-  return (
-    <div className="rounded-2xl border border-line bg-white/[0.02] p-4 sm:p-6 flex flex-col justify-center min-h-[120px] sm:min-h-[140px] hover:border-accent/40 transition-colors">
-      <div className="font-display text-4xl sm:text-5xl lg:text-6xl text-accent tracking-tight leading-none flex items-baseline">
-        <span>{count}</span>
-        {suffix && <span>{suffix}</span>}
-      </div>
-      <span className="font-mono text-[10px] sm:text-xs tracking-wider text-muted uppercase leading-snug mt-3">
-        {label}
-      </span>
-    </div>
-  );
-}
 
 export default function Journey() {
   const sectionRef = useRef(null);
   const lineTrackRef = useRef(null);
   const lineFillRef = useRef(null);
   const dotRef = useRef(null);
-  const statsGridRef = useRef(null);
 
   const isInView = useInView(sectionRef, { once: true, amount: 0.15 });
-  const statsInView = useInView(statsGridRef, { once: true, amount: 0.2 });
 
   useEffect(() => {
     const isReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -59,7 +40,7 @@ export default function Journey() {
   }, []);
 
   return (
-    <section id="journey" ref={sectionRef} className="relative py-28 sm:py-36 bg-bg-deep border-t border-line">
+    <section id="journey" ref={sectionRef} className="relative py-28 sm:py-36 bg-bg-deep border-t border-line overflow-x-clip">
       <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-14">
         <SectionLabel label="03 / THE JOURNEY" />
 
@@ -72,7 +53,7 @@ export default function Journey() {
           </Reveal>
         </div>
 
-        {/* 2-Column Grid: Timeline on Left, Sticky 2x2 Stats Grid on Right */}
+        {/* 2-Column Grid: Timeline on Left, Sticky "RIGHT NOW." Card on Right */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
           {/* Left Column: Timeline with scrubbed line */}
           <div ref={lineTrackRef} className="lg:col-span-7 relative pl-8 sm:pl-10">
@@ -129,24 +110,30 @@ export default function Journey() {
             </div>
           </div>
 
-          {/* Right Column: Sticky 2x2 Stats Grid (Desktop sticky, mobile 2x2 after timeline) */}
-          <div className="lg:col-span-5 lg:sticky lg:top-28 self-start flex flex-col pt-6 lg:pt-0">
-            <h3 className="font-display text-3xl sm:text-4xl lg:text-5xl uppercase tracking-tight text-white mb-8 leading-[0.95]">
-              SMALL WINS.<br />
-              <span className="text-accent">BIG MEANING</span>
-              <span className="text-accent ml-1">.</span>
-            </h3>
+          {/* Right Column: Sticky "RIGHT NOW." Card (Desktop sticky, mobile appears after timeline) */}
+          <div className="lg:col-span-5 lg:sticky lg:top-28 lg:self-start flex flex-col pt-6 lg:pt-0">
+            <div className="rounded-2xl border border-line bg-white/[0.02] p-6 sm:p-8 flex flex-col shadow-[0_0_40px_rgba(212,175,55,0.03)]">
+              {/* Card Header with pulsing gold dot */}
+              <div className="flex items-center gap-2.5 mb-6">
+                <span className="w-2 h-2 rounded-full bg-accent animate-pulse shadow-[0_0_8px_rgba(212,175,55,0.85)] flex-shrink-0" />
+                <span className="font-mono text-xs tracking-[0.25em] text-accent uppercase font-bold">
+                  RIGHT NOW.
+                </span>
+              </div>
 
-            <div ref={statsGridRef} className="grid grid-cols-2 gap-4 sm:gap-5">
-              {journeyStats.map((stat, idx) => (
-                <JourneyStatTile
-                  key={idx}
-                  value={stat.value}
-                  suffix={stat.suffix}
-                  label={stat.label}
-                  startCount={statsInView}
-                />
-              ))}
+              {/* 3 Short Rows: Label + Value */}
+              <div className="flex flex-col divide-y divide-line/60">
+                {currentFocus.map((item, idx) => (
+                  <div key={idx} className="py-4 first:pt-0 last:pb-0 flex flex-col gap-1.5">
+                    <span className="font-mono text-[10px] sm:text-[11px] tracking-widest text-muted uppercase">
+                      {item.label}
+                    </span>
+                    <span className="font-sans text-sm sm:text-base font-semibold text-white">
+                      {item.value}
+                    </span>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>

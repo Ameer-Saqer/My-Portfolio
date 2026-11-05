@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { achievements, stats } from '../data/content';
+import { achievements } from '../data/content';
 import { useCountUp } from '../hooks/useCountUp';
 import { FiArrowUpRight } from 'react-icons/fi';
 
@@ -14,9 +14,9 @@ export default function Achievements() {
     ScrollTrigger.refresh();
   }, []);
 
-  // Big number 8 count up
-  const projectsTotal = stats.find((s) => /project/i.test(s.label))?.value ?? 10;
-  const shippedCount = useCountUp(projectsTotal, 1.4, isInView);
+  // Certificates count up
+  const certsTotal = achievements.length;
+  const certsCount = useCountUp(certsTotal, 1.4, isInView);
 
   return (
     <section className="relative py-20 sm:py-32 bg-bg px-5 sm:px-8 lg:px-14">
@@ -79,10 +79,10 @@ export default function Achievements() {
               {/* Center Counter (white number with gold label, comfortable interior spacing) */}
               <div className="flex flex-col items-center justify-center z-10 px-4 text-center">
                 <span className="font-display text-6xl sm:text-7xl text-white tracking-tight leading-none">
-                  {shippedCount}+
+                  {certsCount}
                 </span>
                 <span className="font-mono text-xs tracking-[0.2em] text-accent font-semibold uppercase mt-2.5">
-                  PROJECTS BUILT
+                  CERTIFICATES EARNED
                 </span>
               </div>
             </div>
