@@ -161,74 +161,68 @@ export default function Contact() {
   return (
     <section id="contact" ref={sectionRef} className="relative py-24 sm:py-32 bg-bg border-t border-line overflow-hidden">
       <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-14">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-          {/* Left Column (5 cols, sticky on desktop) */}
-          <div className="lg:col-span-5 lg:sticky lg:top-28 flex flex-col items-start">
-            <SectionLabel label="04 / YOUR NEXT PROJECT" />
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-stretch">
+          {/* Left Column (5 cols, sticky or full-height on desktop) */}
+          <div className="lg:col-span-5 flex flex-col items-start justify-between">
+            <div>
+              <SectionLabel label="04 / YOUR NEXT PROJECT" />
 
-            <div className="my-4">
-              <Reveal>
-                <h2 className="font-display text-[clamp(2.75rem,5.5vw,4.75rem)] leading-[0.95] uppercase text-white tracking-tight">
-                  <span>LET'S BUILD</span>
-                  <span className="block text-accent mt-[0.05em]">
-                    TOGETHER<span className="text-accent ml-1">.</span>
-                  </span>
-                </h2>
-              </Reveal>
+              <div className="my-4">
+                <Reveal>
+                  <h2 className="font-display text-[clamp(2.75rem,5.5vw,4.75rem)] leading-[0.95] uppercase text-white tracking-tight">
+                    <span>LET'S BUILD</span>
+                    <span className="block text-accent mt-[0.05em]">
+                      TOGETHER<span className="text-accent ml-1">.</span>
+                    </span>
+                  </h2>
+                </Reveal>
+              </div>
+
+              <p className="font-sans text-sm sm:text-base text-muted leading-relaxed mb-6">
+                Got an idea? Let's make something worth visiting.
+              </p>
+
+              {/* Availability Pill with Gold Dot */}
+              <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full border border-line bg-surface/60 mb-6">
+                <span className="w-2 h-2 rounded-full bg-accent animate-pulse shadow-[0_0_8px_rgba(212,175,55,0.85)] flex-shrink-0" />
+                <span className="font-mono text-[11px] sm:text-xs tracking-wider text-accent uppercase font-bold">
+                  AVAILABLE FOR FREELANCE · REPLIES WITHIN 24H
+                </span>
+              </div>
+
+              {/* Single Primary Action Button: Chat on WhatsApp */}
+              <div className="w-full mb-8">
+                <a
+                  href={profile.whatsapp}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-accent text-[#0F1B2E] font-mono text-xs uppercase tracking-widest font-bold hover:bg-white border border-accent hover:border-white transition-all duration-300 min-h-[44px] shadow-lg shadow-accent/20 focus-ring"
+                >
+                  <span>Chat on WhatsApp</span>
+                  <FiArrowUpRight className="text-base transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                </a>
+              </div>
             </div>
 
-            <p className="font-sans text-sm sm:text-base text-muted leading-relaxed mb-6">
-              Got an idea? Let's make something worth visiting.
-            </p>
-
-            {/* Availability Pill with Gold Dot */}
-            <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full border border-line bg-surface/60 mb-6">
-              <span className="w-2 h-2 rounded-full bg-accent animate-pulse shadow-[0_0_8px_rgba(212,175,55,0.85)] flex-shrink-0" />
-              <span className="font-mono text-[11px] sm:text-xs tracking-wider text-accent uppercase font-bold">
-                AVAILABLE FOR FREELANCE · REPLIES WITHIN 24H
-              </span>
-            </div>
-
-            {/* Action Buttons: WhatsApp (Primary Gold) + Email (Secondary Outline) */}
-            <div className="flex flex-wrap items-center gap-3 w-full mb-8">
-              <a
-                href={profile.whatsapp}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-accent text-[#0F1B2E] font-mono text-xs uppercase tracking-widest font-bold hover:bg-white border border-accent hover:border-white transition-all duration-300 min-h-[44px] shadow-lg shadow-accent/20 focus-ring"
-              >
-                <span>Chat on WhatsApp</span>
-                <FiArrowUpRight className="text-base transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-              </a>
-
-              <a
-                href={`mailto:${profile.email}`}
-                className="group inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-transparent text-white font-mono text-xs uppercase tracking-widest font-bold hover:bg-white/5 border border-line hover:border-accent hover:text-accent transition-all duration-300 min-h-[44px] focus-ring"
-              >
-                <span>Email me</span>
-                <FiMail className="text-base opacity-70 group-hover:opacity-100 transition-opacity" />
-              </a>
-            </div>
-
-            {/* Desktop Contact Details & Social Icons */}
-            <div className="hidden lg:block w-full pt-6 border-t border-line/60">
+            {/* Desktop Contact Details & Social Icons (pinned to bottom of column) */}
+            <div className="hidden lg:block w-full pt-6 border-t border-line/60 mt-8">
               {contactInfoBlock}
             </div>
           </div>
 
           {/* Right Column (7 cols): Single Form Card */}
-          <div className="lg:col-span-7 w-full">
+          <div className="lg:col-span-7 w-full flex flex-col">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-              className="rounded-2xl border border-line bg-white/[0.02] p-6 sm:p-8 lg:p-10 shadow-[0_0_40px_rgba(212,175,55,0.04)]"
+              className="rounded-2xl border border-line bg-white/[0.02] p-6 sm:p-8 lg:p-10 shadow-[0_0_40px_rgba(212,175,55,0.04)] flex flex-col h-full"
             >
               <span className="font-mono text-xs tracking-[0.25em] text-accent uppercase mb-6 block">
                 SEND A MESSAGE
               </span>
 
-              <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+              <form onSubmit={handleSubmit} className="flex flex-col flex-1 gap-6">
                 {/* Honeypot spam protection (hidden from humans, trips bots) */}
                 <input
                   type="checkbox"
@@ -317,12 +311,12 @@ export default function Contact() {
                   </label>
                 </div>
 
-                {/* Message */}
-                <div className="relative flex flex-col pt-3">
+                {/* Message (flex-1 so it expands and fills the card on desktop) */}
+                <div className="relative flex flex-col pt-3 flex-1">
                   <textarea
                     id="message"
                     name="message"
-                    rows="3"
+                    rows="4"
                     value={formData.message}
                     onChange={(e) => {
                       setFormData({ ...formData, message: e.target.value });
@@ -330,7 +324,7 @@ export default function Contact() {
                       if (errors.message) setErrors((prev) => ({ ...prev, message: '' }));
                     }}
                     placeholder=" "
-                    className="peer w-full bg-transparent border-b border-line focus:border-accent py-2.5 font-sans text-sm sm:text-base text-white placeholder-transparent focus:outline-none transition-colors resize-none"
+                    className="peer w-full bg-transparent border-b border-line focus:border-accent py-2.5 font-sans text-sm sm:text-base text-white placeholder-transparent focus:outline-none transition-colors resize-none flex-1 min-h-[160px]"
                   />
                   <label
                     htmlFor="message"
@@ -376,8 +370,8 @@ export default function Contact() {
                   </div>
                 )}
 
-                {/* Submit Button (Full width on mobile, right-aligned on desktop) */}
-                <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center sm:justify-end gap-4">
+                {/* Submit Button (Full width on mobile, right-aligned on desktop, at bottom of card) */}
+                <div className="pt-2 mt-auto flex flex-col sm:flex-row items-stretch sm:items-center sm:justify-end gap-4">
                   <button
                     type="submit"
                     disabled={submitting || submitted}
