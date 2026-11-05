@@ -113,7 +113,6 @@ export default function CompareSlider({
       tabIndex={0}
       onKeyDown={handleKeyDown}
       onPointerDown={handlePointerDown}
-      data-cursor="drag"
       className={`relative w-full h-[340px] sm:h-[450px] lg:h-[520px] rounded-2xl overflow-hidden select-none cursor-ew-resize border border-[rgba(212,175,55,0.35)] shadow-[0_0_40px_rgba(212,175,55,0.08)] bg-surface focus:outline-none focus:ring-1 focus:ring-accent touch-pan-y ${className}`}
     >
       {/* 1. Base Layer: RAW / SKELETON (grayscale(1) brightness(0.8) contrast(1.05) + dotted grid) */}

@@ -3,7 +3,6 @@ import { useLenis } from './hooks/useLenis';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Loader from './components/Loader';
-import CustomCursor from './components/CustomCursor';
 import CursorSpotlight from './components/CursorSpotlight';
 import ScrollProgress from './components/ScrollProgress';
 import Grain from './components/Grain';
@@ -59,10 +58,7 @@ export default function App() {
       {/* 2. Soft Gold Cursor Spotlight Glow (desktop only) */}
       <CursorSpotlight />
 
-      {/* 3. Interactive Custom Cursor (Desktop only) */}
-      <CustomCursor />
-
-      {/* 4. Initial Assemble Loader (plays once) */}
+      {/* 3. Initial Assemble Loader (plays once) */}
       <Loader onComplete={handleLoaderComplete} />
 
       {/* 5. Left Edge Vertical Scroll Progress Indicator */}
