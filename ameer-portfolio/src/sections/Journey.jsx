@@ -71,7 +71,7 @@ export default function Journey() {
             {/* Glowing tip dot (Gold) */}
             <div
               ref={dotRef}
-              className="absolute left-[5px] sm:left-[9px] -translate-x-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-accent shadow-[0_0_12px_rgba(212,175,55,0.75)] z-10 will-change-[top]"
+              className="absolute left-[9px] sm:left-[13px] -translate-x-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-accent shadow-[0_0_12px_rgba(212,175,55,0.75)] z-10 will-change-[top]"
               style={{ top: '0%' }}
             />
 

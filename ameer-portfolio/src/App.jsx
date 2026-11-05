@@ -11,7 +11,6 @@ import Navbar from './components/Navbar';
 import Hero from './sections/Hero';
 import Work from './sections/Work';
 import TechStrip from './sections/TechStrip';
-import FromRawToReal from './sections/FromRawToReal';
 import About from './sections/About';
 import Footer from './sections/Footer';
 
@@ -79,8 +78,6 @@ export default function App() {
         <Suspense fallback={<div className="min-h-[580px] w-full" aria-hidden="true" />}>
           <Achievements />
         </Suspense>
-        <SectionDivider />
-        <FromRawToReal />
         <SectionDivider />
         <About />
         <SectionDivider />

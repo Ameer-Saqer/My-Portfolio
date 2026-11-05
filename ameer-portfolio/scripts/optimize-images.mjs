@@ -82,26 +82,6 @@ async function optimize() {
     fs.unlinkSync(heroPngPath);
   }
 
-  // 3. Compare slider: compare/final.webp
-  const comparePath = path.join(publicDir, 'compare', 'final.webp');
-  if (fs.existsSync(comparePath)) {
-    const compareBuffer = fs.readFileSync(comparePath);
-    const compareMeta = await sharp(compareBuffer).metadata();
-    const compareWidth = Math.min(compareMeta.width, 1472);
-    const compareOptimized = await sharp(compareBuffer)
-      .resize({ width: compareWidth, withoutEnlargement: true })
-      .webp({ quality: 78 })
-      .toBuffer();
-    fs.writeFileSync(comparePath, compareOptimized);
-    stats.push({
-      file: 'compare/final.webp',
-      oldKB: (compareBuffer.length / 1024).toFixed(1) + ' KB',
-      newKB: (compareOptimized.length / 1024).toFixed(1) + ' KB',
-      ratio: ((compareOptimized.length / compareBuffer.length) * 100).toFixed(0) + '%',
-      dims: `${compareMeta.width}x${compareMeta.height} -> ${compareWidth}w`,
-    });
-  }
-
   console.table(stats);
 }
 
