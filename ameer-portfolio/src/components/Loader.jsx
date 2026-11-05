@@ -2,29 +2,76 @@ import React, { useEffect, useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Loader({ onComplete }) {
-  const [percent, setPercent] = useState(0);
-  const [isFinished, setIsFinished] = useState(false);
   const onCompleteRef = useRef(onComplete);
 
   useEffect(() => {
     onCompleteRef.current = onComplete;
   }, [onComplete]);
 
+  // Check if loader should be skipped (once per session or prefers-reduced-motion)
+  const [shouldSkip] = useState(() => {
+    try {
+      if (typeof window !== 'undefined') {
+        const hasSeen = sessionStorage.getItem('loaderSeen');
+        const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (hasSeen || reduced) return true;
+      }
+    } catch (e) {}
+    return false;
+  });
+
+  const [percent, setPercent] = useState(0);
+  const [isFinished, setIsFinished] = useState(false);
+
   useEffect(() => {
-    // Respect reduced motion
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) {
+    if (shouldSkip) {
       onCompleteRef.current?.();
       return;
     }
 
+    try {
+      sessionStorage.setItem('loaderSeen', 'true');
+    } catch (e) {}
+
     // Lock scroll while loader is active
     document.body.style.overflow = 'hidden';
 
-    const duration = 1800; // ms
-    let startTime = null;
+    const minDuration = 600; // ms minimum to prevent flash
+    const maxDuration = 2500; // ms hard maximum so slow connection never blocks
+    const startTime = performance.now();
+    let isReady = false;
     let frameId;
     let completed = false;
+
+    // Page readiness: document.fonts.ready AND hero image loaded (or window load)
+    const fontPromise = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
+
+    const heroImagePromise = new Promise((resolve) => {
+      const img = new Image();
+      img.src = '/images/ameer-cutout.webp';
+      if (img.complete) {
+        resolve();
+      } else {
+        img.onload = () => resolve();
+        img.onerror = () => resolve();
+      }
+    });
+
+    const windowLoadPromise = new Promise((resolve) => {
+      if (document.readyState === 'complete') {
+        resolve();
+      } else {
+        window.addEventListener('load', () => resolve(), { once: true });
+      }
+    });
+
+    Promise.all([fontPromise, Promise.race([heroImagePromise, windowLoadPromise])])
+      .then(() => {
+        isReady = true;
+      })
+      .catch(() => {
+        isReady = true;
+      });
 
     const finishLoader = () => {
       if (completed) return;
@@ -35,39 +82,53 @@ export default function Loader({ onComplete }) {
         document.body.style.overflow = '';
         setTimeout(() => {
           onCompleteRef.current?.();
-        }, 850); // Wait for split curtain exit animation
-      }, 150);
+        }, 500); // Shortened curtain exit to ~500ms
+      }, 100);
     };
 
     const updateLoader = (now) => {
-      if (!startTime) startTime = now;
+      if (completed) return;
       const elapsed = now - startTime;
-      const progress = Math.min(elapsed / duration, 1);
 
-      // Smooth progress calculation (0 to 100)
-      const currentPercent = Math.min(100, Math.floor(progress * 100));
-      setPercent(currentPercent);
-
-      if (progress < 1) {
-        frameId = requestAnimationFrame(updateLoader);
-      } else {
+      if (elapsed >= maxDuration) {
         finishLoader();
+        return;
       }
+
+      if (isReady && elapsed >= minDuration) {
+        finishLoader();
+        return;
+      }
+
+      // Smooth progress crawl up to 92% until ready or maxDuration
+      let currentProgress;
+      if (elapsed < minDuration) {
+        currentProgress = (elapsed / minDuration) * 70;
+      } else {
+        const extraRatio = Math.min((elapsed - minDuration) / (maxDuration - minDuration), 1);
+        currentProgress = 70 + extraRatio * 22;
+      }
+
+      setPercent(Math.min(99, Math.floor(currentProgress)));
+      frameId = requestAnimationFrame(updateLoader);
     };
 
     frameId = requestAnimationFrame(updateLoader);
 
-    // Guaranteed fallback so loader never hangs under any browser throttle condition
     const safetyTimer = setTimeout(() => {
       finishLoader();
-    }, duration + 600);
+    }, maxDuration + 100);
 
     return () => {
       if (frameId) cancelAnimationFrame(frameId);
       clearTimeout(safetyTimer);
       document.body.style.overflow = '';
     };
-  }, []);
+  }, [shouldSkip]);
+
+  if (shouldSkip) {
+    return null;
+  }
 
   return (
     <AnimatePresence>
@@ -140,13 +201,13 @@ export default function Loader({ onComplete }) {
           <motion.div
             initial={{ y: '0%' }}
             animate={{ y: '-100%' }}
-            transition={{ duration: 0.9, ease: [0.76, 0, 0.24, 1] }}
+            transition={{ duration: 0.5, ease: [0.76, 0, 0.24, 1] }}
             className="absolute top-0 left-0 right-0 h-1/2 bg-bg border-b border-line"
           />
           <motion.div
             initial={{ y: '0%' }}
             animate={{ y: '100%' }}
-            transition={{ duration: 0.9, ease: [0.76, 0, 0.24, 1] }}
+            transition={{ duration: 0.5, ease: [0.76, 0, 0.24, 1] }}
             className="absolute bottom-0 left-0 right-0 h-1/2 bg-bg border-t border-line"
           />
         </div>

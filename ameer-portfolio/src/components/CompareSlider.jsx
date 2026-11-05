@@ -120,8 +120,11 @@ export default function CompareSlider({
         <img
           src={image}
           alt="Raw Wireframe Skeleton"
-          className="w-full h-full object-cover object-top filter grayscale brightness-[0.8] contrast-[1.05]"
+          width="1392"
+          height="1424"
+          decoding="async"
           loading="lazy"
+          className="w-full h-full object-cover object-top filter grayscale brightness-[0.8] contrast-[1.05]"
         />
         {/* Subtle dotted-grid overlay: 1px dots, 24px spacing, 8% opacity */}
         <div
@@ -145,8 +148,11 @@ export default function CompareSlider({
         <img
           src={image}
           alt="Real Production Interface"
-          className="w-full h-full object-cover object-top"
+          width="1392"
+          height="1424"
+          decoding="async"
           loading="lazy"
+          className="w-full h-full object-cover object-top"
         />
       </div>
 

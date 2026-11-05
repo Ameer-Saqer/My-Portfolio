@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, lazy, Suspense } from 'react';
 import { useLenis } from './hooks/useLenis';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -11,12 +11,14 @@ import Navbar from './components/Navbar';
 import Hero from './sections/Hero';
 import Work from './sections/Work';
 import TechStrip from './sections/TechStrip';
-import Achievements from './sections/Achievements';
 import FromRawToReal from './sections/FromRawToReal';
 import About from './sections/About';
-import Journey from './sections/Journey';
-import Contact from './sections/Contact';
 import Footer from './sections/Footer';
+
+// Lazy-loaded heavy below-the-fold sections
+const Achievements = lazy(() => import('./sections/Achievements'));
+const Journey = lazy(() => import('./sections/Journey'));
+const Contact = lazy(() => import('./sections/Contact'));
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -74,15 +76,21 @@ export default function App() {
         <Work />
         {/* Tools Marquee Strip: Clean transition between Work and Achievements */}
         <TechStrip />
-        <Achievements />
+        <Suspense fallback={<div className="min-h-[580px] w-full" aria-hidden="true" />}>
+          <Achievements />
+        </Suspense>
         <SectionDivider />
         <FromRawToReal />
         <SectionDivider />
         <About />
         <SectionDivider />
-        <Journey />
+        <Suspense fallback={<div className="min-h-[700px] w-full" aria-hidden="true" />}>
+          <Journey />
+        </Suspense>
         <SectionDivider />
-        <Contact />
+        <Suspense fallback={<div className="min-h-[800px] w-full" aria-hidden="true" />}>
+          <Contact />
+        </Suspense>
       </main>
 
       {/* 8. Footer */}

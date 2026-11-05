@@ -153,10 +153,14 @@ export default function Hero({ readyToAnimate = true }) {
           }}
         >
           <img
-            src="/images/ameer-cutout.png"
+            src="/images/ameer-cutout.webp"
             alt="Ameer Saqer Portrait"
-            className="w-full h-auto object-contain contrast-[1.08] brightness-[0.98] max-h-[580px] sm:max-h-[640px]"
+            width="408"
+            height="612"
+            decoding="async"
             loading="eager"
+            fetchpriority="high"
+            className="w-full h-auto object-contain contrast-[1.08] brightness-[0.98] max-h-[580px] sm:max-h-[640px]"
             style={{
               maskImage:
                 "linear-gradient(to top, transparent 0%, black 25%, black 100%)",
@@ -220,10 +224,14 @@ export default function Hero({ readyToAnimate = true }) {
         {/* Step 7: Portrait Below (Full width, fades into background at bottom edge) */}
         <div className="w-full max-w-[320px] mx-auto my-4 flex justify-center overflow-hidden">
           <img
-            src="/images/ameer-cutout.png"
+            src="/images/ameer-cutout.webp"
             alt="Ameer Saqer Portrait"
-            className="w-full h-auto object-contain filter contrast-[1.08] brightness-[0.98] max-h-[380px]"
+            width="408"
+            height="612"
+            decoding="async"
             loading="eager"
+            fetchpriority="high"
+            className="w-full h-auto object-contain filter contrast-[1.08] brightness-[0.98] max-h-[380px]"
             style={{
               maskImage:
                 "linear-gradient(to top, transparent 0%, black 25%, black 100%)",

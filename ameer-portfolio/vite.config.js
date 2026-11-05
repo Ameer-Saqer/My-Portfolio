@@ -7,6 +7,16 @@ export default defineConfig({
   server: {
     port: 3000,
     open: false,
-  }
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          react: ['react', 'react-dom'],
+          motion: ['framer-motion'],
+          gsap: ['gsap', 'lenis'],
+        },
+      },
+    },
+  },
 })
-
