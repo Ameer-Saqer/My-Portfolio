@@ -15,6 +15,8 @@ function ProjectCard({ project, onOpenLightbox, isHoveredSibling, onHoverStart, 
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
 
   const isScrolling = (isHovered || isTapped) && project.isTall;
+  const hasLiveLink = Boolean(project.live && project.live !== '#');
+  const isClickable = Boolean(project.hasLightbox || hasLiveLink || project.repo);
 
   // Calculate vertical travel for tall screenshots
   useEffect(() => {
@@ -79,12 +81,16 @@ function ProjectCard({ project, onOpenLightbox, isHoveredSibling, onHoverStart, 
         transform: `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
         transition: isHovered ? 'transform 0.15s ease-out' : 'transform 0.5s ease-out',
       }}
-      className="group relative flex-shrink-0 w-[86vw] sm:w-[360px] lg:w-[410px] rounded-2xl bg-surface border border-line p-4 transition-all duration-500 hover:border-accent hover:shadow-[0_0_25px_rgba(212,175,55,0.12)] select-none cursor-pointer flex flex-col justify-between overflow-hidden"
-      data-cursor="view"
+      className={`group relative flex-shrink-0 w-[86vw] sm:w-[360px] lg:w-[410px] rounded-2xl bg-surface border border-line p-4 transition-all duration-500 select-none flex flex-col justify-between overflow-hidden ${
+        isClickable
+          ? 'hover:border-accent hover:shadow-[0_0_25px_rgba(212,175,55,0.12)] cursor-pointer'
+          : 'cursor-default'
+      }`}
+      data-cursor={isClickable ? 'view' : undefined}
       onClick={() => {
         if (project.hasLightbox) {
           onOpenLightbox?.(project);
-        } else if (project.live && project.live !== '#') {
+        } else if (hasLiveLink) {
           window.open(project.live, '_blank', 'noopener,noreferrer');
         } else if (project.repo) {
           window.open(project.repo, '_blank', 'noopener,noreferrer');
@@ -107,7 +113,7 @@ function ProjectCard({ project, onOpenLightbox, isHoveredSibling, onHoverStart, 
 
         {/* Project Image (auto-scroll on hover or tap for tall screenshots) */}
         <div
-          className="w-full h-full overflow-hidden relative cursor-pointer"
+          className={`w-full h-full overflow-hidden relative ${isClickable ? 'cursor-pointer' : 'cursor-default'}`}
           onClick={(e) => {
             if (project.isTall && (window.innerWidth < 1024 || window.matchMedia('(pointer: coarse)').matches)) {
               e.stopPropagation();
@@ -158,9 +164,11 @@ function ProjectCard({ project, onOpenLightbox, isHoveredSibling, onHoverStart, 
           </div>
 
           {/* Arrow top-right that rotates and fills accent on hover */}
-          <div className="w-9 h-9 rounded-full border border-line group-hover:border-accent group-hover:bg-accent flex items-center justify-center transition-all duration-300 flex-shrink-0">
-            <FiArrowUpRight className="text-white group-hover:text-white transition-all duration-300 transform group-hover:rotate-45" />
-          </div>
+          {isClickable && (
+            <div className="w-9 h-9 rounded-full border border-line group-hover:border-accent group-hover:bg-accent flex items-center justify-center transition-all duration-300 flex-shrink-0">
+              <FiArrowUpRight className="text-white group-hover:text-white transition-all duration-300 transform group-hover:rotate-45" />
+            </div>
+          )}
         </div>
 
         {/* Description */}
@@ -173,7 +181,7 @@ function ProjectCard({ project, onOpenLightbox, isHoveredSibling, onHoverStart, 
           <span className="font-mono text-xs uppercase tracking-widest text-dim group-hover:text-muted transition-colors">
             {project.hasLightbox
               ? 'CLICK TO EXPLORE'
-              : project.live && project.live !== '#'
+              : hasLiveLink
                 ? 'LIVE PREVIEW'
                 : project.repo
                   ? 'SOURCE CODE'
