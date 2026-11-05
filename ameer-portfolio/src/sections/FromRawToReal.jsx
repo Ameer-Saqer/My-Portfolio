@@ -1,11 +1,11 @@
-import React from 'react';
-import SectionLabel from '../components/SectionLabel';
-import Reveal from '../components/Reveal';
-import CompareSlider from '../components/CompareSlider';
-import { projects } from '../data/content';
+import React from "react";
+import SectionLabel from "../components/SectionLabel";
+import Reveal from "../components/Reveal";
+import CompareSlider from "../components/CompareSlider";
+import { projects } from "../data/content";
 
 export default function FromRawToReal() {
-  const oceanProject = projects.find((p) => p.id === '04') || projects[3];
+  const oceanProject = projects.find((p) => p.id === "04") || projects[3];
 
   return (
     <section className="relative py-24 sm:py-32 bg-bg-deep overflow-hidden border-t border-line">
@@ -17,14 +17,16 @@ export default function FromRawToReal() {
           <div className="lg:col-span-5 xl:col-span-4 flex flex-col items-start">
             <Reveal>
               <h2 className="font-display text-[clamp(2.5rem,5.5vw,4.8rem)] leading-[0.92] uppercase text-white tracking-tight mb-6">
-                FROM RAW.<br />
+                FROM RAW.
+                <br />
                 <span className="text-accent">TO REAL</span>
                 <span className="text-accent ml-1">.</span>
               </h2>
             </Reveal>
 
             <p className="font-sans text-sm sm:text-base text-muted leading-relaxed mb-8 max-w-md">
-              One page. Layers of work. Drag to watch a raw HTML wireframe skeleton turn into a polished, production-ready interface.
+              One page. Layers of work. Drag to watch a raw HTML wireframe
+              skeleton turn into a polished, production-ready interface.
             </p>
 
             {/* Meta Tags reading real project data */}
@@ -33,7 +35,9 @@ export default function FromRawToReal() {
                 OCEAN LANDING PAGE / {oceanProject.year}
               </span>
               <span className="font-mono text-xs text-accent tracking-wider font-semibold">
-                {oceanProject.techStack ? oceanProject.techStack.join(' · ') : 'HTML5 · CSS3 · JAVASCRIPT'}
+                {oceanProject.techStack
+                  ? oceanProject.techStack.join(" · ")
+                  : "HTML5 · CSS3 · JAVASCRIPT"}
               </span>
             </div>
 

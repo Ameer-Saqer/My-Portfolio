@@ -10,10 +10,21 @@ import {
   BootstrapIcon,
   GitIcon,
   GithubIcon,
+  FigmaIcon,
 } from '../components/TechIcons';
 import { toolsList } from '../data/content';
 
 gsap.registerPlugin(ScrollTrigger);
+
+// Neutral dot fallback for any unknown tool names (prevents silent fallback to wrong icon)
+function NeutralDot({ className = '' }) {
+  return (
+    <span
+      aria-hidden="true"
+      className={`inline-block w-2.5 h-2.5 rounded-full bg-accent/60 ${className}`}
+    />
+  );
+}
 
 const ICON_MAP = {
   HTML5: Html5Icon,
@@ -24,11 +35,12 @@ const ICON_MAP = {
   Bootstrap: BootstrapIcon,
   Git: GitIcon,
   GitHub: GithubIcon,
+  Figma: FigmaIcon,
 };
 
 const TECH_ITEMS = toolsList.map((name) => ({
   name,
-  icon: ICON_MAP[name] || ReactIcon,
+  icon: ICON_MAP[name] || NeutralDot,
 }));
 
 export default function TechStrip() {

@@ -97,7 +97,6 @@ export const projects = [
     description: "Turned a company's UI/UX file into an 8-page responsive website: services, projects, blog, contact and a custom 404.",
     image: "/projects/ocean.webp",
     techStack: ["HTML5", "CSS3", "Bootstrap", "JavaScript"],
-    gallery: ["/projects/ocean.webp", "/projects/ocean-404.webp"],
     live: "https://ameer-saqer.github.io/Ocean/",
     repo: "https://github.com/Ameer-Saqer/Ocean",
     isTall: false,
