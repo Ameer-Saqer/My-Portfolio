@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useEffect, useState, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function Loader({ onComplete }) {
   const [percent, setPercent] = useState(0);
@@ -12,16 +12,18 @@ export default function Loader({ onComplete }) {
 
   useEffect(() => {
     // Respect reduced motion
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
     if (prefersReducedMotion) {
       onCompleteRef.current?.();
       return;
     }
 
     // Lock scroll while loader is active
-    document.body.style.overflow = 'hidden';
+    document.body.style.overflow = "hidden";
 
-    const duration = 1200; // ms
+    const duration = 1800; // ms
     let startTime = null;
     let frameId;
     let completed = false;
@@ -32,7 +34,7 @@ export default function Loader({ onComplete }) {
       setPercent(100);
       setTimeout(() => {
         setIsFinished(true);
-        document.body.style.overflow = '';
+        document.body.style.overflow = "";
         setTimeout(() => {
           onCompleteRef.current?.();
         }, 850); // Wait for split curtain exit animation
@@ -65,7 +67,7 @@ export default function Loader({ onComplete }) {
     return () => {
       if (frameId) cancelAnimationFrame(frameId);
       clearTimeout(safetyTimer);
-      document.body.style.overflow = '';
+      document.body.style.overflow = "";
     };
   }, []);
 
@@ -74,10 +76,25 @@ export default function Loader({ onComplete }) {
       {!isFinished ? (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-bg overflow-hidden select-none">
           {/* Faint wireframe grid assembling */}
-          <svg className="absolute inset-0 w-full h-full opacity-[0.08] pointer-events-none" xmlns="http://www.w3.org/2000/svg">
+          <svg
+            className="absolute inset-0 w-full h-full opacity-[0.08] pointer-events-none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
             <defs>
-              <pattern id="grid-pattern" width="80" height="80" patternUnits="userSpaceOnUse">
-                <rect width="80" height="80" fill="none" stroke="#D4AF37" strokeWidth="1" strokeDasharray="4 4" />
+              <pattern
+                id="grid-pattern"
+                width="80"
+                height="80"
+                patternUnits="userSpaceOnUse"
+              >
+                <rect
+                  width="80"
+                  height="80"
+                  fill="none"
+                  stroke="#D4AF37"
+                  strokeWidth="1"
+                  strokeDasharray="4 4"
+                />
               </pattern>
             </defs>
             <rect width="100%" height="100%" fill="url(#grid-pattern)" />
@@ -92,7 +109,7 @@ export default function Loader({ onComplete }) {
               strokeWidth="1.5"
               initial={{ pathLength: 0 }}
               animate={{ pathLength: 1 }}
-              transition={{ duration: 1.8, ease: 'easeInOut' }}
+              transition={{ duration: 1.8, ease: "easeInOut" }}
             />
             <motion.rect
               x="55%"
@@ -104,7 +121,7 @@ export default function Loader({ onComplete }) {
               strokeWidth="1.5"
               initial={{ pathLength: 0 }}
               animate={{ pathLength: 1 }}
-              transition={{ duration: 2, ease: 'easeInOut', delay: 0.2 }}
+              transition={{ duration: 2, ease: "easeInOut", delay: 0.2 }}
             />
           </svg>
 
@@ -130,7 +147,7 @@ export default function Loader({ onComplete }) {
 
             {/* Mono counter 000 -> 100 */}
             <div className="font-mono text-xs tracking-[0.25em] text-muted">
-              {String(percent).padStart(3, '0')} / 100
+              {String(percent).padStart(3, "0")} / 100
             </div>
           </div>
         </div>
@@ -138,14 +155,14 @@ export default function Loader({ onComplete }) {
         /* Split-half curtain slide exit: top half slides up, bottom half slides down */
         <div className="fixed inset-0 z-50 pointer-events-none overflow-hidden">
           <motion.div
-            initial={{ y: '0%' }}
-            animate={{ y: '-100%' }}
+            initial={{ y: "0%" }}
+            animate={{ y: "-100%" }}
             transition={{ duration: 0.9, ease: [0.76, 0, 0.24, 1] }}
             className="absolute top-0 left-0 right-0 h-1/2 bg-bg border-b border-line"
           />
           <motion.div
-            initial={{ y: '0%' }}
-            animate={{ y: '100%' }}
+            initial={{ y: "0%" }}
+            animate={{ y: "100%" }}
             transition={{ duration: 0.9, ease: [0.76, 0, 0.24, 1] }}
             className="absolute bottom-0 left-0 right-0 h-1/2 bg-bg border-t border-line"
           />
