@@ -355,12 +355,12 @@ export default function Work() {
           </Reveal>
 
           <a
-            href={projects[0]?.repo || '#'}
+            href="https://github.com/Ameer-Saqer"
             target="_blank"
             rel="noopener noreferrer"
             className="font-mono text-xs uppercase tracking-widest text-muted hover:text-accent flex items-center gap-2 group focus-ring py-2 transition-colors"
           >
-            <span>VIEW ALL (08)</span>
+            <span>MORE ON GITHUB</span>
             <span className="transform group-hover:translate-x-1 transition-transform">→</span>
           </a>
         </div>
