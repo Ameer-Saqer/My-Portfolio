@@ -128,9 +128,9 @@ export const projects = [
     description: "Warm, appetising bakery site with menu, gallery and visit section.",
     image: "/projects/bakery.webp",
     techStack: ["HTML5", "CSS3", "Bootstrap", "JavaScript"],
-    // TODO: confirm repo name after upload
-    live: "https://ameer-saqer.github.io/Bakery/",
-    repo: "https://github.com/Ameer-Saqer/Bakery",
+    // TODO: add live and repo links once Bakery is uploaded
+    live: "",
+    repo: "",
     isTall: true,
     hasLightbox: false,
   },

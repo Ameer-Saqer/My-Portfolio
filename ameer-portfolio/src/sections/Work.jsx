@@ -171,7 +171,13 @@ function ProjectCard({ project, onOpenLightbox, isHoveredSibling, onHoverStart, 
         {/* Footer Row: Live link & GitHub link */}
         <div className="flex items-center justify-between pt-3 mt-2 border-t border-line/50">
           <span className="font-mono text-xs uppercase tracking-widest text-dim group-hover:text-muted transition-colors">
-            {project.hasLightbox ? 'CLICK TO EXPLORE' : project.live !== '#' ? 'LIVE PREVIEW' : 'SOURCE CODE'}
+            {project.hasLightbox
+              ? 'CLICK TO EXPLORE'
+              : project.live && project.live !== '#'
+                ? 'LIVE PREVIEW'
+                : project.repo
+                  ? 'SOURCE CODE'
+                  : 'COMING SOON'}
           </span>
 
           <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
