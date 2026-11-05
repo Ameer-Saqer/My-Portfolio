@@ -80,7 +80,6 @@ function ProjectCard({ project, onOpenLightbox, isHoveredSibling, onHoverStart, 
         transition: isHovered ? 'transform 0.15s ease-out' : 'transform 0.5s ease-out',
       }}
       className="group relative flex-shrink-0 w-[86vw] sm:w-[360px] lg:w-[410px] rounded-2xl bg-surface border border-line p-4 transition-all duration-500 hover:border-accent hover:shadow-[0_0_25px_rgba(212,175,55,0.12)] select-none cursor-pointer flex flex-col justify-between overflow-hidden"
-      data-cursor="view"
       onClick={() => {
         if (project.hasLightbox) {
           onOpenLightbox?.(project);
@@ -399,7 +398,6 @@ export default function Work() {
           onMouseLeave={handleMouseLeave}
           onMouseUp={handleMouseUp}
           onMouseMove={handleMouseMove}
-          data-cursor="drag"
           className="flex gap-4 sm:gap-6 overflow-x-auto no-scrollbar px-5 sm:px-8 lg:px-14 cursor-grab active:cursor-grabbing pb-8 pt-2 touch-pan-x overscroll-x-contain scroll-smooth"
           style={{ scrollBehavior: isDragging ? 'auto' : 'smooth' }}
         >

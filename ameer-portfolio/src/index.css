@@ -54,6 +54,39 @@
   }
 }
 
+/* Branded Native Cursors (Desktop / Fine Pointer only - zero JS, perfectly synced) */
+@media (pointer: fine) {
+  html,
+  body {
+    cursor: url('/cursors/default.svg') 2 2, auto;
+  }
+
+  a,
+  button,
+  [role="button"],
+  label,
+  summary,
+  select,
+  input[type="submit"],
+  input[type="button"],
+  input[type="reset"],
+  input[type="checkbox"],
+  input[type="radio"],
+  .cursor-pointer {
+    cursor: url('/cursors/pointer.svg') 6 2, pointer;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="url"],
+  input[type="search"],
+  textarea,
+  [contenteditable] {
+    cursor: text;
+  }
+}
+
 @layer utilities {
   /* Outlined text utility with gold stroke */
   .outline-text {
