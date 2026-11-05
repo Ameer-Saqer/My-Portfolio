@@ -42,15 +42,15 @@ export default function Achievements() {
             </h3>
 
             {/* Laurel Wreath with animated leaves drawing in */}
-            <div className="relative my-4 flex items-center justify-center w-full max-w-[280px] h-[180px]">
+            <div className="relative my-4 flex items-center justify-center w-full max-w-[340px] sm:max-w-[360px] h-[200px]">
               <svg
-                viewBox="0 0 240 180"
+                viewBox="0 0 340 200"
                 className="absolute inset-0 w-full h-full text-white/80 pointer-events-none"
                 fill="none"
               >
-                {/* Left Branch */}
+                {/* Left Branch - Widened to cradle counter with zero text overlap */}
                 <motion.path
-                  d="M100,160 C50,140 25,90 45,35"
+                  d="M85,180 C30,165 20,75 60,25"
                   stroke="currentColor"
                   strokeWidth="2.5"
                   strokeLinecap="round"
@@ -59,9 +59,9 @@ export default function Achievements() {
                   transition={{ duration: 1.5, ease: 'easeOut' }}
                 />
 
-                {/* Right Branch */}
+                {/* Right Branch - Symmetrically widened */}
                 <motion.path
-                  d="M140,160 C190,140 215,90 195,35"
+                  d="M255,180 C310,165 320,75 280,25"
                   stroke="currentColor"
                   strokeWidth="2.5"
                   strokeLinecap="round"
@@ -71,12 +71,12 @@ export default function Achievements() {
                 />
               </svg>
 
-              {/* Center Counter (white number with red label) */}
-              <div className="flex flex-col items-center justify-center z-10">
+              {/* Center Counter (white number with gold label, comfortable interior spacing) */}
+              <div className="flex flex-col items-center justify-center z-10 px-4 text-center">
                 <span className="font-display text-6xl sm:text-7xl text-white tracking-tight leading-none">
                   {shippedCount}+
                 </span>
-                <span className="font-mono text-xs tracking-[0.2em] text-accent font-semibold uppercase mt-1">
+                <span className="font-mono text-xs tracking-[0.2em] text-accent font-semibold uppercase mt-2.5">
                   PROJECTS BUILT
                 </span>
               </div>
@@ -106,12 +106,15 @@ export default function Achievements() {
             <div className="flex flex-col divide-y divide-line">
               {achievements.map((item, index) => {
                 const isHovered = hoveredRow === index;
+                const isClickable = !!item.url;
+                const RowTag = isClickable ? motion.a : motion.div;
+
                 return (
-                  <motion.a
+                  <RowTag
                     key={item.id}
                     href={item.url || undefined}
-                    target={item.url ? '_blank' : undefined}
-                    rel={item.url ? 'noopener noreferrer' : undefined}
+                    target={isClickable ? '_blank' : undefined}
+                    rel={isClickable ? 'noopener noreferrer' : undefined}
                     aria-label={item.url ? `Verify ${item.title} certificate` : undefined}
                     initial={{ opacity: 0, x: 40 }}
                     animate={isInView ? { opacity: 1, x: 0 } : {}}
@@ -122,38 +125,44 @@ export default function Achievements() {
                     }}
                     onMouseEnter={() => setHoveredRow(index)}
                     onMouseLeave={() => setHoveredRow(null)}
-                    className={`py-5 flex items-center justify-between group ${item.url ? 'cursor-pointer' : 'cursor-default'} transition-transform duration-300`}
+                    className={`py-5 flex items-center justify-between group ${
+                      isClickable ? 'cursor-pointer' : 'cursor-default'
+                    } transition-transform duration-300`}
                     style={{
-                      transform: isHovered ? 'translateX(12px)' : 'translateX(0px)',
+                      transform: isHovered && isClickable ? 'translateX(12px)' : 'translateX(0px)',
                     }}
                   >
-                    <div className="flex items-baseline gap-4 sm:gap-6">
-                      <span className="font-mono text-xs text-accent/70 group-hover:text-accent font-bold transition-colors">
+                    <div className="flex items-baseline gap-4 sm:gap-6 min-w-0 pr-4">
+                      <span className="font-mono text-xs text-accent/70 group-hover:text-accent font-bold transition-colors flex-shrink-0">
                         {item.id}
                       </span>
-                      <div>
-                        <h4 className="font-sans text-sm sm:text-base font-semibold text-white/90 group-hover:text-white transition-colors">
+                      <div className="min-w-0">
+                        <h4 className="font-sans text-sm sm:text-base font-semibold text-white/90 group-hover:text-white transition-colors truncate">
                           {item.title}
                         </h4>
-                        <span className="font-mono text-xs text-muted tracking-wide">
+                        <span className="font-mono text-xs text-muted tracking-wide block truncate">
                           {item.sub}
                         </span>
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-4">
-                      <span className="font-mono text-xs text-accent tracking-wider font-semibold">
+                    {/* Right column: always reserves arrow space so years align in one clean column */}
+                    <div className="flex items-center gap-3 w-20 justify-end flex-shrink-0">
+                      <span className="font-mono text-xs text-accent tracking-wider font-semibold text-right">
                         {item.year}
                       </span>
-                      {item.url && (
-                        <FiArrowUpRight
-                          className={`text-accent transition-all duration-300 ${
-                            isHovered ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-2'
-                          }`}
-                        />
-                      )}
+                      <FiArrowUpRight
+                        aria-hidden={!item.url}
+                        className={`w-4 h-4 text-accent transition-all duration-300 flex-shrink-0 ${
+                          item.url
+                            ? isHovered
+                              ? 'opacity-100 translate-x-0'
+                              : 'opacity-0 -translate-x-1'
+                            : 'opacity-0 pointer-events-none'
+                        }`}
+                      />
                     </div>
-                  </motion.a>
+                  </RowTag>
                 );
               })}
             </div>
