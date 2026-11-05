@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { achievements } from '../data/content';
+import { achievements, stats } from '../data/content';
 import { useCountUp } from '../hooks/useCountUp';
 import { FiArrowUpRight } from 'react-icons/fi';
 
@@ -10,7 +10,8 @@ export default function Achievements() {
   const [hoveredRow, setHoveredRow] = useState(null);
 
   // Big number 8 count up
-  const shippedCount = useCountUp(8, 1.4, isInView);
+  const projectsTotal = stats.find((s) => /project/i.test(s.label))?.value ?? 10;
+  const shippedCount = useCountUp(projectsTotal, 1.4, isInView);
 
   return (
     <section className="relative py-20 sm:py-32 bg-bg px-5 sm:px-8 lg:px-14">
@@ -76,7 +77,7 @@ export default function Achievements() {
                   {shippedCount}+
                 </span>
                 <span className="font-mono text-xs tracking-[0.2em] text-accent font-semibold uppercase mt-1">
-                  PROJECTS SHIPPED
+                  PROJECTS BUILT
                 </span>
               </div>
             </div>
@@ -91,7 +92,7 @@ export default function Achievements() {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-white hover:text-accent transition-colors mt-6 group py-1"
             >
-              <span>VIEW CERTIFICATES & REPOS</span>
+              <span>VIEW REPOS ON GITHUB</span>
               <FiArrowUpRight className="transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
             </a>
           </div>
@@ -106,8 +107,12 @@ export default function Achievements() {
               {achievements.map((item, index) => {
                 const isHovered = hoveredRow === index;
                 return (
-                  <motion.div
+                  <motion.a
                     key={item.id}
+                    href={item.url || undefined}
+                    target={item.url ? '_blank' : undefined}
+                    rel={item.url ? 'noopener noreferrer' : undefined}
+                    aria-label={item.url ? `Verify ${item.title} certificate` : undefined}
                     initial={{ opacity: 0, x: 40 }}
                     animate={isInView ? { opacity: 1, x: 0 } : {}}
                     transition={{
@@ -117,7 +122,7 @@ export default function Achievements() {
                     }}
                     onMouseEnter={() => setHoveredRow(index)}
                     onMouseLeave={() => setHoveredRow(null)}
-                    className="py-5 flex items-center justify-between group cursor-pointer transition-transform duration-300"
+                    className={`py-5 flex items-center justify-between group ${item.url ? 'cursor-pointer' : 'cursor-default'} transition-transform duration-300`}
                     style={{
                       transform: isHovered ? 'translateX(12px)' : 'translateX(0px)',
                     }}
@@ -140,13 +145,15 @@ export default function Achievements() {
                       <span className="font-mono text-xs text-accent tracking-wider font-semibold">
                         {item.year}
                       </span>
-                      <FiArrowUpRight
-                        className={`text-accent transition-all duration-300 ${
-                          isHovered ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-2'
-                        }`}
-                      />
+                      {item.url && (
+                        <FiArrowUpRight
+                          className={`text-accent transition-all duration-300 ${
+                            isHovered ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-2'
+                          }`}
+                        />
+                      )}
                     </div>
-                  </motion.div>
+                  </motion.a>
                 );
               })}
             </div>

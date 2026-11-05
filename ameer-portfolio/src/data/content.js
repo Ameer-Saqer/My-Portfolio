@@ -5,21 +5,20 @@ export const profile = {
   brand: "AMEER",
   role: "UI/UX & FRONT-END DEVELOPER",
   tagline: "Crafting Digital Experiences",
-  email: "ameer0599333607@gmail.com",
+  email: "ameer.saqer05@gmail.com",
   phone: "+972 59 216 1058",
   whatsapp: "https://wa.me/972592161058",
   status: "Available for freelance",
-  bio: "I build fast, responsive and pixel-perfect interfaces. From clean HTML & CSS to scalable React apps — I turn ideas into products people enjoy using.",
-  about: "I'm Ameer Saqer, a passionate front-end developer with over two years of experience building responsive, user-focused web applications. I specialise in HTML, CSS, JavaScript and Bootstrap, and I work extensively with React and Tailwind to create modern, performant interfaces. I'm focused on performance optimisation and front-end architecture, and I love turning ideas into clean, interactive, scalable products.",
+  bio: "I design interfaces in Figma and build them myself in React and Tailwind, so what gets approved is what ships. Arabic and RTL interfaces are my default, not an afterthought.",
+  about: "I'm Ameer Saqer, a UI/UX designer and front-end developer from Gaza and a final-year Software Development student at the Islamic University of Gaza. I work on both sides of the gap between the Figma file and the browser: I design the interface, then build it in React and Tailwind. I founded Kafeeli, a sponsorship platform for orphans, and I co-mentor 40 trainees in TAQAT's CodeMap front-end program.",
   socials: {
     github: "https://github.com/Ameer-Saqer",
-    linkedin: "https://www.linkedin.com/in/ameer-saqer-59243b264",
+    linkedin: "https://www.linkedin.com/in/ameer-saqer",
     instagram: "https://instagram.com/ameer_saqer_",
     instagramHandle: "@ameer_saqer_",
     facebook: "https://www.facebook.com/ameer.saqer.16/",
     whatsapp: "https://wa.me/972592161058",
   },
-  // TODO: Add your actual CV PDF file into public/Ameer-Saqer-CV.pdf
   cv: "/Ameer-Saqer-CV.pdf",
 };
 
@@ -33,17 +32,11 @@ export const contactActionCard = {
 
 export const stats = [
   { value: 2, suffix: "+", label: "Years of experience" },
-  { value: 8, suffix: "+", label: "Projects shipped" },
-  { value: 7, suffix: "+", label: "Technologies" },
+  { value: 10, suffix: "+", label: "Projects built" },
+  { value: 40, suffix: "", label: "Trainees mentored" },
 ];
 
-export const projectCategories = [
-  "All",
-  "Web Apps",
-  "Landing Pages",
-  "Web Design",
-  "UI Concepts",
-];
+export const projectCategories = ["All", "Web Apps", "Websites"];
 
 export const projects = [
   {
@@ -52,18 +45,17 @@ export const projects = [
     category: "Web Apps",
     year: "2026",
     tag: "WEB APPS / 2026",
-    description: "Arabic RTL platform for managing sponsorships in one system — marketing site built with React.",
+    description: "Founded and designed a platform that connects sponsors with orphans and tracks every payment. 80-screen Figma flow, built in React with full Arabic RTL. Presented at CodeMap Innovation Hackathon 2026.",
     image: "/projects/kafeeli-orgs.webp",
-    techStack: ["React", "Tailwind CSS", "JavaScript"],
+    techStack: ["Figma", "React", "Tailwind CSS"],
     gallery: [
       "/projects/kafeeli-orgs.webp",
       "/projects/kafeeli-how.webp",
       "/projects/kafeeli-about.webp",
       "/projects/kafeeli-contact.webp",
     ],
-    // TODO: Add live URL if deployed
-    live: "#",
-    repo: "https://github.com/Ameer-Saqer",
+    live: "https://kafeeli-frontend.vercel.app/landing-page",
+    repo: "",
     isTall: true,
     hasLightbox: true,
     galleryCount: 4,
@@ -74,113 +66,80 @@ export const projects = [
     category: "Web Apps",
     year: "2026",
     tag: "WEB APPS / 2026",
-    description: "Responsive RTL dashboard: sponsor profile, account settings, side navigation.",
+    description: "Responsive RTL dashboard for sponsors: profile, account settings and side navigation.",
     image: "/projects/kafeeli-dashboard.webp",
     techStack: ["React", "Tailwind CSS", "JavaScript"],
     live: "https://kafeeli-frontend.vercel.app",
-    repo: "https://github.com/Ameer-Saqer",
+    repo: "",
     isTall: false,
     hasLightbox: false,
   },
   {
     id: "03",
-    title: "BAKERY — \"FRESHLY BAKED\"",
-    category: "Landing Pages",
+    title: "RAMADAN CHALLENGE",
+    category: "Web Apps",
     year: "2026",
-    tag: "LANDING PAGES / 2026",
-    description: "Warm, appetising bakery site with menu, gallery and visit section.",
-    image: "/projects/bakery.webp",
-    techStack: ["HTML5", "CSS3", "Bootstrap", "JavaScript"],
-    // TODO: Add live URL
-    live: "#",
-    repo: "https://github.com/Ameer-Saqer",
+    tag: "WEB APPS / 2026",
+    description: "30-day Arabic challenge app: a new challenge every day, with points, levels, streaks and progress tracking.",
+    image: "/projects/ramadan.webp",
+    techStack: ["HTML5", "CSS3", "JavaScript"],
+    live: "https://ameer-saqer.github.io/Ramadan-Challenge/",
+    repo: "https://github.com/Ameer-Saqer/Ramadan-Challenge",
     isTall: true,
     hasLightbox: false,
   },
   {
     id: "04",
-    title: "OCEAN — DIGITAL ART & DESIGN",
-    category: "Web Design",
-    year: "2025",
-    tag: "WEB DESIGN / 2025",
-    description: "Dark landing page for a digital-art studio with a services grid.",
+    title: "OCEAN — IT SERVICES COMPANY",
+    category: "Websites",
+    year: "2024",
+    tag: "WEBSITES / 2024",
+    description: "Turned a company's UI/UX file into an 8-page responsive website: services, projects, blog, contact and a custom 404.",
     image: "/projects/ocean.webp",
-    techStack: ["HTML5", "CSS3", "JavaScript"],
-    // TODO: Add live URL
-    live: "#",
-    repo: "https://github.com/Ameer-Saqer",
+    techStack: ["HTML5", "CSS3", "Bootstrap", "JavaScript"],
+    gallery: ["/projects/ocean.webp", "/projects/ocean-404.webp"],
+    live: "https://ameer-saqer.github.io/Ocean/",
+    repo: "https://github.com/Ameer-Saqer/Ocean",
     isTall: false,
     isMockup: true,
     hasLightbox: false,
   },
   {
     id: "05",
-    title: "AUTO — CAR RENTAL",
-    category: "Landing Pages",
+    title: "AUTOVERSE — CAR RENTAL",
+    category: "Websites",
     year: "2025",
-    tag: "LANDING PAGES / 2025",
-    description: "\"Get your dream car at a reasonable price\" rental website with fleet gallery.",
+    tag: "WEBSITES / 2025",
+    description: "Car rental landing page with services, fleet gallery, reviews and map sections.",
     image: "/projects/auto.webp",
     techStack: ["HTML5", "CSS3", "Bootstrap", "JavaScript"],
-    // TODO: Add live URL
-    live: "#",
-    repo: "https://github.com/Ameer-Saqer",
+    live: "https://ameer-saqer.github.io/AutoVerse/",
+    repo: "https://github.com/Ameer-Saqer/AutoVerse",
     isTall: false,
     isMockup: true,
     hasLightbox: false,
   },
   {
     id: "06",
-    title: "BRAND — CREATIVE STUDIO",
-    category: "Web Design",
-    year: "2025",
-    tag: "WEB DESIGN / 2025",
-    description: "Light, colourful agency site with a portfolio grid and team section.",
-    image: "/projects/brand.webp",
-    techStack: ["HTML5", "CSS3", "JavaScript"],
-    // TODO: Add live URL
-    live: "#",
-    repo: "https://github.com/Ameer-Saqer",
-    isTall: false,
-    isMockup: true,
+    title: "BAKERY — \"FRESHLY BAKED\"",
+    category: "Websites",
+    year: "2026",
+    tag: "WEBSITES / 2026",
+    description: "Warm, appetising bakery site with menu, gallery and visit section.",
+    image: "/projects/bakery.webp",
+    techStack: ["HTML5", "CSS3", "Bootstrap", "JavaScript"],
+    // TODO: confirm repo name after upload
+    live: "https://ameer-saqer.github.io/Bakery/",
+    repo: "https://github.com/Ameer-Saqer/Bakery",
+    isTall: true,
     hasLightbox: false,
   },
-  {
-    id: "07",
-    title: "HELLO THERE",
-    category: "Landing Pages",
-    year: "2025",
-    tag: "LANDING PAGES / 2025",
-    description: "Minimal hero landing with a three-feature section over a mountain photo.",
-    image: "/projects/hello-there.webp",
-    techStack: ["HTML5", "CSS3", "JavaScript"],
-    // TODO: Add live URL
-    live: "#",
-    repo: "https://github.com/Ameer-Saqer",
-    isTall: false,
-    isMockup: true,
-    hasLightbox: false,
-  },
-  {
-    id: "08",
-    title: "OCEAN 404",
-    category: "UI Concepts",
-    year: "2025",
-    tag: "UI CONCEPTS / 2025",
-    description: "Playful, branded 404 error page with cinematic layout.",
-    image: "/projects/ocean-404.webp",
-    techStack: ["HTML5", "CSS3", "JavaScript"],
-    // TODO: Add live URL
-    live: "#",
-    repo: "https://github.com/Ameer-Saqer",
-    isTall: false,
-    isMockup: true,
-    hasLightbox: false,
-  },
+  // TODO: Currency Converter (USD ⇄ ILS) — add once uploaded, with /projects/converter.webp
 ];
 
 // Honest stack based on user skills
 export const toolsList = [
+  "Figma",
   "HTML5",
   "CSS3",
   "JavaScript",
@@ -192,6 +151,7 @@ export const toolsList = [
 ];
 
 export const techStack = [
+  "Figma",
   "HTML5",
   "CSS3",
   "JavaScript",
@@ -213,67 +173,47 @@ export const softwareTiles = [
 ];
 
 export const creativeToolkitPills = [
+  "Figma → React",
+  "Arabic RTL Interfaces",
   "HTML & CSS",
   "JavaScript (ES6+)",
   "React",
   "Tailwind CSS",
   "Bootstrap",
   "Responsive Design",
-  "Performance",
   "Git & GitHub",
 ];
 
-// Placeholder education items - TODO: replace with real user history if desired
+// Education & training
 export const educationItems = [
   {
-    title: "Computer Science / IT",
-    sub: "University / Academic Studies",
-    year: "2023 — Present", // TODO: Update with actual institution
+    title: "B.Sc. Software Development",
+    sub: "Islamic University of Gaza",
+    year: "2022 — 2027",
   },
   {
-    title: "Front-End Development & React",
-    sub: "Professional Intensive Courses & Certifications",
-    year: "2023 — 2024",
+    title: "UI/UX & Front-End Track",
+    sub: "TAQAT",
+    year: "2026",
   },
   {
-    title: "Self-Driven Software Craft",
-    sub: "Performance, Modern Architecture & UI Engineering",
-    year: "2024 — 2026",
+    title: "Web Development Training",
+    sub: "Sprints",
+    year: "2026",
   },
 ];
 
-// Achievements / Milestones panel
+// Certificates (url = public verification link)
 export const achievements = [
-  {
-    id: "01",
-    title: "Front-End Development Course",
-    sub: "Professional Certificate",
-    year: "2024", // TODO: Replace with real certificate
-  },
-  {
-    id: "02",
-    title: "Responsive Web Design",
-    sub: "Certification",
-    year: "2024", // TODO: Replace with real certificate
-  },
-  {
-    id: "03",
-    title: "JavaScript Algorithms & Data Structures",
-    sub: "Certification",
-    year: "2024", // TODO: Replace with real certificate
-  },
-  {
-    id: "04",
-    title: "React — The Complete Guide",
-    sub: "Specialized Course",
-    year: "2025", // TODO: Replace with real certificate
-  },
-  {
-    id: "05",
-    title: "Performance Optimisation Workshop",
-    sub: "Workshop Certification",
-    year: "2025", // TODO: Replace with real certificate
-  },
+  { id: "01", title: "Building with the Claude API", sub: "Anthropic", year: "2026", url: "https://verify.skilljar.com/c/qvg2a4gqk9br" },
+  { id: "02", title: "Claude Code 101", sub: "Anthropic", year: "2026", url: "https://verify.skilljar.com/c/bs84n2iqcke7" },
+  { id: "03", title: "AI Fluency: Framework & Foundations", sub: "Anthropic", year: "2026", url: "https://verify.skilljar.com/c/8w97k45zvmrj" },
+  { id: "04", title: "Claude 101", sub: "Anthropic", year: "2026", url: "https://verify.skilljar.com/c/7i7n4nud2e5b" },
+  { id: "05", title: "Web Development", sub: "Sprints", year: "2026" },
+  { id: "06", title: "Full JavaScript", sub: "Satr Educational Platform", year: "2025" },
+  { id: "07", title: "Front-End Development", sub: "Canadian Board of Training", year: "2025" },
+  { id: "08", title: "ICDL", sub: "Canadian Board of Training", year: "2024" },
+  { id: "09", title: "Graphic Design", sub: "Tech Box", year: "2023" },
 ];
 
 // Process Timeline (5 steps)
@@ -305,39 +245,44 @@ export const processSteps = [
   },
 ];
 
-// The Journey items (4 rows)
+// The Journey items
 export const journeyItems = [
   {
-    period: "2025 — NOW",
-    role: "Freelance Front-End Developer",
-    subtitle: "Websites & Production Web Applications",
-    description: "Building responsive, sub-second web platforms for clients using React, Tailwind CSS, and modern web architectures.",
+    period: "SEP 2026 — NOW",
+    role: "Co-Mentor",
+    subtitle: "TAQAT · CodeMap Front-End Program",
+    description: "Supporting 40 trainees through weekly tasks, code reviews and one-on-one follow-up, and helping them ship a first working product.",
   },
   {
-    period: "2024 — 2025",
-    role: "Front-End Developer (Projects)",
-    subtitle: "React Applications & Client Systems",
-    description: "Designing and shipping component-driven user interfaces, complex dashboards, and interactive platforms focusing on performance.",
+    period: "MAY 2026 — NOW",
+    role: "Founder · UI/UX & Front-End",
+    subtitle: "Kafeeli",
+    description: "Designed the full sponsor journey in Figma (80 screens) and building the front-end in React with full Arabic RTL. Presented at CodeMap Innovation Hackathon 2026.",
   },
   {
-    period: "2023 — 2024",
-    role: "Junior Web Developer",
-    subtitle: "HTML · CSS · Modern JavaScript",
-    description: "Turning complex wireframes and UI designs into pixel-perfect, fully responsive client interfaces.",
+    period: "APR — JUN 2026",
+    role: "UI/UX & Front-End Intern",
+    subtitle: "TAQAT",
+    description: "Designed and prototyped interfaces in Figma, then built them as responsive React pages alongside developers.",
   },
   {
-    period: "2023",
-    role: "Started the Journey",
-    subtitle: "Self-Taught & Relentless Curiosity",
-    description: "Wrote the first lines of code, studied core computer science concepts, and deployed the first interactive web projects.",
+    period: "2025",
+    role: "Front-End Intern",
+    subtitle: "Shifra",
+    description: "Built and improved front-end pages with HTML, CSS and JavaScript as part of a development team.",
+  },
+  {
+    period: "2024",
+    role: "Front-End Developer",
+    subtitle: "Ocean",
+    description: "Took the company's UI/UX file and turned it into a responsive 8-page website, tested across browsers.",
   },
 ];
 
 // Milestones right column
 export const milestones = [
-  { title: "First React project shipped", year: "2024" },
-  { title: "Lighthouse performance 95+", year: "2025" },
-  { title: "First freelance client delivery", year: "2025" },
-  { title: "Open-source & platform contributions", year: "2026" },
+  { title: "First company website shipped (Ocean)", year: "2024" },
+  { title: "Founded Kafeeli", year: "2026" },
+  { title: "Presented at CodeMap Innovation Hackathon", year: "2026" },
+  { title: "4 Anthropic AI certifications", year: "2026" },
 ];
-
