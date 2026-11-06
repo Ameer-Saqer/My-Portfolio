@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://ameer-saqer.vercel.app/sitemap.xml

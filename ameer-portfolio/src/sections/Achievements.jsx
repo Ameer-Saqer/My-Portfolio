@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { achievements } from '../data/content';
+import { achievements, profile } from '../data/content';
 import { useCountUp } from '../hooks/useCountUp';
 import { FiArrowUpRight } from 'react-icons/fi';
 
@@ -88,16 +88,16 @@ export default function Achievements() {
             </div>
 
             <p className="font-sans text-sm text-muted leading-relaxed mt-4 max-w-sm">
-              Work made with care. Every project is a reason to keep improving and refining modern digital experiences.
+              Every certificate links to its public verification page.
             </p>
 
             <a
-              href="https://github.com/Ameer-Saqer"
+              href={profile.socials.linkedin}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-white hover:text-accent transition-colors mt-6 group py-1"
             >
-              <span>VIEW REPOS ON GITHUB</span>
+              <span>VIEW ON LINKEDIN</span>
               <FiArrowUpRight className="transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
             </a>
           </div>
