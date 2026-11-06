@@ -11,7 +11,6 @@ import Navbar from './components/Navbar';
 import Hero from './sections/Hero';
 import Work from './sections/Work';
 import TechStrip from './sections/TechStrip';
-import FromRawToReal from './sections/FromRawToReal';
 import About from './sections/About';
 import Footer from './sections/Footer';
 
@@ -53,7 +52,7 @@ export default function App() {
   }, [loaderComplete]);
 
   return (
-    <div className="relative min-h-screen bg-bg text-white font-sans overflow-x-hidden selection:bg-accent selection:text-[#0F1B2E]">
+    <div className="relative min-h-screen bg-bg text-white font-sans overflow-x-clip selection:bg-accent selection:text-[#0F1B2E]">
       {/* 1. Cinematic Film Grain Overlay */}
       <Grain />
 
@@ -70,7 +69,7 @@ export default function App() {
       <Navbar />
 
       {/* 7. Main Portfolio Flow */}
-      <main className="relative z-10 w-full overflow-hidden">
+      <main className="relative z-10 w-full overflow-x-clip">
         <Hero readyToAnimate={loaderComplete} />
         <SectionDivider />
         <Work />
@@ -79,8 +78,6 @@ export default function App() {
         <Suspense fallback={<div className="min-h-[580px] w-full" aria-hidden="true" />}>
           <Achievements />
         </Suspense>
-        <SectionDivider />
-        <FromRawToReal />
         <SectionDivider />
         <About />
         <SectionDivider />

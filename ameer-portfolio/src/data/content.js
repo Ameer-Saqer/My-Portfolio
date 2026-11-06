@@ -279,10 +279,9 @@ export const journeyItems = [
   },
 ];
 
-// Milestones right column
-export const milestones = [
-  { title: "First company website shipped (Ocean)", year: "2024" },
-  { title: "Founded Kafeeli", year: "2026" },
-  { title: "Presented at CodeMap Innovation Hackathon", year: "2026" },
-  { title: "4 Anthropic AI certifications", year: "2026" },
+// Current focus (Right Now)
+export const currentFocus = [
+  { label: "CURRENTLY LEARNING", value: "TypeScript & Next.js" },
+  { label: "OPEN TO", value: "Remote roles & freelance projects" },
+  { label: "BASED IN", value: "Gaza, Palestine · GMT+2" },
 ];
