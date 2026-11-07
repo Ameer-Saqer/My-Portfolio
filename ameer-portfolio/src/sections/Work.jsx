@@ -102,8 +102,9 @@ function ProjectCard({ project, onOpenLightbox, isHoveredSibling, onHoverStart, 
 
         {/* Gallery indicator chip top-end if lightbox exists */}
         {project.galleryCount && (
-          <div className="absolute top-3 end-3 z-10 px-2.5 py-1 rounded-full bg-accent text-[#0F1B2E] text-xs font-mono font-bold tracking-wider shadow-sm">
-            +{project.galleryCount - 1} {t('work.pages')}
+          <div className="absolute top-3 end-3 z-10 px-2.5 py-1 rounded-full bg-accent text-[#0F1B2E] text-xs font-mono font-bold tracking-wider shadow-sm flex items-center gap-1" dir="ltr">
+            <span>+{project.galleryCount - 1}</span>
+            <span>{t('work.pages')}</span>
           </div>
         )}
 
@@ -153,11 +154,11 @@ function ProjectCard({ project, onOpenLightbox, isHoveredSibling, onHoverStart, 
               {project.id}
             </span>
             <div className="flex flex-col">
-              <h3 className="font-sans font-bold text-sm sm:text-base text-white uppercase tracking-tight group-hover:text-white leading-tight">
+              <h3 className="font-sans font-bold text-sm sm:text-base text-white uppercase rtl:normal-case tracking-tight rtl:tracking-normal group-hover:text-white leading-tight">
                 {project.title}
               </h3>
-              <span className="font-mono text-xs tracking-wider text-accent/80 mt-1">
-                {project.tag}
+              <span className="font-mono rtl:font-sans text-xs tracking-wider rtl:tracking-normal text-accent/80 mt-1">
+                <bdi>{project.tag}</bdi>
               </span>
             </div>
           </div>
@@ -294,7 +295,7 @@ export default function Work() {
               <button
                 key={category}
                 onClick={() => setActiveCategoryIndex(idx)}
-                className={`relative min-h-[44px] px-3 py-2.5 font-mono text-xs sm:text-sm uppercase tracking-wider transition-colors whitespace-nowrap focus-ring flex items-center ${
+                className={`relative min-h-[44px] px-3 py-2.5 font-mono rtl:font-['Cairo'] rtl:font-bold text-xs sm:text-sm uppercase rtl:normal-case tracking-wider rtl:tracking-normal transition-colors whitespace-nowrap focus-ring flex items-center ${
                   isActive ? 'text-accent font-bold' : 'text-muted hover:text-white'
                 }`}
               >

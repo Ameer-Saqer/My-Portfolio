@@ -1,18 +1,17 @@
 export const ui = {
   en: {
     nav: {
-      work: "Work",
-      stack: "Stack",
-      about: "About",
-      journey: "Journey",
-      contact: "Contact",
-      letsTalk: "Let's Talk",
-      menuAria: "Toggle Navigation Menu",
-      closeAria: "Close Menu",
+      work: "WORK",
+      about: "ABOUT",
+      journey: "JOURNEY",
+      letsTalk: "LET'S TALK",
+      toggleMenu: "Toggle Navigation Menu",
+      closeMenu: "Close Menu",
       switchLangAria: "Switch language to Arabic",
     },
     hero: {
       greeting: "Hello, I'm",
+      role: "UI/UX & FRONT-END DEVELOPER",
       viewWork: "View my work",
       downloadCv: "Download CV PDF",
       circleText: "DOWNLOAD CV · PDF · AMEER ·",
@@ -110,17 +109,16 @@ export const ui = {
   ar: {
     nav: {
       work: "الأعمال",
-      stack: "المهارات",
-      about: "نبذة",
+      about: "عنّي",
       journey: "المسيرة",
-      contact: "تواصل",
-      letsTalk: "لنتحدث",
-      menuAria: "تبديل القائمة",
-      closeAria: "إغلاق القائمة",
+      letsTalk: "تواصل معي",
+      toggleMenu: "تبديل القائمة",
+      closeMenu: "إغلاق القائمة",
       switchLangAria: "التبديل إلى الإنجليزية",
     },
     hero: {
       greeting: "أهلاً، أنا",
+      role: "مصمم UI/UX ومطوّر Front-End",
       viewWork: "عرض أعمالي",
       downloadCv: "تحميل السيرة الذاتية (EN)",
       circleText: "تحميل السيرة الذاتية · PDF · أمير ·",
@@ -128,8 +126,8 @@ export const ui = {
     },
     sectionLabels: {
       work: "01 / أعمال مختارة",
-      about: "02 / وراء الكود",
-      journey: "03 / مسيرتي المهنية",
+      about: "02 / عنّي",
+      journey: "03 / المسيرة",
       contact: "04 / مشروعك القادم",
     },
     work: {

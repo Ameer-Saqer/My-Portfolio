@@ -132,7 +132,7 @@ export default function Contact() {
               {t('contact.phoneLabel')}
             </span>
             <span className="font-sans text-xs sm:text-sm font-semibold text-white group-hover:text-accent transition-colors truncate" dir="ltr">
-              {profile.phone}
+              <bdi>{profile.phone}</bdi>
             </span>
           </div>
         </a>

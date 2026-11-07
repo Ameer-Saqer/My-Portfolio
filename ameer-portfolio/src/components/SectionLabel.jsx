@@ -7,9 +7,9 @@ export default function SectionLabel({ label, className = '' }) {
   return (
     <div className={`flex items-center gap-3 font-mono text-xs tracking-[0.22em] text-dim uppercase mb-4 select-none ${className}`}>
       {match ? (
-        <span>
-          <span className="text-accent font-bold" dir="ltr">{match[1]}</span>
-          <span className="text-dim">{match[2]}</span>
+        <span className="inline-flex items-center gap-1.5">
+          <span className="text-accent font-bold font-mono" dir="ltr">{match[1]}</span>
+          <span className="text-dim font-mono">/</span>
           <span className="text-muted">{match[3]}</span>
         </span>
       ) : (

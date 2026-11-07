@@ -56,7 +56,7 @@ export default function About() {
       if (paragraphRef.current && wordsRef.current.length > 0) {
         gsap.fromTo(
           wordsRef.current,
-          { color: '#4A5872' },
+          { color: '#8892B0' },
           {
             color: '#ffffff',
             stagger: 0.08,
@@ -128,13 +128,13 @@ export default function About() {
           </div>
 
           <div className="lg:col-span-4" ref={paragraphRef}>
-            <p className="font-sans text-xs sm:text-sm leading-relaxed">
+            <p className="font-sans text-sm sm:text-base leading-relaxed rtl:leading-[1.8]">
               {profile.about.split(' ').map((word, i) => (
                 <span
                   key={i}
                   ref={(el) => (wordsRef.current[i] = el)}
                   className="inline-block me-1 transition-colors"
-                  style={{ color: '#4A5872' }}
+                  style={{ color: '#8892B0' }}
                 >
                   {word}
                 </span>
@@ -159,7 +159,7 @@ export default function About() {
                       <h4 className="font-sans text-sm font-semibold text-white">
                         {item.title}
                       </h4>
-                      <p className="font-mono text-xs text-muted mt-0.5">
+                      <p className="font-mono text-xs text-white/70 mt-0.5">
                         {item.sub}
                       </p>
                     </div>
@@ -183,7 +183,7 @@ export default function About() {
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={isInView ? { opacity: 1, scale: 1 } : {}}
                     transition={{ delay: 0.1 + idx * 0.04, duration: 0.4 }}
-                    className="px-3.5 py-1.5 rounded-full border border-line bg-surface/50 font-mono text-xs tracking-wider text-white uppercase transition-colors duration-200 hover:bg-accent hover:text-[#0F1B2E] hover:border-accent cursor-default select-none"
+                    className="px-3.5 py-1.5 rounded-full border border-white/15 bg-white/[0.04] font-mono text-xs tracking-wider rtl:tracking-normal rtl:font-sans rtl:text-xs text-white/90 uppercase rtl:normal-case transition-colors duration-200 hover:bg-accent hover:text-[#0F1B2E] hover:border-accent cursor-default select-none"
                   >
                     {pill}
                   </motion.span>
@@ -240,7 +240,7 @@ export default function About() {
                       className={`absolute -start-[27px] top-1 w-[12px] h-[12px] rounded-full border-2 transition-all duration-300 z-10 ${
                         isPassed
                           ? 'border-accent bg-accent shadow-[0_0_10px_rgba(212,175,55,0.7)]'
-                          : 'border-line bg-bg'
+                          : 'border-white/20 bg-surface'
                       }`}
                     />
 
@@ -251,7 +251,7 @@ export default function About() {
                       </h4>
                     </div>
 
-                    <p className="font-sans text-xs text-muted leading-relaxed">
+                    <p className="font-sans text-xs sm:text-sm text-white/75 leading-relaxed">
                       {step.desc}
                     </p>
                   </div>

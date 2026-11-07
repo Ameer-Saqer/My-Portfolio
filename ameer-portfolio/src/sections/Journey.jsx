@@ -93,8 +93,8 @@ export default function Journey() {
                   className="py-8 first:pt-2 last:pb-2 flex flex-col gap-2"
                 >
                   <div className="flex items-center gap-3">
-                    <span className="font-mono text-xs sm:text-sm text-accent tracking-widest uppercase font-semibold">
-                      {item.period}
+                    <span className="font-mono text-xs sm:text-sm text-accent tracking-widest rtl:tracking-normal uppercase rtl:normal-case font-semibold">
+                      <bdi>{item.period}</bdi>
                     </span>
                   </div>
 

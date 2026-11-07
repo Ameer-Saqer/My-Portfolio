@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useLanguage, useContent } from '../i18n/LanguageContext';
+import { useLanguage } from '../i18n/LanguageContext';
 import { FiMenu, FiX } from 'react-icons/fi';
 import LogoMark from './LogoMark';
 
@@ -53,7 +53,6 @@ function LanguageToggle({ className = '', onSelect }) {
 
 export default function Navbar() {
   const { lang, t, sx } = useLanguage();
-  const { profile } = useContent();
 
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
@@ -61,12 +60,11 @@ export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
 
+  // Final 3 links: WORK · ABOUT · JOURNEY (الأعمال · عنّي · المسيرة)
   const navLinks = [
     { id: 'work', name: t('nav.work'), href: '#work' },
-    { id: 'stack', name: t('nav.stack'), href: '#stack' },
     { id: 'about', name: t('nav.about'), href: '#about' },
     { id: 'journey', name: t('nav.journey'), href: '#journey' },
-    { id: 'contact', name: t('nav.contact'), href: '#contact' },
   ];
 
   useEffect(() => {
@@ -89,8 +87,8 @@ export default function Navbar() {
 
       setLastScrollY(currentScrollY);
 
-      // Active section detection
-      const sections = ['work', 'stack', 'about', 'journey', 'contact'];
+      // Active section detection for the 3 main sections
+      const sections = ['work', 'about', 'journey'];
       for (const section of sections) {
         const el = document.getElementById(section);
         if (el) {
@@ -152,7 +150,7 @@ export default function Navbar() {
                 <a
                   key={link.id}
                   href={link.href}
-                  className={`relative font-mono text-xs uppercase tracking-[0.2em] transition-colors py-1 focus-ring ${
+                  className={`relative font-mono rtl:font-['Cairo'] rtl:font-bold text-xs uppercase rtl:normal-case tracking-[0.2em] rtl:tracking-normal transition-colors py-1 focus-ring ${
                     isActive ? 'text-accent font-bold' : 'text-muted hover:text-white'
                   }`}
                 >
@@ -168,27 +166,20 @@ export default function Navbar() {
             })}
           </nav>
 
-          {/* Right: Language toggle + Available status + Let's Talk Button */}
+          {/* Right: Language toggle + Let's Talk Action Button */}
           <div className="hidden lg:flex items-center gap-5">
             <LanguageToggle />
 
-            <div className="flex items-center gap-2 font-mono text-xs text-muted tracking-wider uppercase">
-              <span className="w-1.5 h-1.5 rounded-full bg-accent" />
-              <span>{profile.status}</span>
-            </div>
-
             <a
-              href={profile.whatsapp}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-4 py-2.5 min-h-[44px] inline-flex items-center gap-1.5 rounded-full border border-accent text-xs font-mono uppercase tracking-widest text-white hover:bg-accent-soft transition-all duration-200 focus-ring"
+              href="#contact"
+              className="px-4 py-2.5 min-h-[44px] inline-flex items-center gap-1.5 rounded-full border border-accent text-xs font-mono rtl:font-['Cairo'] rtl:font-bold uppercase rtl:normal-case tracking-widest rtl:tracking-normal text-white hover:bg-accent-soft transition-all duration-200 focus-ring"
             >
               <span>{t('nav.letsTalk')}</span>
               <span className="inline-block transition-transform rtl:-scale-x-100" aria-hidden="true">↗</span>
             </a>
           </div>
 
-          {/* Mobile Right Controls: Language toggle + Hamburger */}
+          {/* Mobile Right Controls: Language toggle next to Hamburger */}
           <div className="flex lg:hidden items-center gap-2">
             <LanguageToggle />
 
@@ -240,8 +231,8 @@ export default function Navbar() {
               </div>
             </div>
 
-            {/* Staggered Navigation Links */}
-            <div className="flex flex-col gap-4 my-auto py-6">
+            {/* Staggered Navigation Links: exactly the 3 links */}
+            <div className="flex flex-col gap-6 my-auto py-6">
               {navLinks.map((link, idx) => (
                 <motion.a
                   key={link.id}
@@ -250,33 +241,24 @@ export default function Navbar() {
                   initial={{ opacity: 0, x: -30 * sx }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.08 + idx * 0.06, duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-                  className="font-display text-4xl sm:text-5xl uppercase tracking-tight text-white hover:text-accent transition-colors min-h-[44px] flex items-center"
+                  className="font-display rtl:font-['Cairo'] rtl:font-bold text-4xl sm:text-5xl uppercase rtl:normal-case tracking-tight rtl:tracking-normal text-white hover:text-accent transition-colors min-h-[44px] flex items-center"
                 >
                   {link.name}
                 </motion.a>
               ))}
             </div>
 
+            {/* Bottom: Only the primary CTA button */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.45, duration: 0.45 }}
-              className="flex flex-col gap-4 border-t border-line pt-6 mt-auto"
+              transition={{ delay: 0.35, duration: 0.45 }}
+              className="flex flex-col border-t border-line pt-6 mt-auto"
             >
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2 font-mono text-xs text-muted">
-                  <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
-                  <span>{profile.status}</span>
-                </div>
-              </div>
-
-              {/* Primary Mobile CTA */}
               <a
-                href={profile.whatsapp}
-                target="_blank"
-                rel="noopener noreferrer"
+                href="#contact"
                 onClick={() => setMobileMenuOpen(false)}
-                className="w-full text-center py-3.5 min-h-[44px] flex items-center justify-center gap-2 bg-accent text-[#0F1B2E] font-mono text-xs font-bold uppercase tracking-widest rounded-full hover:bg-white transition-colors shadow-lg shadow-accent/20"
+                className="w-full text-center py-3.5 min-h-[44px] flex items-center justify-center gap-2 bg-accent text-[#0F1B2E] font-mono rtl:font-['Cairo'] rtl:font-bold text-xs font-bold uppercase rtl:normal-case tracking-widest rtl:tracking-normal rounded-full hover:bg-white transition-colors shadow-lg shadow-accent/20"
               >
                 <span>{t('nav.letsTalk')}</span>
                 <span className="inline-block transition-transform rtl:-scale-x-100" aria-hidden="true">↗</span>
