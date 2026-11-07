@@ -4,12 +4,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import SectionLabel from '../components/SectionLabel';
 import Reveal from '../components/Reveal';
-import {
-  profile,
-  educationItems,
-  creativeToolkitPills,
-  processSteps,
-} from '../data/content';
+import { useLanguage, useContent } from '../i18n/LanguageContext';
 import {
   Html5Icon,
   Css3Icon,
@@ -31,6 +26,9 @@ const TILES = [
 ];
 
 export default function About() {
+  const { lang, t, sx } = useLanguage();
+  const { profile, educationItems, creativeToolkitPills, processSteps } = useContent();
+
   const sectionRef = useRef(null);
   const timelineRef = useRef(null);
   const timelineLineRef = useRef(null);
@@ -42,6 +40,7 @@ export default function About() {
   const isInView = useInView(sectionRef, { once: true, amount: 0.1 });
 
   useEffect(() => {
+    wordsRef.current = [];
     const isReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (isReduced) {
       if (wordsRef.current) {
@@ -53,7 +52,7 @@ export default function About() {
     }
 
     const ctx = gsap.context(() => {
-      // Scroll-scrubbed word-by-word color reveal in the about paragraph (#4a4a4a -> #ffffff)
+      // Scroll-scrubbed word-by-word color reveal in the about paragraph
       if (paragraphRef.current && wordsRef.current.length > 0) {
         gsap.fromTo(
           wordsRef.current,
@@ -71,6 +70,7 @@ export default function About() {
           }
         );
       }
+
       // Timeline scrubbed line fill
       if (timelineRef.current && timelineLineRef.current) {
         ScrollTrigger.create({
@@ -83,7 +83,6 @@ export default function About() {
             if (timelineLineRef.current) {
               timelineLineRef.current.style.transform = `scaleY(${p})`;
             }
-            // Step index activation
             const stepIndex = Math.min(
               processSteps.length - 1,
               Math.floor(p * processSteps.length)
@@ -109,21 +108,21 @@ export default function About() {
     }, sectionRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [profile.about, processSteps]);
 
   return (
     <section id="about" ref={sectionRef} className="relative py-28 sm:py-36 bg-bg overflow-hidden">
       <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-14">
-        <SectionLabel label="02 / BEHIND THE CODE" />
+        <SectionLabel label={t('sectionLabels.about')} />
 
         {/* Section Header */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-16 pb-8 border-b border-line items-end">
           <div className="lg:col-span-8">
             <Reveal>
               <h2 className="font-display text-[clamp(2.6rem,7vw,6.2rem)] leading-[0.9] uppercase text-white tracking-tight">
-                NOT JUST CODE.<br />
-                <span className="text-accent">A WAY OF BUILDING</span>
-                <span className="text-accent ml-1">.</span>
+                {t('about.titleLine1')}<br />
+                <span className="text-accent">{t('about.titleLine2')}</span>
+                <span className="text-accent ms-1">.</span>
               </h2>
             </Reveal>
           </div>
@@ -134,7 +133,7 @@ export default function About() {
                 <span
                   key={i}
                   ref={(el) => (wordsRef.current[i] = el)}
-                  className="inline-block mr-1 transition-colors"
+                  className="inline-block me-1 transition-colors"
                   style={{ color: '#4A5872' }}
                 >
                   {word}
@@ -151,7 +150,7 @@ export default function About() {
             {/* Education Sub-section */}
             <div>
               <span className="font-mono text-xs tracking-[0.25em] text-accent uppercase mb-4 block">
-                EDUCATION
+                {t('about.education')}
               </span>
               <div className="flex flex-col divide-y divide-line">
                 {educationItems.map((item, i) => (
@@ -164,7 +163,7 @@ export default function About() {
                         {item.sub}
                       </p>
                     </div>
-                    <span className="font-mono text-xs text-accent font-semibold whitespace-nowrap pt-1">
+                    <span className="font-mono text-xs text-accent font-semibold whitespace-nowrap pt-1" dir="ltr">
                       {item.year}
                     </span>
                   </div>
@@ -175,7 +174,7 @@ export default function About() {
             {/* Creative Toolkit Pills */}
             <div>
               <span className="font-mono text-xs tracking-[0.25em] text-accent uppercase mb-4 block">
-                CREATIVE TOOLKIT
+                {t('about.toolkit')}
               </span>
               <div className="flex flex-wrap gap-2">
                 {creativeToolkitPills.map((pill, idx) => (
@@ -195,15 +194,15 @@ export default function About() {
             {/* Software Tiles (6 items) */}
             <div>
               <span className="font-mono text-xs tracking-[0.25em] text-accent uppercase mb-4 block">
-                CORE TECH TILES
+                {t('about.coreTech')}
               </span>
               <div className="grid grid-cols-6 gap-3">
-                {TILES.map((t) => {
-                  const Icon = t.icon;
+                {TILES.map((tile) => {
+                  const Icon = tile.icon;
                   return (
                     <div
-                      key={t.name}
-                      title={t.name}
+                      key={tile.name}
+                      title={tile.name}
                       className="w-12 h-12 rounded-xl bg-surface border border-line flex items-center justify-center text-white/80 hover:text-accent hover:border-accent transition-all duration-300 transform hover:-translate-y-1 group cursor-pointer"
                     >
                       <Icon className="w-5 h-5 transition-transform group-hover:scale-110" />
@@ -217,17 +216,17 @@ export default function About() {
           {/* Column 2: Process Timeline (lg:col-span-4) */}
           <div ref={timelineRef} className="lg:col-span-4 flex flex-col relative px-2 sm:px-4">
             <span className="font-mono text-xs tracking-[0.25em] text-accent uppercase mb-6 block">
-              FROM IDEA TO FINAL PIXEL
+              {t('about.processTitle')}
             </span>
 
-            <div className="relative pl-8 flex flex-col gap-8">
+            <div className="relative ps-8 flex flex-col gap-8">
               {/* Background Line Track */}
-              <div className="absolute left-[11px] top-2 bottom-2 w-[2px] bg-white/10" />
+              <div className="absolute start-[11px] top-2 bottom-2 w-[2px] bg-white/10" />
 
               {/* Scrubbed Gold Fill Line */}
               <div
                 ref={timelineLineRef}
-                className="absolute left-[11px] top-2 bottom-2 w-[2px] bg-accent origin-top will-change-transform"
+                className="absolute start-[11px] top-2 bottom-2 w-[2px] bg-accent origin-top will-change-transform"
                 style={{ transform: 'scaleY(0)' }}
               />
 
@@ -238,7 +237,7 @@ export default function About() {
                   <div key={step.index} className="relative flex flex-col group">
                     {/* Node Dot */}
                     <div
-                      className={`absolute -left-[27px] top-1 w-[12px] h-[12px] rounded-full border-2 transition-all duration-300 z-10 ${
+                      className={`absolute -start-[27px] top-1 w-[12px] h-[12px] rounded-full border-2 transition-all duration-300 z-10 ${
                         isPassed
                           ? 'border-accent bg-accent shadow-[0_0_10px_rgba(212,175,55,0.7)]'
                           : 'border-line bg-bg'
@@ -246,7 +245,7 @@ export default function About() {
                     />
 
                     <div className="flex items-baseline gap-2 mb-1">
-                      <span className="font-mono text-xs text-accent font-bold">{step.index} ·</span>
+                      <span className="font-mono text-xs text-accent font-bold" dir="ltr">{step.index} ·</span>
                       <h4 className="font-sans font-bold text-sm uppercase text-white tracking-wide">
                         {step.title}
                       </h4>
@@ -261,7 +260,7 @@ export default function About() {
             </div>
           </div>
 
-          {/* Column 3: The Quote Card (lg:col-span-4) — Solid Gold with Navy Text & Serif Font */}
+          {/* Column 3: The Quote Card (lg:col-span-4) */}
           <div className="lg:col-span-4 flex justify-center lg:justify-end">
             <motion.div
               ref={quoteCardRef}
@@ -270,23 +269,26 @@ export default function About() {
               transition={{ duration: 0.9, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
               className="w-full max-w-[340px] rounded-2xl bg-accent text-[#0F1B2E] p-8 sm:p-10 shadow-2xl shadow-accent/20 flex flex-col justify-between min-h-[440px] select-none border border-[#0F1B2E]/15"
             >
-              {/* Top Quote Mark & Serif Body */}
+              {/* Top Quote Mark & Body */}
               <div>
                 <span className="font-serif text-7xl leading-none text-[#0F1B2E]/60 block select-none">
                   “
                 </span>
                 <p className="font-serif italic text-2xl sm:text-[1.65rem] font-medium text-[#0F1B2E] tracking-normal leading-snug mt-3">
-                  From pixels to performance — interfaces that feel alive.
+                  {t('about.quoteText')}
                 </p>
               </div>
 
               {/* Signature and Caption in Navy */}
               <div className="pt-8 border-t border-[#0F1B2E]/25 mt-8 flex flex-col">
-                <span className="font-script text-4xl sm:text-5xl text-[#0F1B2E] -rotate-3 select-none mb-2">
-                  Ameer
+                <span
+                  className="font-script text-4xl sm:text-5xl text-[#0F1B2E] select-none mb-2"
+                  style={{ transform: `rotate(${-3 * sx}deg)` }}
+                >
+                  {t('about.quoteAuthor')}
                 </span>
                 <span className="font-mono text-xs tracking-[0.25em] text-[#0F1B2E]/85 uppercase font-semibold">
-                  UI/UX · FRONT-END · REACT
+                  {t('about.quoteRole')}
                 </span>
               </div>
             </motion.div>

@@ -3,10 +3,13 @@ import { motion, useInView } from 'framer-motion';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import SectionLabel from '../components/SectionLabel';
 import Reveal from '../components/Reveal';
-import { profile } from '../data/content';
+import { useLanguage, useContent } from '../i18n/LanguageContext';
 import { FiMail, FiPhone, FiGithub, FiLinkedin, FiInstagram, FiArrowUpRight, FiCheck } from 'react-icons/fi';
 
 export default function Contact() {
+  const { lang, t } = useLanguage();
+  const { profile } = useContent();
+
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.15 });
 
@@ -30,13 +33,13 @@ export default function Contact() {
   // Form validation & submission
   const validate = () => {
     const newErrors = {};
-    if (!formData.name.trim()) newErrors.name = 'Name is required';
+    if (!formData.name.trim()) newErrors.name = t('contact.nameRequired');
     if (!formData.email.trim()) {
-      newErrors.email = 'Email is required';
+      newErrors.email = t('contact.emailRequired');
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = 'Invalid email address';
+      newErrors.email = t('contact.emailInvalid');
     }
-    if (!formData.message.trim()) newErrors.message = 'Message is required';
+    if (!formData.message.trim()) newErrors.message = t('contact.messageRequired');
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -57,17 +60,23 @@ export default function Contact() {
     setSubmitting(true);
 
     try {
+      const subject =
+        lang === 'ar'
+          ? `رسالة جديدة من الموقع: ${formData.name}`
+          : `New portfolio message from ${formData.name}`;
+
       const res = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
           access_key: profile.web3formsKey,
-          subject: `New portfolio message from ${formData.name}`,
+          subject,
           from_name: 'Ameer Saqer Portfolio',
           name: formData.name,
           email: formData.email,
           phone: formData.phone,
           message: formData.message,
+          language: lang,
           botcheck: false,
         }),
       });
@@ -79,11 +88,11 @@ export default function Contact() {
         setFormData({ name: '', email: '', phone: '', message: '' });
         setErrors({});
       } else {
-        setErrorMessage("Couldn't send your message. Please try again or message me on WhatsApp.");
+        setErrorMessage(t('contact.errorMessage'));
       }
     } catch (err) {
       console.error('Submission error:', err);
-      setErrorMessage("Couldn't send your message. Please try again or message me on WhatsApp.");
+      setErrorMessage(t('contact.errorMessage'));
     } finally {
       setSubmitting(false);
     }
@@ -101,8 +110,10 @@ export default function Contact() {
             <FiMail className="text-base" />
           </div>
           <div className="flex flex-col min-w-0">
-            <span className="font-mono text-[10px] tracking-widest text-muted uppercase">Email</span>
-            <span className="font-sans text-xs sm:text-sm font-semibold text-white group-hover:text-accent transition-colors truncate">
+            <span className="font-mono text-[10px] tracking-widest text-muted uppercase">
+              {t('contact.emailLabel')}
+            </span>
+            <span className="font-sans text-xs sm:text-sm font-semibold text-white group-hover:text-accent transition-colors truncate" dir="ltr">
               {profile.email}
             </span>
           </div>
@@ -117,8 +128,10 @@ export default function Contact() {
             <FiPhone className="text-base" />
           </div>
           <div className="flex flex-col min-w-0">
-            <span className="font-mono text-[10px] tracking-widest text-muted uppercase">Phone / WhatsApp</span>
-            <span className="font-sans text-xs sm:text-sm font-semibold text-white group-hover:text-accent transition-colors truncate">
+            <span className="font-mono text-[10px] tracking-widest text-muted uppercase">
+              {t('contact.phoneLabel')}
+            </span>
+            <span className="font-sans text-xs sm:text-sm font-semibold text-white group-hover:text-accent transition-colors truncate" dir="ltr">
               {profile.phone}
             </span>
           </div>
@@ -131,7 +144,7 @@ export default function Contact() {
           href={profile.socials.github}
           target="_blank"
           rel="noopener noreferrer"
-          aria-label="GitHub profile"
+          aria-label={lang === 'ar' ? 'حساب GitHub' : 'GitHub profile'}
           className="w-11 h-11 rounded-full border border-line flex items-center justify-center text-white hover:text-[#0F1B2E] hover:bg-accent hover:border-accent transition-all duration-300 focus-ring"
         >
           <FiGithub className="text-lg" />
@@ -140,7 +153,7 @@ export default function Contact() {
           href={profile.socials.linkedin}
           target="_blank"
           rel="noopener noreferrer"
-          aria-label="LinkedIn profile"
+          aria-label={lang === 'ar' ? 'حساب LinkedIn' : 'LinkedIn profile'}
           className="w-11 h-11 rounded-full border border-line flex items-center justify-center text-white hover:text-[#0F1B2E] hover:bg-accent hover:border-accent transition-all duration-300 focus-ring"
         >
           <FiLinkedin className="text-lg" />
@@ -149,7 +162,7 @@ export default function Contact() {
           href={profile.socials.instagram}
           target="_blank"
           rel="noopener noreferrer"
-          aria-label="Instagram profile"
+          aria-label={lang === 'ar' ? 'حساب Instagram' : 'Instagram profile'}
           className="w-11 h-11 rounded-full border border-line flex items-center justify-center text-white hover:text-[#0F1B2E] hover:bg-accent hover:border-accent transition-all duration-300 focus-ring"
         >
           <FiInstagram className="text-lg" />
@@ -162,31 +175,32 @@ export default function Contact() {
     <section id="contact" ref={sectionRef} className="relative py-24 sm:py-32 bg-bg border-t border-line overflow-hidden">
       <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-14">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-stretch">
-          {/* Left Column (5 cols, sticky or full-height on desktop) */}
+          {/* Start Column (5 cols, sticky on desktop) */}
           <div className="lg:col-span-5 flex flex-col items-start justify-between">
             <div>
-              <SectionLabel label="04 / YOUR NEXT PROJECT" />
+              <SectionLabel label={t('sectionLabels.contact')} />
 
               <div className="my-4">
                 <Reveal>
                   <h2 className="font-display text-[clamp(2.75rem,5.5vw,4.75rem)] leading-[0.95] uppercase text-white tracking-tight">
-                    <span>LET'S BUILD</span>
+                    <span>{t('contact.titleLine1')}</span>
                     <span className="block text-accent mt-[0.05em]">
-                      TOGETHER<span className="text-accent ml-1">.</span>
+                      {t('contact.titleLine2')}
+                      <span className="text-accent ms-1">.</span>
                     </span>
                   </h2>
                 </Reveal>
               </div>
 
               <p className="font-sans text-sm sm:text-base text-muted leading-relaxed mb-6">
-                Got an idea? Let's make something worth visiting.
+                {t('contact.subtitle')}
               </p>
 
               {/* Availability Pill with Gold Dot */}
               <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full border border-line bg-surface/60 mb-6">
                 <span className="w-2 h-2 rounded-full bg-accent animate-pulse shadow-[0_0_8px_rgba(212,175,55,0.85)] flex-shrink-0" />
                 <span className="font-mono text-[11px] sm:text-xs tracking-wider text-accent uppercase font-bold">
-                  AVAILABLE FOR FREELANCE · REPLIES WITHIN 24H
+                  {t('contact.pill')}
                 </span>
               </div>
 
@@ -198,8 +212,8 @@ export default function Contact() {
                   rel="noopener noreferrer"
                   className="group inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-accent text-[#0F1B2E] font-mono text-xs uppercase tracking-widest font-bold hover:bg-white border border-accent hover:border-white transition-all duration-300 min-h-[44px] shadow-lg shadow-accent/20 focus-ring"
                 >
-                  <span>Chat on WhatsApp</span>
-                  <FiArrowUpRight className="text-base transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                  <span>{t('contact.whatsappBtn')}</span>
+                  <FiArrowUpRight className="text-base transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 rtl:group-hover:-translate-x-0.5 transition-transform rtl:-scale-x-100" />
                 </a>
               </div>
             </div>
@@ -210,7 +224,7 @@ export default function Contact() {
             </div>
           </div>
 
-          {/* Right Column (7 cols): Single Form Card */}
+          {/* End Column (7 cols): Single Form Card */}
           <div className="lg:col-span-7 w-full flex flex-col">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -219,11 +233,11 @@ export default function Contact() {
               className="rounded-2xl border border-line bg-white/[0.02] p-6 sm:p-8 lg:p-10 shadow-[0_0_40px_rgba(212,175,55,0.04)] flex flex-col h-full"
             >
               <span className="font-mono text-xs tracking-[0.25em] text-accent uppercase mb-6 block">
-                SEND A MESSAGE
+                {t('contact.cardTitle')}
               </span>
 
               <form onSubmit={handleSubmit} className="flex flex-col flex-1 gap-6">
-                {/* Honeypot spam protection (hidden from humans, trips bots) */}
+                {/* Honeypot spam protection */}
                 <input
                   type="checkbox"
                   name="botcheck"
@@ -253,9 +267,9 @@ export default function Contact() {
                     />
                     <label
                       htmlFor="name"
-                      className="absolute left-0 top-3 font-mono text-xs tracking-wider text-muted pointer-events-none transition-all duration-200 peer-focus:-top-2 peer-focus:text-xs peer-focus:text-accent peer-[:not(:placeholder-shown)]:-top-2 peer-[:not(:placeholder-shown)]:text-xs uppercase"
+                      className="absolute start-0 top-3 font-mono text-xs tracking-wider text-muted pointer-events-none transition-all duration-200 peer-focus:-top-2 peer-focus:text-xs peer-focus:text-accent peer-[:not(:placeholder-shown)]:-top-2 peer-[:not(:placeholder-shown)]:text-xs uppercase"
                     >
-                      Your Name *
+                      {t('contact.nameLabel')}
                     </label>
                     {errors.name && (
                       <span className="font-mono text-xs text-accent mt-1">{errors.name}</span>
@@ -279,9 +293,9 @@ export default function Contact() {
                     />
                     <label
                       htmlFor="email"
-                      className="absolute left-0 top-3 font-mono text-xs tracking-wider text-muted pointer-events-none transition-all duration-200 peer-focus:-top-2 peer-focus:text-xs peer-focus:text-accent peer-[:not(:placeholder-shown)]:-top-2 peer-[:not(:placeholder-shown)]:text-xs uppercase"
+                      className="absolute start-0 top-3 font-mono text-xs tracking-wider text-muted pointer-events-none transition-all duration-200 peer-focus:-top-2 peer-focus:text-xs peer-focus:text-accent peer-[:not(:placeholder-shown)]:-top-2 peer-[:not(:placeholder-shown)]:text-xs uppercase"
                     >
-                      Your Email *
+                      {t('contact.emailInputLabel')}
                     </label>
                     {errors.email && (
                       <span className="font-mono text-xs text-accent mt-1">{errors.email}</span>
@@ -305,13 +319,13 @@ export default function Contact() {
                   />
                   <label
                     htmlFor="phone"
-                    className="absolute left-0 top-3 font-mono text-xs tracking-wider text-muted pointer-events-none transition-all duration-200 peer-focus:-top-2 peer-focus:text-xs peer-focus:text-accent peer-[:not(:placeholder-shown)]:-top-2 peer-[:not(:placeholder-shown)]:text-xs uppercase"
+                    className="absolute start-0 top-3 font-mono text-xs tracking-wider text-muted pointer-events-none transition-all duration-200 peer-focus:-top-2 peer-focus:text-xs peer-focus:text-accent peer-[:not(:placeholder-shown)]:-top-2 peer-[:not(:placeholder-shown)]:text-xs uppercase"
                   >
-                    Phone Number (optional)
+                    {t('contact.phoneInputLabel')}
                   </label>
                 </div>
 
-                {/* Message (flex-1 so it expands and fills the card on desktop) */}
+                {/* Message */}
                 <div className="relative flex flex-col pt-3 flex-1">
                   <textarea
                     id="message"
@@ -328,16 +342,16 @@ export default function Contact() {
                   />
                   <label
                     htmlFor="message"
-                    className="absolute left-0 top-3 font-mono text-xs tracking-wider text-muted pointer-events-none transition-all duration-200 peer-focus:-top-2 peer-focus:text-xs peer-focus:text-accent peer-[:not(:placeholder-shown)]:-top-2 peer-[:not(:placeholder-shown)]:text-xs uppercase"
+                    className="absolute start-0 top-3 font-mono text-xs tracking-wider text-muted pointer-events-none transition-all duration-200 peer-focus:-top-2 peer-focus:text-xs peer-focus:text-accent peer-[:not(:placeholder-shown)]:-top-2 peer-[:not(:placeholder-shown)]:text-xs uppercase"
                   >
-                    Project Details & Timeline *
+                    {t('contact.messageLabel')}
                   </label>
                   {errors.message && (
                     <span className="font-mono text-xs text-accent mt-1">{errors.message}</span>
                   )}
                 </div>
 
-                {/* Inline Status Announcement (Success / Error) */}
+                {/* Inline Status Announcement */}
                 {errorMessage && (
                   <div
                     role="status"
@@ -345,16 +359,33 @@ export default function Contact() {
                     className="p-4 rounded-xl border border-accent/40 bg-accent-soft/20 text-white font-sans text-sm flex items-center gap-2"
                   >
                     <span>
-                      Couldn't send your message. Please try again or message me on{' '}
-                      <a
-                        href={profile.whatsapp}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-accent underline font-semibold hover:text-white transition-colors"
-                      >
-                        WhatsApp
-                      </a>
-                      .
+                      {lang === 'ar' ? (
+                        <>
+                          تعذر إرسال رسالتك. يرجى المحاولة مرة أخرى أو مراسلتي عبر{' '}
+                          <a
+                            href={profile.whatsapp}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-accent underline font-semibold hover:text-white transition-colors"
+                          >
+                            واتساب
+                          </a>
+                          .
+                        </>
+                      ) : (
+                        <>
+                          Couldn't send your message. Please try again or message me on{' '}
+                          <a
+                            href={profile.whatsapp}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-accent underline font-semibold hover:text-white transition-colors"
+                          >
+                            WhatsApp
+                          </a>
+                          .
+                        </>
+                      )}
                     </span>
                   </div>
                 )}
@@ -366,11 +397,11 @@ export default function Contact() {
                     className="p-4 rounded-xl border border-accent/40 bg-accent-soft/20 text-white font-sans text-sm flex items-center gap-2"
                   >
                     <FiCheck className="text-accent text-base flex-shrink-0" />
-                    <span>Thank you! Your message has been sent successfully.</span>
+                    <span>{t('contact.successMessage')}</span>
                   </div>
                 )}
 
-                {/* Submit Button (Full width on mobile, right-aligned on desktop, at bottom of card) */}
+                {/* Submit Button */}
                 <div className="pt-2 mt-auto flex flex-col sm:flex-row items-stretch sm:items-center sm:justify-end gap-4">
                   <button
                     type="submit"
@@ -380,14 +411,16 @@ export default function Contact() {
                     {submitted ? (
                       <>
                         <FiCheck className="text-base text-[#0F1B2E]" />
-                        <span className="text-[#0F1B2E]">Message Sent</span>
+                        <span className="text-[#0F1B2E]">{t('contact.sentBtn')}</span>
                       </>
                     ) : submitting ? (
-                      <span className="text-[#0F1B2E]">Sending...</span>
+                      <span className="text-[#0F1B2E]">{t('contact.sendingBtn')}</span>
                     ) : (
                       <>
-                        <span className="text-[#0F1B2E]">Send Message</span>
-                        <span className="text-[#0F1B2E] transition-transform duration-300 group-hover:translate-x-1">→</span>
+                        <span className="text-[#0F1B2E]">{t('contact.sendBtn')}</span>
+                        <span className="text-[#0F1B2E] transition-transform duration-300 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 rtl:-scale-x-100">
+                          →
+                        </span>
                       </>
                     )}
                   </button>
@@ -395,7 +428,7 @@ export default function Contact() {
               </form>
             </motion.div>
 
-            {/* Mobile Contact Details & Social Icons (below form card) */}
+            {/* Mobile Contact Details & Social Icons */}
             <div className="block lg:hidden w-full pt-8 mt-10 border-t border-line/60">
               {contactInfoBlock}
             </div>
