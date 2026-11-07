@@ -14,11 +14,11 @@ function StatItem({ value, suffix, label, startCount }) {
 
   return (
     <div className="py-4 border-b border-line last:border-b-0 flex flex-col items-end">
-      <div className="flex items-baseline gap-1 font-display text-4xl sm:text-5xl lg:text-6xl text-white tracking-tight">
-        <span>
+      <div className="flex items-baseline gap-1 font-display text-4xl sm:text-5xl lg:text-6xl text-white tracking-tight" dir="ltr">
+        <bdi>
           {count}
           {suffix}
-        </span>
+        </bdi>
         <span className="w-1.5 h-1.5 rounded-full bg-accent" />
       </div>
       <span className="font-mono text-xs tracking-[0.2em] text-dim uppercase text-end mt-1">
@@ -186,15 +186,15 @@ export default function Hero({ readyToAnimate = true }) {
           <span className="font-script text-3xl sm:text-4xl text-white select-none pointer-events-none block mb-1">
             {t('hero.greeting')}
           </span>
-          <h1 className="font-display text-[clamp(3.8rem,16vw,6.5rem)] leading-[0.88] uppercase text-white tracking-tight flex items-baseline">
+          <h1 className="font-display text-[clamp(3.8rem,16vw,6.5rem)] leading-[0.88] rtl:leading-[1.12] rtl:text-[clamp(3.2rem,14vw,5.2rem)] uppercase rtl:normal-case tracking-tight rtl:tracking-normal text-white flex items-baseline">
             <span>{profile.brand}</span>
             <span className="text-accent ms-1">.</span>
           </h1>
         </div>
 
         {/* Step 4: Role Label */}
-        <div className="mt-2 mb-4 font-mono text-xs sm:text-sm tracking-[0.16em] text-accent uppercase font-bold leading-normal break-words">
-          {t('hero.role')}
+        <div className="mt-2 mb-4 font-mono rtl:font-sans text-xs sm:text-sm tracking-[0.16em] rtl:tracking-normal text-accent uppercase rtl:normal-case font-bold leading-normal break-words">
+          {profile.role}
         </div>
 
         {/* Step 5: Short Paragraph */}
@@ -247,11 +247,11 @@ export default function Hero({ readyToAnimate = true }) {
         <div className="grid grid-cols-3 gap-2 w-full pt-6 pb-2 border-t border-b border-line text-center">
           {stats.map((st) => (
             <div key={st.label} className="flex flex-col items-center">
-              <div className="flex items-baseline gap-0.5 font-display text-2xl sm:text-3xl text-white tracking-tight">
-                <span>
+              <div className="flex items-baseline gap-0.5 font-display text-2xl sm:text-3xl text-white tracking-tight" dir="ltr">
+                <bdi>
                   {st.value}
                   {st.suffix}
-                </span>
+                </bdi>
                 <span className="w-1.5 h-1.5 rounded-full bg-accent" />
               </div>
               <span className="font-mono text-xs tracking-wider text-muted uppercase mt-1">
@@ -286,8 +286,8 @@ export default function Hero({ readyToAnimate = true }) {
               {t('hero.greeting')}
             </motion.span>
 
-            <div className="overflow-hidden">
-              <h1 className="font-display text-[clamp(4.2rem,11.5vw,10.5rem)] leading-[0.88] uppercase text-white tracking-tight flex items-baseline mt-8">
+            <div className="overflow-hidden py-1">
+              <h1 className="font-display text-[clamp(4.2rem,11.5vw,10.5rem)] leading-[0.88] rtl:leading-[1.12] rtl:text-[clamp(3.6rem,10vw,8.5rem)] uppercase rtl:normal-case tracking-tight rtl:tracking-normal text-white flex items-baseline mt-8">
                 {lang === 'ar' ? (
                   <motion.span
                     initial={{ y: "110%" }}
@@ -297,7 +297,7 @@ export default function Hero({ readyToAnimate = true }) {
                       delay: 0.55,
                       ease: [0.16, 1, 0.3, 1],
                     }}
-                    className="inline-block"
+                    className="inline-block py-1"
                   >
                     {profile.brand}
                   </motion.span>
@@ -332,9 +332,9 @@ export default function Hero({ readyToAnimate = true }) {
                 delay: 0.85,
                 ease: [0.16, 1, 0.3, 1],
               }}
-              className="font-mono text-xs sm:text-sm tracking-[0.25em] text-accent uppercase font-bold"
+              className="font-mono rtl:font-sans text-xs sm:text-sm tracking-[0.25em] rtl:tracking-normal text-accent uppercase rtl:normal-case font-bold"
             >
-              {t('hero.role')}
+              {profile.role}
             </motion.div>
           </div>
 

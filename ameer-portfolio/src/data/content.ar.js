@@ -12,7 +12,7 @@ export { toolsList, techStack, softwareTiles };
 export const profile = {
   ...sharedProfile,
   name: "أمير صقر",
-  brand: "AMEER",
+  brand: "أمير",
   role: "مصمم UI/UX ومطوّر Front-End",
   tagline: "أصنع تجارب رقمية",
   status: "متاح لمشاريع العمل الحر",

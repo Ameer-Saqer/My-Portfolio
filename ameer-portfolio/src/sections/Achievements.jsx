@@ -81,7 +81,7 @@ export default function Achievements() {
 
               {/* Center Counter */}
               <div className="flex flex-col items-center justify-center z-10 px-4 text-center">
-                <span className="font-display text-6xl sm:text-7xl text-white tracking-tight leading-none">
+                <span className="font-display text-6xl sm:text-7xl text-white tracking-tight leading-none" dir="ltr">
                   {certsCount}
                 </span>
                 <span className="font-mono text-xs tracking-[0.2em] text-accent font-semibold uppercase mt-2.5">
