@@ -2,13 +2,14 @@ import React, { useState, useRef, useEffect, lazy, Suspense } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import SectionLabel from '../components/SectionLabel';
 import Reveal from '../components/Reveal';
-import { projects, projectCategories } from '../data/content';
+import { useLanguage, useContent } from '../i18n/LanguageContext';
 import { FiArrowUpRight, FiGithub, FiExternalLink } from 'react-icons/fi';
 
 const ProjectLightbox = lazy(() => import('../components/ProjectLightbox'));
 
 // Project Card component with tall screenshot auto-scroll, 3D tilt and hover interactions
 function ProjectCard({ project, onOpenLightbox, isHoveredSibling, onHoverStart, onHoverEnd }) {
+  const { dir, t } = useLanguage();
   const [isHovered, setIsHovered] = useState(false);
   const [isTapped, setIsTapped] = useState(false);
   const cardRef = useRef(null);
@@ -94,19 +95,19 @@ function ProjectCard({ project, onOpenLightbox, isHoveredSibling, onHoverStart, 
     >
       {/* 4:3 Image Container with clipping */}
       <div className="relative w-full h-[230px] sm:h-[260px] rounded-xl overflow-hidden bg-navy-deep/70 mb-4">
-        {/* Chip top-left */}
-        <div className="absolute top-3 left-3 z-10 px-2.5 py-1 rounded-md bg-bg/85 backdrop-blur-md border border-line text-xs font-mono tracking-widest text-white uppercase">
+        {/* Chip top-start */}
+        <div className="absolute top-3 start-3 z-10 px-2.5 py-1 rounded-md bg-bg/85 backdrop-blur-md border border-line text-xs font-mono tracking-widest text-white uppercase">
           {project.category}
         </div>
 
-        {/* Gallery indicator chip top-right if lightbox exists (Gold with Navy text) */}
+        {/* Gallery indicator chip top-end if lightbox exists */}
         {project.galleryCount && (
-          <div className="absolute top-3 right-3 z-10 px-2.5 py-1 rounded-full bg-accent text-[#0F1B2E] text-xs font-mono font-bold tracking-wider shadow-sm">
-            +{project.galleryCount - 1} PAGES
+          <div className="absolute top-3 end-3 z-10 px-2.5 py-1 rounded-full bg-accent text-[#0F1B2E] text-xs font-mono font-bold tracking-wider shadow-sm">
+            +{project.galleryCount - 1} {t('work.pages')}
           </div>
         )}
 
-        {/* Project Image (auto-scroll on hover or tap for tall screenshots) */}
+        {/* Project Image */}
         <div
           className="w-full h-full overflow-hidden relative cursor-pointer"
           onClick={(e) => {
@@ -148,7 +149,7 @@ function ProjectCard({ project, onOpenLightbox, isHoveredSibling, onHoverStart, 
       <div className="flex flex-col gap-2">
         <div className="flex items-start justify-between gap-3">
           <div className="flex items-baseline gap-3">
-            <span className="font-display text-2xl sm:text-3xl text-white/40 group-hover:text-accent transition-colors duration-300">
+            <span className="font-display text-2xl sm:text-3xl text-white/40 group-hover:text-accent transition-colors duration-300" dir="ltr">
               {project.id}
             </span>
             <div className="flex flex-col">
@@ -161,9 +162,9 @@ function ProjectCard({ project, onOpenLightbox, isHoveredSibling, onHoverStart, 
             </div>
           </div>
 
-          {/* Arrow top-right that rotates and fills accent on hover */}
+          {/* Arrow top-end that rotates and fills accent on hover */}
           <div className="w-9 h-9 rounded-full border border-line group-hover:border-accent group-hover:bg-accent flex items-center justify-center transition-all duration-300 flex-shrink-0">
-            <FiArrowUpRight className="text-white group-hover:text-white transition-all duration-300 transform group-hover:rotate-45" />
+            <FiArrowUpRight className="text-white group-hover:text-[#0F1B2E] transition-all duration-300 transform group-hover:rotate-45 rtl:-scale-x-100 rtl:group-hover:-rotate-45" />
           </div>
         </div>
 
@@ -172,10 +173,14 @@ function ProjectCard({ project, onOpenLightbox, isHoveredSibling, onHoverStart, 
           {project.description}
         </p>
 
-        {/* Footer Row: Live link & GitHub link */}
+        {/* Footer Row: Status & external links */}
         <div className="flex items-center justify-between pt-3 mt-2 border-t border-line/50">
           <span className="font-mono text-xs uppercase tracking-widest text-dim group-hover:text-muted transition-colors">
-            {project.hasLightbox ? 'CLICK TO EXPLORE' : project.live !== '#' ? 'LIVE PREVIEW' : 'SOURCE CODE'}
+            {project.hasLightbox
+              ? t('work.clickToExplore')
+              : project.live && project.live !== '#'
+              ? t('work.livePreview')
+              : t('work.sourceCode')}
           </span>
 
           <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
@@ -185,7 +190,8 @@ function ProjectCard({ project, onOpenLightbox, isHoveredSibling, onHoverStart, 
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-muted hover:text-accent p-2 min-h-[44px] min-w-[44px] flex items-center justify-center transition-colors"
-                title="Live Demo"
+                title={t('work.livePreview')}
+                aria-label={t('work.livePreview')}
               >
                 <FiExternalLink className="text-base" />
               </a>
@@ -196,7 +202,8 @@ function ProjectCard({ project, onOpenLightbox, isHoveredSibling, onHoverStart, 
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-muted hover:text-accent p-2 min-h-[44px] min-w-[44px] flex items-center justify-center transition-colors"
-                title="Source Code"
+                title={t('work.sourceCode')}
+                aria-label={t('work.sourceCode')}
               >
                 <FiGithub className="text-base" />
               </a>
@@ -209,7 +216,10 @@ function ProjectCard({ project, onOpenLightbox, isHoveredSibling, onHoverStart, 
 }
 
 export default function Work() {
-  const [activeCategory, setActiveCategory] = useState('All');
+  const { dir, t } = useLanguage();
+  const { projects, projectCategories } = useContent();
+
+  const [activeCategoryIndex, setActiveCategoryIndex] = useState(0);
   const [hoveredCardId, setHoveredCardId] = useState(null);
   const [activeLightboxProject, setActiveLightboxProject] = useState(null);
 
@@ -218,8 +228,9 @@ export default function Work() {
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
 
+  const activeCategory = projectCategories[activeCategoryIndex] || projectCategories[0];
   const filteredProjects =
-    activeCategory === 'All'
+    activeCategoryIndex === 0
       ? projects
       : projects.filter((p) => p.category === activeCategory);
 
@@ -250,14 +261,15 @@ export default function Work() {
   return (
     <section id="work" className="relative py-28 sm:py-36 bg-bg-deep overflow-hidden">
       <div className="max-w-7xl mx-auto px-5 sm:px-8 mb-10">
-        <SectionLabel label="01 / SELECTED WORK" />
+        <SectionLabel label={t('sectionLabels.work')} />
 
         {/* Section Title and View All */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 border-b border-line">
           <Reveal>
             <h2 className="font-display text-[clamp(2.6rem,7vw,6.5rem)] leading-[0.9] uppercase text-white tracking-tight">
-              PROJECTS THAT <span className="text-accent">SPEAK</span>
-              <span className="text-accent ml-1">.</span>
+              {t('work.titleLine1')}{' '}
+              <span className="text-accent">{t('work.titleLine2')}</span>
+              <span className="text-accent ms-1">.</span>
             </h2>
           </Reveal>
 
@@ -267,19 +279,21 @@ export default function Work() {
             rel="noopener noreferrer"
             className="font-mono text-xs uppercase tracking-widest text-muted hover:text-accent flex items-center gap-2 group focus-ring py-2 transition-colors"
           >
-            <span>MORE ON GITHUB</span>
-            <span className="transform group-hover:translate-x-1 transition-transform">→</span>
+            <span>{t('work.moreOnGithub')}</span>
+            <span className="transform group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-transform rtl:-scale-x-100">
+              →
+            </span>
           </a>
         </div>
 
         {/* Filter Tabs (min 44px touch height) */}
         <div className="flex items-center gap-2 sm:gap-6 pt-6 overflow-x-auto no-scrollbar">
-          {projectCategories.map((category) => {
-            const isActive = activeCategory === category;
+          {projectCategories.map((category, idx) => {
+            const isActive = activeCategoryIndex === idx;
             return (
               <button
                 key={category}
-                onClick={() => setActiveCategory(category)}
+                onClick={() => setActiveCategoryIndex(idx)}
                 className={`relative min-h-[44px] px-3 py-2.5 font-mono text-xs sm:text-sm uppercase tracking-wider transition-colors whitespace-nowrap focus-ring flex items-center ${
                   isActive ? 'text-accent font-bold' : 'text-muted hover:text-white'
                 }`}
@@ -288,7 +302,7 @@ export default function Work() {
                 {isActive && (
                   <motion.div
                     layoutId="activeTabUnderline"
-                    className="absolute bottom-0 left-0 right-0 h-[2px] bg-accent"
+                    className="absolute bottom-0 start-0 end-0 h-[2px] bg-accent"
                     transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                   />
                 )}
@@ -323,10 +337,10 @@ export default function Work() {
           </AnimatePresence>
         </div>
 
-        {/* Drag Hint indicator on right edge */}
-        <div className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 hidden lg:flex items-center gap-2 font-mono text-xs tracking-widest text-dim uppercase bg-surface/90 px-3 py-1.5 rounded-full border border-line">
-          <span>DRAG TO SCROLL</span>
-          <span className="text-accent">→</span>
+        {/* Drag Hint indicator on end edge */}
+        <div className="pointer-events-none absolute end-4 top-1/2 -translate-y-1/2 hidden lg:flex items-center gap-2 font-mono text-xs tracking-widest text-dim uppercase bg-surface/90 px-3 py-1.5 rounded-full border border-line">
+          <span>{t('work.dragToScroll')}</span>
+          <span className="text-accent rtl:-scale-x-100">→</span>
         </div>
       </div>
 

@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
+  :root, html[dir="ltr"] {
     color-scheme: dark;
     /* Primary Design Tokens - Navy + White + Gold */
     --bg: #0F1B2E;
@@ -16,12 +16,28 @@
     --accent: #D4AF37;
     --accent-soft: rgba(212, 175, 55, 0.15);
     --line: rgba(212, 175, 55, 0.18);
+
+    /* Typography Tokens (LTR) */
+    --font-display: 'Anton', sans-serif;
+    --font-sans: 'Plus Jakarta Sans', sans-serif;
+    --font-serif: 'Playfair Display', Georgia, serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    --font-script: 'Caveat', cursive;
+  }
+
+  html[dir="rtl"] {
+    /* Typography Tokens (RTL) */
+    --font-display: 'Cairo', 'Anton', sans-serif;
+    --font-sans: 'IBM Plex Sans Arabic', 'Plus Jakarta Sans', sans-serif;
+    --font-serif: 'Playfair Display', Georgia, serif;
+    --font-mono: 'IBM Plex Sans Arabic', 'JetBrains Mono', monospace;
+    --font-script: 'Cairo', 'Caveat', cursive;
   }
 
   html {
     background-color: #0F1B2E;
     color: #FFFFFF;
-    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: var(--font-sans);
     scroll-behavior: auto; /* Managed smoothly by Lenis */
   }
 
@@ -139,3 +155,36 @@
     opacity: 1 !important;
   }
 }
+
+/* RTL Global Typography & Layout Rules */
+[dir="rtl"] {
+  letter-spacing: normal !important;
+}
+
+/* Cancel letter-spacing for all Arabic text so letters connect cleanly */
+[dir="rtl"] [class*="tracking-"]:not([dir="ltr"]):not(bdi) {
+  letter-spacing: 0 !important;
+}
+
+/* Cancel uppercase transformations on Arabic text */
+[dir="rtl"] .uppercase:not([dir="ltr"]):not(bdi) {
+  text-transform: none !important;
+}
+
+/* Arabic Headings line-height & size tuning */
+[dir="rtl"] h1,
+[dir="rtl"] h2,
+[dir="rtl"] h3 {
+  line-height: 1.25 !important;
+}
+
+/* Arabic body paragraphs comfortable line-height */
+[dir="rtl"] p {
+  line-height: 1.85;
+}
+
+/* Mirror directional icons (arrows, chevrons) in RTL */
+[dir="rtl"] .rtl-flip {
+  transform: scaleX(-1);
+}
+

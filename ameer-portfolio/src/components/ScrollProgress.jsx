@@ -34,7 +34,7 @@ export default function ScrollProgress() {
   return (
     <div
       aria-hidden="true"
-      className="hidden md:block fixed left-0 top-0 bottom-0 w-[2px] z-30 pointer-events-none"
+      className="hidden md:block fixed start-0 top-0 bottom-0 w-[2px] z-30 pointer-events-none"
     >
       {/* Background track (subtle gold line) */}
       <div className="absolute inset-0 bg-[rgba(212,175,55,0.12)]" />
@@ -42,14 +42,14 @@ export default function ScrollProgress() {
       {/* Progress fill line (Gold) */}
       <div
         ref={lineRef}
-        className="absolute top-0 left-0 w-full h-full bg-accent origin-top will-change-transform"
+        className="absolute inset-0 bg-accent origin-top will-change-transform"
         style={{ transform: 'scaleY(0)' }}
       />
 
       {/* Glowing tip dot (Gold) */}
       <div
         ref={dotRef}
-        className="absolute left-[-2px] w-[6px] h-[6px] -translate-y-1/2 rounded-full bg-accent shadow-[0_0_12px_rgba(212,175,55,0.8)] will-change-[top]"
+        className="absolute -start-[2px] w-[6px] h-[6px] -translate-y-1/2 rounded-full bg-accent shadow-[0_0_12px_rgba(212,175,55,0.8)] will-change-[top]"
         style={{ top: '0%' }}
       />
     </div>

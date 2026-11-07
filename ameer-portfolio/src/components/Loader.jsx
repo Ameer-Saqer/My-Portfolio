@@ -140,13 +140,13 @@ export default function Loader({ onComplete }) {
             {/* Thin progress line container */}
             <div className="w-48 sm:w-64 h-[2px] bg-white/10 relative overflow-hidden mb-3">
               <div
-                className="absolute top-0 left-0 h-full bg-accent will-change-[width]"
+                className="absolute top-0 start-0 h-full bg-accent will-change-[width]"
                 style={{ width: `${percent}%` }}
               />
             </div>
 
             {/* Mono counter 000 -> 100 */}
-            <div className="font-mono text-xs tracking-[0.25em] text-muted">
+            <div className="font-mono text-xs tracking-[0.25em] text-muted" dir="ltr">
               {String(percent).padStart(3, "0")} / 100
             </div>
           </div>
