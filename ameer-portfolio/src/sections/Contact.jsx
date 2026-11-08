@@ -169,7 +169,7 @@ export default function Contact() {
 
               <div className="my-4">
                 <Reveal>
-                  <h2 className="font-display text-[clamp(2.75rem,5.5vw,4.75rem)] leading-[0.95] uppercase text-white tracking-tight">
+                  <h2 className="font-display heading-display text-[clamp(2.75rem,5.5vw,4.75rem)] uppercase text-white tracking-tight">
                     <span>LET'S BUILD</span>
                     <span className="block text-accent mt-[0.05em]">
                       TOGETHER<span className="text-accent ml-1">.</span>

@@ -40,11 +40,11 @@ export default function Achievements() {
               MILESTONES & CERTIFICATES
             </span>
 
-            <h3 className="font-display text-4xl sm:text-5xl lg:text-6xl text-white uppercase tracking-tight leading-[0.95] mb-8">
+            <h2 className="font-display heading-display text-4xl sm:text-5xl lg:text-6xl text-white uppercase tracking-tight mb-8">
               THE CODE.<br />
               <span className="text-accent">THE CRAFT</span>
               <span className="text-accent ml-1">.</span>
-            </h3>
+            </h2>
 
             {/* Laurel Wreath with animated leaves drawing in */}
             <div className="relative my-4 flex items-center justify-center w-full max-w-[340px] sm:max-w-[360px] h-[200px]">

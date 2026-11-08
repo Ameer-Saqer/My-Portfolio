@@ -124,7 +124,7 @@ export default function About() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-16 pb-8 border-b border-line items-end">
           <div className="lg:col-span-8">
             <Reveal>
-              <h2 className="font-display text-[clamp(2.6rem,7vw,6.2rem)] leading-[0.9] uppercase text-white tracking-tight">
+              <h2 className="font-display heading-display text-[clamp(2.6rem,7vw,6.2rem)] uppercase text-white tracking-tight">
                 NOT JUST CODE.<br />
                 <span className="text-accent">A WAY OF BUILDING</span>
                 <span className="text-accent ml-1">.</span>
