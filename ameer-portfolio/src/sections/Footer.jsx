@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { useLanguage, useContent } from '../i18n/LanguageContext';
+import { profile } from '../data/content';
 import LogoMark from '../components/LogoMark';
 import {
   FiGithub,
@@ -15,9 +15,6 @@ import { FaWhatsapp } from 'react-icons/fa';
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Footer() {
-  const { lang, t } = useLanguage();
-  const { profile } = useContent();
-
   const footerRef = useRef(null);
   const bigWordRef = useRef(null);
 
@@ -63,10 +60,10 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto flex flex-col justify-between relative z-10">
         {/* Main Footer Row */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-8 pb-16">
-          {/* Start: Brand, Tagline & Copyright */}
+          {/* Left: Brand, Tagline & Copyright */}
           <div className="flex flex-col items-center md:items-start gap-2">
             <a
-              href={lang === 'ar' ? '/ar' : '/'}
+              href="#"
               onClick={(e) => {
                 e.preventDefault();
                 scrollToTop();
@@ -78,11 +75,11 @@ export default function Footer() {
             </a>
             {/* Tagline */}
             <div className="flex items-center gap-1.5 font-mono text-xs uppercase tracking-widest text-muted">
-              <span>{t('footer.tagline1')}</span>
-              <span className="text-accent font-semibold">{t('footer.tagline2')}</span>
+              <span>Crafting Digital</span>
+              <span className="text-accent font-semibold">Experiences</span>
             </div>
             <p className="font-mono text-xs text-muted tracking-wider">
-              © 2026 {profile.name} — {t('footer.rights')}
+              © 2026 {profile.name} — All rights reserved.
             </p>
           </div>
 
@@ -105,12 +102,12 @@ export default function Footer() {
             })}
           </div>
 
-          {/* End: Back to top */}
+          {/* Right: Back to top */}
           <button
             onClick={scrollToTop}
             className="min-h-[44px] flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-muted hover:text-accent transition-colors group focus-ring px-3 py-2"
           >
-            <span>{t('footer.backToTop')}</span>
+            <span>BACK TO TOP</span>
             <div className="w-7 h-7 rounded-full border border-line group-hover:border-accent group-hover:bg-accent-soft flex items-center justify-center transition-colors">
               <FiArrowUp className="text-xs transform group-hover:-translate-y-0.5 transition-transform text-white group-hover:text-accent" />
             </div>

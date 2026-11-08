@@ -23,11 +23,11 @@ export default {
         'accent-soft': 'rgba(212, 175, 55, 0.15)',
       },
       fontFamily: {
-        display: ['var(--font-display)', 'Anton', 'Cairo', 'sans-serif'],
-        sans: ['var(--font-sans)', '"Plus Jakarta Sans"', '"IBM Plex Sans Arabic"', 'sans-serif'],
-        serif: ['var(--font-serif)', '"Playfair Display"', 'Georgia', 'serif'],
-        mono: ['var(--font-mono)', '"JetBrains Mono"', '"IBM Plex Sans Arabic"', 'monospace'],
-        script: ['var(--font-script)', 'Caveat', 'Cairo', 'cursive'],
+        display: ['Anton', 'sans-serif'],
+        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+        serif: ['"Playfair Display"', 'Georgia', 'serif'],
+        mono: ['"JetBrains Mono"', 'monospace'],
+        script: ['Caveat', 'cursive'],
       },
       keyframes: {
         'pulse-subtle': {

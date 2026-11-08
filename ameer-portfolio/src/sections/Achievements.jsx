@@ -1,14 +1,11 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { useLanguage, useContent } from '../i18n/LanguageContext';
+import { achievements, profile } from '../data/content';
 import { useCountUp } from '../hooks/useCountUp';
 import { FiArrowUpRight } from 'react-icons/fi';
 
 export default function Achievements() {
-  const { lang, t, sx } = useLanguage();
-  const { achievements, profile } = useContent();
-
   const panelRef = useRef(null);
   const isInView = useInView(panelRef, { once: true, amount: 0.25 });
   const [hoveredRow, setHoveredRow] = useState(null);
@@ -27,26 +24,26 @@ export default function Achievements() {
         ref={panelRef}
         className="max-w-7xl mx-auto rounded-3xl bg-surface border border-[rgba(212,175,55,0.25)] p-6 sm:p-10 lg:p-16 relative overflow-hidden shadow-[0_0_50px_rgba(212,175,55,0.06)]"
       >
-        {/* Soft gold radial glow in top-start */}
+        {/* Soft gold radial glow in top-left */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute -top-24 -start-24 w-96 h-96 rounded-full opacity-60"
+          className="pointer-events-none absolute -top-24 -left-24 w-96 h-96 rounded-full opacity-60"
           style={{
             background: 'radial-gradient(circle, rgba(212,175,55,0.14) 0%, transparent 70%)',
           }}
         />
 
         <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-          {/* Left/Start Column: Laurel wreath, big number & message */}
+          {/* Left Column: Laurel wreath, big number & message */}
           <div className="lg:col-span-5 flex flex-col items-start">
             <span className="font-mono text-xs tracking-[0.22em] text-accent uppercase mb-4">
-              {t('achievements.label')}
+              MILESTONES & CERTIFICATES
             </span>
 
             <h3 className="font-display text-4xl sm:text-5xl lg:text-6xl text-white uppercase tracking-tight leading-[0.95] mb-8">
-              {t('achievements.titleLine1')}<br />
-              <span className="text-accent">{t('achievements.titleLine2')}</span>
-              <span className="text-accent ms-1">.</span>
+              THE CODE.<br />
+              <span className="text-accent">THE CRAFT</span>
+              <span className="text-accent ml-1">.</span>
             </h3>
 
             {/* Laurel Wreath with animated leaves drawing in */}
@@ -56,7 +53,7 @@ export default function Achievements() {
                 className="absolute inset-0 w-full h-full text-white/80 pointer-events-none"
                 fill="none"
               >
-                {/* Left Branch */}
+                {/* Left Branch - Widened to cradle counter with zero text overlap */}
                 <motion.path
                   d="M85,180 C30,165 20,75 60,25"
                   stroke="currentColor"
@@ -67,7 +64,7 @@ export default function Achievements() {
                   transition={{ duration: 1.5, ease: 'easeOut' }}
                 />
 
-                {/* Right Branch */}
+                {/* Right Branch - Symmetrically widened */}
                 <motion.path
                   d="M255,180 C310,165 320,75 280,25"
                   stroke="currentColor"
@@ -79,19 +76,19 @@ export default function Achievements() {
                 />
               </svg>
 
-              {/* Center Counter */}
+              {/* Center Counter (white number with gold label, comfortable interior spacing) */}
               <div className="flex flex-col items-center justify-center z-10 px-4 text-center">
-                <span className="font-display text-6xl sm:text-7xl text-white tracking-tight leading-none" dir="ltr">
+                <span className="font-display text-6xl sm:text-7xl text-white tracking-tight leading-none">
                   {certsCount}
                 </span>
                 <span className="font-mono text-xs tracking-[0.2em] text-accent font-semibold uppercase mt-2.5">
-                  {t('achievements.counterLabel')}
+                  CERTIFICATES EARNED
                 </span>
               </div>
             </div>
 
             <p className="font-sans text-sm text-muted leading-relaxed mt-4 max-w-sm">
-              {t('achievements.desc')}
+              Every certificate links to its public verification page.
             </p>
 
             <a
@@ -100,15 +97,15 @@ export default function Achievements() {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-white hover:text-accent transition-colors mt-6 group py-1"
             >
-              <span>{t('achievements.viewLinkedin')}</span>
-              <FiArrowUpRight className="transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 rtl:group-hover:-translate-x-0.5 transition-transform rtl:-scale-x-100" />
+              <span>VIEW ON LINKEDIN</span>
+              <FiArrowUpRight className="transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
             </a>
           </div>
 
-          {/* Right/End Column: Numbered List */}
+          {/* Right Column: Numbered List */}
           <div className="lg:col-span-7 flex flex-col">
             <span className="font-mono text-xs tracking-[0.22em] text-accent uppercase mb-6">
-              {t('achievements.selectedRecognition')}
+              SELECTED RECOGNITION
             </span>
 
             <div className="flex flex-col divide-y divide-line">
@@ -123,14 +120,8 @@ export default function Achievements() {
                     href={item.url || undefined}
                     target={isClickable ? '_blank' : undefined}
                     rel={isClickable ? 'noopener noreferrer' : undefined}
-                    aria-label={
-                      item.url
-                        ? lang === 'ar'
-                          ? `التحقق من شهادة ${item.title}`
-                          : `Verify ${item.title} certificate`
-                        : undefined
-                    }
-                    initial={{ opacity: 0, x: 40 * sx }}
+                    aria-label={item.url ? `Verify ${item.title} certificate` : undefined}
+                    initial={{ opacity: 0, x: 40 }}
                     animate={isInView ? { opacity: 1, x: 0 } : {}}
                     transition={{
                       duration: 0.7,
@@ -143,14 +134,11 @@ export default function Achievements() {
                       isClickable ? 'cursor-pointer' : 'cursor-default'
                     } transition-transform duration-300`}
                     style={{
-                      transform:
-                        isHovered && isClickable
-                          ? `translateX(${12 * sx}px)`
-                          : 'translateX(0px)',
+                      transform: isHovered && isClickable ? 'translateX(12px)' : 'translateX(0px)',
                     }}
                   >
-                    <div className="flex items-baseline gap-4 sm:gap-6 min-w-0 pe-4">
-                      <span className="font-mono text-xs text-accent/70 group-hover:text-accent font-bold transition-colors flex-shrink-0" dir="ltr">
+                    <div className="flex items-baseline gap-4 sm:gap-6 min-w-0 pr-4">
+                      <span className="font-mono text-xs text-accent/70 group-hover:text-accent font-bold transition-colors flex-shrink-0">
                         {item.id}
                       </span>
                       <div className="min-w-0">
@@ -163,18 +151,18 @@ export default function Achievements() {
                       </div>
                     </div>
 
-                    {/* End column: always reserves arrow space */}
+                    {/* Right column: always reserves arrow space so years align in one clean column */}
                     <div className="flex items-center gap-3 w-20 justify-end flex-shrink-0">
-                      <span className="font-mono text-xs text-accent tracking-wider font-semibold text-end" dir="ltr">
+                      <span className="font-mono text-xs text-accent tracking-wider font-semibold text-right">
                         {item.year}
                       </span>
                       <FiArrowUpRight
                         aria-hidden={!item.url}
-                        className={`w-4 h-4 text-accent transition-all duration-300 flex-shrink-0 rtl:-scale-x-100 ${
+                        className={`w-4 h-4 text-accent transition-all duration-300 flex-shrink-0 ${
                           item.url
                             ? isHovered
                               ? 'opacity-100 translate-x-0'
-                              : 'opacity-0 ltr:-translate-x-1 rtl:translate-x-1'
+                              : 'opacity-0 -translate-x-1'
                             : 'opacity-0 pointer-events-none'
                         }`}
                       />
