@@ -255,7 +255,7 @@ export default function Work() {
         {/* Section Title and View All */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 border-b border-line">
           <Reveal>
-            <h2 className="font-display text-[clamp(2.6rem,7vw,6.5rem)] leading-[0.9] uppercase text-white tracking-tight">
+            <h2 className="font-display heading-display text-[clamp(2.6rem,7vw,6.5rem)] uppercase text-white tracking-tight">
               PROJECTS THAT <span className="text-accent">SPEAK</span>
               <span className="text-accent ml-1">.</span>
             </h2>

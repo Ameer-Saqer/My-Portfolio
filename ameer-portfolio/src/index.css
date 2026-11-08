@@ -122,6 +122,12 @@
   }
 }
 
+/* Consistent section heading line-height across font-display h2s */
+.heading-display,
+h2.heading-display {
+  line-height: 0.95;
+}
+
 /* Reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
   *, ::before, ::after {

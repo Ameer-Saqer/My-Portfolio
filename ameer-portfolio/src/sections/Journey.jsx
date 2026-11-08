@@ -46,7 +46,7 @@ export default function Journey() {
 
         <div className="mb-14">
           <Reveal>
-            <h2 className="font-display text-[clamp(2.2rem,5vw,4.5rem)] leading-none uppercase text-white tracking-tight">
+            <h2 className="font-display heading-display text-[clamp(2.2rem,5vw,4.5rem)] uppercase text-white tracking-tight">
               ALWAYS BUILDING. <span className="text-accent">ALWAYS LEARNING</span>
               <span className="text-accent ml-1">.</span>
             </h2>
