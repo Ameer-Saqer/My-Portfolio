@@ -306,7 +306,7 @@ export default function Work() {
           onMouseLeave={handleMouseLeave}
           onMouseUp={handleMouseUp}
           onMouseMove={handleMouseMove}
-          className="flex gap-4 sm:gap-6 overflow-x-auto no-scrollbar px-5 sm:px-8 lg:px-14 cursor-grab active:cursor-grabbing pb-8 pt-2 touch-pan-x overscroll-x-contain scroll-smooth"
+          className="flex gap-4 sm:gap-6 overflow-x-auto no-scrollbar px-5 sm:px-8 lg:px-14 cursor-grab active:cursor-grabbing pb-8 pt-2 touch-pan-x touch-pan-y overscroll-x-contain scroll-smooth"
           style={{ scrollBehavior: isDragging ? 'auto' : 'smooth' }}
         >
           <AnimatePresence mode="popLayout">
