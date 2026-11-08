@@ -46,20 +46,24 @@ export default function About() {
     if (isReduced) {
       if (wordsRef.current) {
         wordsRef.current.forEach((w) => {
-          if (w) w.style.color = '#ffffff';
+          if (w) {
+            w.style.color = '#ffffff';
+            w.style.opacity = '1';
+          }
         });
       }
       return;
     }
 
     const ctx = gsap.context(() => {
-      // Scroll-scrubbed word-by-word color reveal in the about paragraph (#4a4a4a -> #ffffff)
+      // Scroll-scrubbed word-by-word color reveal in the about paragraph (ends fully opaque #ffffff)
       if (paragraphRef.current && wordsRef.current.length > 0) {
         gsap.fromTo(
           wordsRef.current,
-          { color: '#4A5872' },
+          { color: '#8892B0', opacity: 0.85 },
           {
             color: '#ffffff',
+            opacity: 1,
             stagger: 0.08,
             ease: 'none',
             scrollTrigger: {
@@ -135,7 +139,7 @@ export default function About() {
                   key={i}
                   ref={(el) => (wordsRef.current[i] = el)}
                   className="inline-block mr-1 transition-colors"
-                  style={{ color: '#4A5872' }}
+                  style={{ color: '#8892B0', opacity: 0.85 }}
                 >
                   {word}
                 </span>

@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { profile } from '../data/content';
 import { FiMenu, FiX } from 'react-icons/fi';
 import LogoMark from './LogoMark';
 
 const NAV_LINKS = [
   { name: 'Work', href: '#work' },
-  { name: 'Stack', href: '#stack' },
   { name: 'About', href: '#about' },
   { name: 'Journey', href: '#journey' },
-  { name: 'Contact', href: '#contact' },
 ];
 
 export default function Navbar() {
@@ -40,7 +37,7 @@ export default function Navbar() {
       setLastScrollY(currentScrollY);
 
       // Active section detection
-      const sections = ['work', 'stack', 'about', 'journey', 'contact'];
+      const sections = ['work', 'about', 'journey'];
       for (const section of sections) {
         const el = document.getElementById(section);
         if (el) {
@@ -118,17 +115,10 @@ export default function Navbar() {
             })}
           </nav>
 
-          {/* Right: Available status + Let's Talk Secondary Button */}
-          <div className="hidden lg:flex items-center gap-6">
-            <div className="flex items-center gap-2 font-mono text-xs text-muted tracking-wider uppercase">
-              <span className="w-1.5 h-1.5 rounded-full bg-accent" />
-              <span>{profile.status}</span>
-            </div>
-
+          {/* Right: Let's Talk Button */}
+          <div className="hidden md:flex items-center">
             <a
-              href={profile.whatsapp}
-              target="_blank"
-              rel="noopener noreferrer"
+              href="#contact"
               className="px-4 py-2.5 min-h-[44px] inline-flex items-center rounded-full border border-accent text-xs font-mono uppercase tracking-widest text-white hover:bg-accent-soft transition-all duration-200 focus-ring"
             >
               Let's Talk ↗
@@ -180,8 +170,8 @@ export default function Navbar() {
               </button>
             </div>
 
-            {/* Staggered Anton Navigation Links */}
-            <div className="flex flex-col gap-4 my-auto py-6">
+            {/* Staggered Navigation Links */}
+            <div className="flex flex-col gap-6 my-auto py-6">
               {NAV_LINKS.map((link, idx) => (
                 <motion.a
                   key={link.name}
@@ -197,24 +187,15 @@ export default function Navbar() {
               ))}
             </div>
 
+            {/* Bottom: Only the primary CTA button */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.45, duration: 0.45 }}
-              className="flex flex-col gap-4 border-t border-line pt-6 mt-auto"
+              transition={{ delay: 0.35, duration: 0.45 }}
+              className="flex flex-col border-t border-line pt-6 mt-auto"
             >
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2 font-mono text-xs text-muted">
-                  <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
-                  <span>{profile.status}</span>
-                </div>
-              </div>
-
-              {/* Primary Mobile CTA: Gold background with Navy text (>= 44px) */}
               <a
-                href={profile.whatsapp}
-                target="_blank"
-                rel="noopener noreferrer"
+                href="#contact"
                 onClick={() => setMobileMenuOpen(false)}
                 className="w-full text-center py-3.5 min-h-[44px] flex items-center justify-center bg-accent text-[#0F1B2E] font-mono text-xs font-bold uppercase tracking-widest rounded-full hover:bg-white transition-colors shadow-lg shadow-accent/20"
               >
