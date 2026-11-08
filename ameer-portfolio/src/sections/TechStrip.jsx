@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { useLanguage } from '../i18n/LanguageContext';
 import {
   Html5Icon,
   Css3Icon,
@@ -17,7 +16,7 @@ import { toolsList } from '../data/content';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Neutral dot fallback for any unknown tool names
+// Neutral dot fallback for any unknown tool names (prevents silent fallback to wrong icon)
 function NeutralDot({ className = '' }) {
   return (
     <span
@@ -45,7 +44,6 @@ const TECH_ITEMS = toolsList.map((name) => ({
 }));
 
 export default function TechStrip() {
-  const { t, sx } = useLanguage();
   const containerRef = useRef(null);
   const marqueeRef = useRef(null);
 
@@ -87,11 +85,10 @@ export default function TechStrip() {
 
     const animate = () => {
       if (!isPaused && marquee) {
-        // Mirrored velocity in RTL: moves right-to-left in LTR, left-to-right in RTL
-        const speed = 0.8 * marqueeVelocity * direction * sx;
+        const speed = 0.8 * marqueeVelocity * direction;
         currentX -= speed;
 
-        const totalWidth = marquee.scrollWidth / 3;
+        const totalWidth = marquee.scrollWidth / 2;
         if (currentX <= -totalWidth) {
           currentX = 0;
         } else if (currentX >= 0) {
@@ -114,7 +111,7 @@ export default function TechStrip() {
       }
       st.kill();
     };
-  }, [sx]);
+  }, []);
 
   return (
     <section
@@ -125,22 +122,22 @@ export default function TechStrip() {
       {/* Top 1px gold line at 18% opacity with centered brighter gold segment */}
       <div
         aria-hidden="true"
-        className="absolute top-0 inset-x-0 w-full flex items-center justify-center pointer-events-none"
+        className="absolute top-0 left-0 right-0 w-full flex items-center justify-center pointer-events-none"
       >
         <div className="w-full h-[1px] bg-[rgba(212,175,55,0.18)]" />
         <div className="absolute w-24 sm:w-36 h-[1.5px] bg-[#D4AF37] shadow-[0_0_10px_rgba(212,175,55,0.65)]" />
         <div className="absolute w-2 h-2 rotate-45 bg-[#D4AF37] shadow-[0_0_8px_rgba(212,175,55,0.8)]" />
       </div>
 
-      {/* Start/end edge fade masks */}
-      <div className="pointer-events-none absolute top-0 bottom-0 start-0 w-20 sm:w-36 z-10 ltr:bg-gradient-to-r rtl:bg-gradient-to-l from-bg to-transparent" />
-      <div className="pointer-events-none absolute top-0 bottom-0 end-0 w-20 sm:w-36 z-10 ltr:bg-gradient-to-l rtl:bg-gradient-to-r from-bg to-transparent" />
+      {/* Left/right edge fade masks (navy background gradient) */}
+      <div className="pointer-events-none absolute top-0 bottom-0 left-0 w-20 sm:w-36 z-10 bg-gradient-to-r from-bg to-transparent" />
+      <div className="pointer-events-none absolute top-0 bottom-0 right-0 w-20 sm:w-36 z-10 bg-gradient-to-l from-bg to-transparent" />
 
       <div className="flex items-center">
-        {/* Start editorial label */}
-        <div className="hidden lg:flex items-center gap-3 px-8 border-e border-[rgba(212,175,55,0.18)] flex-shrink-0 z-20 bg-bg">
+        {/* Left editorial label */}
+        <div className="hidden lg:flex items-center gap-3 px-8 border-r border-[rgba(212,175,55,0.18)] flex-shrink-0 z-20 bg-bg">
           <span className="font-mono text-xs font-bold tracking-[0.25em] text-white uppercase whitespace-nowrap">
-            {t('techStrip.label')}
+            THE TOOLS BEHIND THE WORK.
           </span>
         </div>
 
@@ -158,8 +155,8 @@ export default function TechStrip() {
                   className="group flex items-center gap-3 px-4 py-2 transition-all duration-300 opacity-70 hover:opacity-100 cursor-pointer"
                 >
                   <Icon className="w-6 h-6 sm:w-7 sm:h-7 text-white transition-all duration-300 group-hover:scale-110 group-hover:text-accent" />
-                  <span className="font-mono text-xs sm:text-sm font-semibold tracking-wider text-white uppercase group-hover:text-accent transition-colors" dir="ltr">
-                    <bdi>{item.name}</bdi>
+                  <span className="font-mono text-xs sm:text-sm font-semibold tracking-wider text-white uppercase group-hover:text-accent transition-colors">
+                    {item.name}
                   </span>
                 </div>
               );
@@ -171,7 +168,7 @@ export default function TechStrip() {
       {/* Bottom 1px gold line at 18% opacity with centered brighter gold segment */}
       <div
         aria-hidden="true"
-        className="absolute bottom-0 inset-x-0 w-full flex items-center justify-center pointer-events-none"
+        className="absolute bottom-0 left-0 right-0 w-full flex items-center justify-center pointer-events-none"
       >
         <div className="w-full h-[1px] bg-[rgba(212,175,55,0.18)]" />
         <div className="absolute w-24 sm:w-36 h-[1.5px] bg-[#D4AF37] shadow-[0_0_10px_rgba(212,175,55,0.65)]" />

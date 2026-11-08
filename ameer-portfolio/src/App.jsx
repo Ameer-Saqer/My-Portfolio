@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback, lazy, Suspense } from 'react';
 import { useLenis } from './hooks/useLenis';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { LanguageProvider, useLanguage } from './i18n/LanguageContext';
 import Loader from './components/Loader';
 import CursorSpotlight from './components/CursorSpotlight';
 import ScrollProgress from './components/ScrollProgress';
@@ -22,9 +21,8 @@ const Contact = lazy(() => import('./sections/Contact'));
 
 gsap.registerPlugin(ScrollTrigger);
 
-function AppContent() {
+export default function App() {
   const [loaderComplete, setLoaderComplete] = useState(false);
-  const { lang, dir } = useLanguage();
 
   const handleLoaderComplete = useCallback(() => {
     setLoaderComplete(true);
@@ -53,14 +51,6 @@ function AppContent() {
     }
   }, [loaderComplete]);
 
-  // Refresh ScrollTrigger when language/dir changes
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      ScrollTrigger.refresh();
-    }, 150);
-    return () => clearTimeout(timer);
-  }, [lang, dir]);
-
   return (
     <div className="relative min-h-screen bg-bg text-white font-sans overflow-x-clip selection:bg-accent selection:text-[#0F1B2E]">
       {/* 1. Cinematic Film Grain Overlay */}
@@ -72,7 +62,7 @@ function AppContent() {
       {/* 3. Initial Assemble Loader (plays once) */}
       <Loader onComplete={handleLoaderComplete} />
 
-      {/* 5. Left/Right Edge Vertical Scroll Progress Indicator */}
+      {/* 5. Left Edge Vertical Scroll Progress Indicator */}
       <ScrollProgress />
 
       {/* 6. Fixed Navigation Header */}
@@ -104,13 +94,5 @@ function AppContent() {
       <SectionDivider />
       <Footer />
     </div>
-  );
-}
-
-export default function App() {
-  return (
-    <LanguageProvider>
-      <AppContent />
-    </LanguageProvider>
   );
 }
